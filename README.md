@@ -4,6 +4,7 @@
 ## 环境要求
 	php: ^5.5.9
 	redis extension
+	phalcon extension
 	数据自主选择
 
 
