@@ -12,8 +12,8 @@
     <div class="page">
         <form action="{{ url('index/login') }}" class="weui-form" method="POST">
             <div class="weui-form__text-area">
-                <h2 class="weui-form__title">表单结构</h2>
-                <div class="weui-form__desc">展示表单页面的信息结构样式, 分别由头部区域/控件区域/提示区域/操作区域和底部信息区域组成。</div>
+                <h2 class="weui-form__title">登  录</h2>
+                <div class="weui-form__desc"></div>
             </div>
             <div class="weui-form__control-area">
                 <div class="weui-cells__group weui-cells__group_form">
