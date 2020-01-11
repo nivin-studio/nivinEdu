@@ -10,10 +10,10 @@
 
 <body>
     <div class="page">
-        <form action="{{ url('index/login') }}" class="weui-form" method="POST">
+        <form action="{{ loginUrl }}" class="weui-form" method="POST">
             <div class="weui-form__text-area">
                 <h2 class="weui-form__title">登  录</h2>
-                <div class="weui-form__desc"></div>
+                <div class="weui-form__desc">{{ school }}</div>
             </div>
             <div class="weui-form__control-area">
                 <div class="weui-cells__group weui-cells__group_form">
