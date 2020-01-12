@@ -49,7 +49,7 @@ class XnkjdxController extends ControllerBase
 
             $res = $edu->getStudentInfo($xh);
 
-            echo $res;
+            echo json_encode($res);
             exit();
 
             // // 获取学生信息

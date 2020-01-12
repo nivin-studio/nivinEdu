@@ -4,6 +4,7 @@ namespace xnkjdx;
 
 use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler;
+use \GuzzleHttp\Cookie\CookieJar;
 
 class Edu
 {
@@ -36,7 +37,7 @@ class Edu
      */
     public function getCookie()
     {
-        $this->cookie = new \GuzzleHttp\Cookie\CookieJar;
+        $this->cookie = new CookieJar;
 
         $options = [
             'cookies' => $this->cookie,
@@ -310,17 +311,17 @@ class Edu
         $crawler = new Crawler((string) $html);
 
         $info = [
-            'xh' => $crawler->filterXPath('//table/tbody/tr[2]/td[2]')->html(),  //学号
-            'xm' => $crawler->filterXPath('//table/tbody/tr[2]/td[4]')->html(),  //姓名
-            'xb' => $crawler->filterXPath('//table/tbody/tr[4]/td[2]')->html(),  //性别
-            'sr' => $crawler->filterXPath('//table/tbody/tr[5]/td[2]')->html(),  //出生日期
-            'mz' => $crawler->filterXPath('//table/tbody/tr[5]/td[4]')->html(),  //民族
-            'xl' => $crawler->filterXPath('//table/tbody/tr[22]/td[6]')->html(), //学历
-            'xy' => $crawler->filterXPath('//table/tbody/tr[25]/td[2]')->html(), //学院
-            'zy' => $crawler->filterXPath('//table/tbody/tr[25]/td[4]')->html(), //专业
-            'bj' => $crawler->filterXPath('//table/tbody/tr[25]/td[6]')->html(), //班级
-            'xz' => $crawler->filterXPath('//table/tbody/tr[20]/td[6]')->html(), //学制
-            'nj' => $crawler->filterXPath('//table/tbody/tr[21]/td[2]')->html(), //年级
+            'xh' => $crawler->filterXPath('//table/tr[2]/td[2]')->text(),  //学号
+            'xm' => $crawler->filterXPath('//table/tr[2]/td[4]')->text(),  //姓名
+            'xb' => $crawler->filterXPath('//table/tr[4]/td[2]')->text(),  //性别
+            'sr' => $crawler->filterXPath('//table/tr[5]/td[2]')->text(),  //出生日期
+            'mz' => $crawler->filterXPath('//table/tr[5]/td[4]')->text(),  //民族
+            'xl' => $crawler->filterXPath('//table/tr[22]/td[6]')->text(), //学历
+            'xy' => $crawler->filterXPath('//table/tr[25]/td[2]')->text(), //学院
+            'zy' => $crawler->filterXPath('//table/tr[25]/td[4]')->text(), //专业
+            'bj' => $crawler->filterXPath('//table/tr[25]/td[6]')->text(), //班级
+            'xz' => $crawler->filterXPath('//table/tr[20]/td[6]')->text(), //学制
+            'nj' => $crawler->filterXPath('//table/tr[21]/td[2]')->text(), //年级
         ];
 
         return $info;
@@ -344,14 +345,14 @@ class Edu
             if ($i != 0) {
                 $node   = new Crawler($node);
                 $data[] = [
-                    'xn' => $node->filterXPath('//td[1]')->html(),
-                    'xq' => $node->filterXPath('//td[2]')->html(),
-                    'kc' => $node->filterXPath('//td[3]')->html(),
-                    'km' => $node->filterXPath('//td[4]')->html(),
-                    'kx' => $node->filterXPath('//td[5]')->html(),
-                    'xf' => $node->filterXPath('//td[7]')->html(),
-                    'jd' => $node->filterXPath('//td[8]')->html(),
-                    'cj' => $node->filterXPath('//td[9]')->html(),
+                    'xn' => $node->filterXPath('//td[1]')->text(),
+                    'xq' => $node->filterXPath('//td[2]')->text(),
+                    'kc' => $node->filterXPath('//td[3]')->text(),
+                    'km' => $node->filterXPath('//td[4]')->text(),
+                    'kx' => $node->filterXPath('//td[5]')->text(),
+                    'xf' => $node->filterXPath('//td[7]')->text(),
+                    'jd' => $node->filterXPath('//td[8]')->text(),
+                    'cj' => $node->filterXPath('//td[9]')->text(),
                 ];
             }
         }

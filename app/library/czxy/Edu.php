@@ -4,6 +4,7 @@ namespace czxy;
 
 use GuzzleHttp\Client;
 use Symfony\Component\DomCrawler\Crawler;
+use \GuzzleHttp\Cookie\CookieJar;
 
 class Edu
 {
@@ -35,7 +36,7 @@ class Edu
      */
     public function getCookie()
     {
-        $this->cookie = new \GuzzleHttp\Cookie\CookieJar;
+        $this->cookie = new CookieJar;
 
         $options = [
             'cookies' => $this->cookie,
