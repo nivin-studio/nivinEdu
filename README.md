@@ -1,20 +1,27 @@
-# nivinEdu
-拟物教务，一个高校教务系统爬虫
-
 ## 环境要求
+
 	php: ^5.5.9
 	redis extension
 	phalcon extension
-	数据自主选择
 
+## 支持院校
+
+### 正方教务
+
+- 池州学院
+
+### 青果教务
+
+- 西南科技大学
 
 ## 安装使用
-> 1：依赖安装
-```
+
+依赖安装
+
+```bash
 composer install
 ```
-> 2：app->config->config.php配置文件修改
 
-> 3：app->library->czxy->Edu.php爬虫核心代码，可修改为自己学校的教务系统
+修改配置文件app->config->config.php
 
-> 4：本系统使用[Phalcon](https://phalcon.io/zh-cn)框架，[中文开发文档](https://www.kancloud.cn/jaya1992/phalcon_doc_zh)
+本系统使用[Phalcon](https://phalcon.io/zh-cn)框架，[中文开发文档](https://www.kancloud.cn/jaya1992/phalcon_doc_zh)
