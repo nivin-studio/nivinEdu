@@ -12,6 +12,11 @@ class XnkjdxController extends ControllerBase
 
     public function indexAction()
     {
+        // 用户是否登录过
+        if ($this->cookies->has('auth:xnkjdx')) {
+            return $this->response->redirect('xnkjdx/show');
+        }
+
         $edu = new Edu();
         // 获取cookie
         $cookie = $edu->getCookie();
@@ -45,19 +50,14 @@ class XnkjdxController extends ControllerBase
             // 使用缓存cookie登录教务系统
             $edu = new Edu();
             $edu->setCookie($cookie);
-            $res = $edu->login($xh, $mm, $vm);
+            $edu->login($xh, $mm, $vm);
 
-            $res = $edu->getStudentInfo($xh);
-
-            echo json_encode($res);
-            exit();
-
-            // // 获取学生信息
-            // $person = $edu->getStudentInfo($xh);
-            // // 获取成绩信息
-            // $grades = $edu->getGradesList($xh);
-            // // 获取课表信息
-            // $tables = $edu->getTimetable($xh);
+            // 获取学生信息
+            $persos = $edu->getPersosInfo($xh);
+            // 获取成绩信息
+            $grades = $edu->getGradesInfo($xh);
+            // 获取课表信息
+            $tables = $edu->getTablesInfo($xh);
 
             // /**
             //  *
@@ -65,42 +65,38 @@ class XnkjdxController extends ControllerBase
             //  *
             //  */
 
-            // // 缓存学生信息
-            // $this->redis->setex('edu:czxy:person:' . $xh, 86400, json_encode($person));
-            // // 缓存成绩信息
-            // $this->redis->setex('edu:czxy:grades:' . $xh, 86400, json_encode($grades));
-            // // 缓存课表信息
-            // $this->redis->setex('edu:czxy:tables:' . $xh, 86400, json_encode($tables));
-            // // 会话用户账号
-            // $this->session->set('auth', ['xh' => $xh, 'mm' => $mm]);
+            // 缓存学生信息
+            $this->redis->setex('edu:xnkjdx:persos:' . $xh, 7 * 86400, json_encode($persos));
+            // 缓存成绩信息
+            $this->redis->setex('edu:xnkjdx:grades:' . $xh, 7 * 86400, json_encode($grades));
+            // 缓存课表信息
+            $this->redis->setex('edu:xnkjdx:tables:' . $xh, 7 * 86400, json_encode($tables));
+            // 会话用户账号
+            $this->cookies->set('auth:xnkjdx', json_encode(['xh' => $xh, 'mm' => $mm]), time() + 7 * 86400);
+            $this->cookies->send();
 
-            // return $this->dispatcher->forward(
-            //     [
-            //         'controller' => 'index',
-            //         'action'     => 'show',
-            //     ]
-            // );
+            return $this->response->redirect('xnkjdx/show');
         } else {
-            return $this->dispatcher->forward(
-                [
-                    'controller' => 'index',
-                    'action'     => 'index',
-                ]
-            );
+            return $this->response->redirect('xnkjdx/index');
         }
     }
 
     public function showAction()
     {
-        $auth = $this->session->get('auth');
-        // 获取缓存学生信息
-        $person = json_decode($this->redis->get('edu:czxy:person:' . $auth['xh']), true);
-        // 获取缓存成绩信息
-        $grades = json_decode($this->redis->get('edu:czxy:grades:' . $auth['xh']), true);
-        // 获取缓存课表信息
-        $tables = json_decode($this->redis->get('edu:czxy:tables:' . $auth['xh']), true);
+        // 用户未登录跳转至首页
+        if (!$this->cookies->has('auth:xnkjdx')) {
+            return $this->response->redirect('xnkjdx/index');
+        }
 
-        if (empty($person) || empty($grades) || empty($tables)) {
+        $auth = json_decode($this->cookies->get('auth:xnkjdx'), true);
+        // 获取缓存学生信息
+        $persos = json_decode($this->redis->get('edu:xnkjdx:persos:' . $auth['xh']), true);
+        // 获取缓存成绩信息
+        $grades = json_decode($this->redis->get('edu:xnkjdx:grades:' . $auth['xh']), true);
+        // 获取缓存课表信息
+        $tables = json_decode($this->redis->get('edu:xnkjdx:tables:' . $auth['xh']), true);
+
+        if (empty($persos) || empty($grades) || empty($tables)) {
             /**
              * 如果缓存里没有数据
              * 去数据库里查
@@ -108,17 +104,8 @@ class XnkjdxController extends ControllerBase
         }
 
         $this->view->pick('index/show');
-        $this->view->setVar('person', $person);
+        $this->view->setVar('persos', $persos);
         $this->view->setVar('grades', $grades);
         $this->view->setVar('tables', $tables);
-    }
-
-    public function testAction()
-    {
-        $edu = new Edu();
-        $res = $edu->getStudentInfo('sss');
-
-        echo json_encode($res);
-        exit();
     }
 }
