@@ -1,6 +1,8 @@
 <?php
 
+use Phalcon\Crypt;
 use Phalcon\Flash\Direct as Flash;
+use Phalcon\Http\Response\Cookies;
 use Phalcon\Logger\Factory as Logger;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Mvc\Url as UrlResolver;
@@ -159,6 +161,30 @@ $di->setShared('session', function () {
     $session->start();
 
     return $session;
+});
+
+/**
+ * Cookies
+ */
+$di->setShared('cookies', function () {
+    $cookies = new Cookies();
+
+    $cookies->useEncryption(true);
+
+    return $cookies;
+});
+
+/**
+ * Crypt
+ */
+$di->setShared('crypt', function () {
+    $crypt = new Crypt();
+    $key   = 'T5\xb3\x6d\xa9\x78\x520t7w!z%C*F-Ck\x99\x52\x5c';
+
+    $crypt->setCipher('aes-256-ctr');
+    $crypt->setKey($key);
+
+    return $crypt;
 });
 
 /**

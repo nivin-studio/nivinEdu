@@ -11,6 +11,11 @@ class CzxyController extends ControllerBase
 
     public function indexAction()
     {
+        // 用户是否登录过
+        if ($this->cookies->has('auth')) {
+            return $this->response->redirect('czxy/show');
+        }
+
         $edu = new Edu();
         // 获取cookie
         $cookie = $edu->getCookie();
@@ -60,33 +65,29 @@ class CzxyController extends ControllerBase
              */
 
             // 缓存学生信息
-            $this->redis->setex('edu:czxy:person:' . $xh, 86400, json_encode($person));
+            $this->redis->setex('edu:czxy:person:' . $xh, 7 * 86400, json_encode($person));
             // 缓存成绩信息
-            $this->redis->setex('edu:czxy:grades:' . $xh, 86400, json_encode($grades));
+            $this->redis->setex('edu:czxy:grades:' . $xh, 7 * 86400, json_encode($grades));
             // 缓存课表信息
-            $this->redis->setex('edu:czxy:tables:' . $xh, 86400, json_encode($tables));
-            // 会话用户账号
-            $this->session->set('auth', ['xh' => $xh, 'mm' => $mm]);
+            $this->redis->setex('edu:czxy:tables:' . $xh, 7 * 86400, json_encode($tables));
+            // cookies用户账号
+            $this->cookies->set('auth', json_encode(['xh' => $xh, 'mm' => $mm]), time() + 7 * 86400);
+            $this->cookies->send();
 
-            return $this->dispatcher->forward(
-                [
-                    'controller' => 'index',
-                    'action'     => 'show',
-                ]
-            );
+            return $this->response->redirect('czxy/show');
         } else {
-            return $this->dispatcher->forward(
-                [
-                    'controller' => 'index',
-                    'action'     => 'index',
-                ]
-            );
+            return $this->response->redirect('czxy/index');
         }
     }
 
     public function showAction()
     {
-        $auth = $this->session->get('auth');
+        // 用户未登录跳转至首页
+        if (!$this->cookies->has('auth')) {
+            return $this->response->redirect('czxy/index');
+        }
+
+        $auth = json_decode($this->cookies->get('auth'), true);
         // 获取缓存学生信息
         $person = json_decode($this->redis->get('edu:czxy:person:' . $auth['xh']), true);
         // 获取缓存成绩信息
