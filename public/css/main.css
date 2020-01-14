@@ -1,0 +1,63 @@
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+}
+
+.page {
+    width: 100%;
+    height: 100%;
+}
+
+.page__title {
+    text-align: center;
+    color: #333D6E;
+    margin-bottom: 16px;
+}
+
+.weui-cells:before,
+.weui-cells:after {
+    border: none;
+}
+
+.weui-cells .weui-cell {
+    margin: 20px 10px;
+    padding: 25px;
+    font-size: 23px;
+    font-weight: bold;
+    color: #333D6E;
+}
+
+.weui-cells .weui-cell .weui-cell__hd>img {
+    width: 35px;
+    margin-right: 16px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.weui-cells .weui-cell .weui-cell__ft,
+.weui-cells .weui-cell .weui-cell__ft:after {
+    color: #fa8c16;
+}
+
+.nivin-no-radius {
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    box-shadow: 6px 6px 16px 0 rgba(217, 210, 200, 0.51), -6px -6px 26px 0 rgba(255, 255, 255, 0.83);
+}
+
+.nivin {
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    border-radius: 12px;
+    box-shadow: 6px 6px 16px 0 rgba(217, 210, 200, 0.51), -6px -6px 26px 0 rgba(255, 255, 255, 0.83);
+}
+
+.nivin:active {
+    background-color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    border-radius: 12px;
+    box-shadow: 6px 6px 16px 0 rgba(217, 210, 200, 0.83) inset, -6px -6px 16px 0 rgba(255, 255, 255, 0.51) inset;
+}
