@@ -6,6 +6,7 @@ html {
 body {
     width: 100%;
     height: 100%;
+    background-color: #efeeee;
 }
 
 .page {
@@ -20,12 +21,18 @@ body {
 }
 
 .weui-cells:before,
-.weui-cells:after {
+.weui-cells:after,
+.weui-cell:before,
+.weui-cell:after {
     border: none;
 }
 
+.weui-cells {
+    background-color: #efeeee;
+}
+
 .weui-cells .weui-cell {
-    margin: 20px 10px;
+    margin: 20px 20px;
     padding: 25px;
     font-size: 23px;
     font-weight: bold;
@@ -50,7 +57,8 @@ body {
 }
 
 .weui-form-show {
-    margin: 20px 10px;
+    background-color: #efeeee;
+    margin: 20px 20px;
 }
 
 .weui-form-show>img {
@@ -67,19 +75,28 @@ body {
 }
 
 .nivin-no-radius {
+    background-color: #efeeee;
     border: 1px solid rgba(255, 255, 255, 0.20);
-    box-shadow: 6px 6px 16px 0 rgba(217, 210, 200, 0.51), -6px -6px 26px 0 rgba(255, 255, 255, 0.83);
+    box-shadow: 6px 6px 16px 0 rgba(217, 210, 200, 0.51), -6px -6px 26px 0 rgba(255, 255, 255, 0.8);
+}
+
+.nivin-inset {
+    background-color: #efeeee;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    border-radius: 12px;
+    box-shadow: 6px 6px 16px 0 rgba(217, 210, 200, 0.8) inset, -6px -6px 16px 0 rgba(255, 255, 255, 0.51) inset;
 }
 
 .nivin {
+    background-color: #efeeee;
     border: 1px solid rgba(255, 255, 255, 0.20);
     border-radius: 12px;
-    box-shadow: 6px 6px 16px 0 rgba(217, 210, 200, 0.51), -6px -6px 26px 0 rgba(255, 255, 255, 0.83);
+    box-shadow: 6px 6px 16px 0 rgba(217, 210, 200, 0.51), -6px -6px 26px 0 rgba(255, 255, 255, 0.8);
 }
 
 .nivin:active {
-    background-color: #ffffff;
+    background-color: #efeeee;
     border: 1px solid rgba(255, 255, 255, 0.20);
     border-radius: 12px;
-    box-shadow: 6px 6px 16px 0 rgba(217, 210, 200, 0.83) inset, -6px -6px 16px 0 rgba(255, 255, 255, 0.51) inset;
+    box-shadow: 6px 6px 16px 0 rgba(217, 210, 200, 0.8) inset, -6px -6px 16px 0 rgba(255, 255, 255, 0.51) inset;
 }
