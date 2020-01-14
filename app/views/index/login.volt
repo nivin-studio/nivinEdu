@@ -47,7 +47,7 @@
             </div>
             <div class="weui-form__extra-area">
                 <div class="weui-footer">
-                    <p class="weui-footer__text">Copyright © 2008-2019 weui.io</p>
+                    <p class="weui-footer__text">Copyright © 2016-2020 nivin.cn</p>
                 </div>
             </div>
         </form>

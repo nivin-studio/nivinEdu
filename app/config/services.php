@@ -10,6 +10,7 @@ use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\View\Engine\Volt as VoltEngine;
 use Phalcon\Session\Adapter\Files as SessionAdapter;
+use Predis\Client as Redis;
 
 /**
  * Shared configuration service
@@ -117,8 +118,11 @@ $di->setShared('mongo', function () {
 $di->setShared('redis', function () {
     $config = $this->getConfig();
 
-    $redis = new Redis();
-    $redis->connect($config->redis->host, $config->redis->port);
+    $redis = new Redis([
+        'scheme' => 'tcp',
+        'host'   => $config->redis->host,
+        'port'   => $config->redis->port,
+    ]);
 
     return $redis;
 });
@@ -129,7 +133,7 @@ $di->setShared('redis', function () {
 $di->setShared('redisGroup', function () {
     $config = $this->getConfig();
 
-    $redis = new \Predis\Client((array) $config->redisGroup, ['cluster' => 'redis']);
+    $redis = new Redis((array) $config->redisGroup, ['cluster' => 'redis']);
 
     return $redis;
 });

@@ -36,6 +36,11 @@
                 </a>
             </div>
         </div>
+        <div class="page__ft">
+            <div class="weui-footer">
+                <p class="weui-footer__text">Copyright © 2016-2020 nivin.cn</p>
+            </div>
+        </div>
     </div>
 </body>
 

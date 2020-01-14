@@ -16,6 +16,8 @@
 
 ## 安装使用
 
+体验地址[edu.nivin.cn](http://edu.nivin.cn/)
+
 依赖安装
 
 ```bash
