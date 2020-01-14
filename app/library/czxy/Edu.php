@@ -8,31 +8,61 @@ use \GuzzleHttp\Cookie\CookieJar;
 
 class Edu
 {
+    /**
+     * 相关网络地址
+     *
+     * @var array
+     */
     private static $url = [
-        'base_url'   => 'http://211.86.193.14',
-        'login_url'  => 'http://211.86.193.14/default2.aspx',
-        'vccode_url' => 'http://211.86.193.14/CheckCode.aspx',
-        'main_url'   => 'http://211.86.193.14/xs_main.aspx',
-        'info_url'   => 'http://211.86.193.14/xsgrxx.aspx',
-        'table_url'  => 'http://211.86.193.14/tjkbcx.aspx',
-        'grade_url'  => 'http://211.86.193.14/xscjcx.aspx',
+        'base'        => 'http://211.86.193.14',                //根域名
+        'code'        => 'http://211.86.193.14/CheckCode.aspx', //验证码
+        'login'       => 'http://211.86.193.14/default2.aspx',  //登录
+        'main'        => 'http://211.86.193.14/xs_main.aspx',   //登录后的主页
+        'persos_get'  => 'http://211.86.193.14/xsgrxx.aspx',    //个人信息
+        'persos_post' => 'http://211.86.193.14/xsgrxx.aspx',    //获取个人信息
+        'grades_get'  => 'http://211.86.193.14/xscjcx.aspx',    //成绩
+        'grades_post' => 'http://211.86.193.14/xscjcx.aspx',    //获取成绩
+        'tables_get'  => 'http://211.86.193.14/tjkbcx.aspx',    //课表
+        'tables_post' => 'http://211.86.193.14/tjkbcx.aspx',    //获取课表
     ];
 
+    /**
+     * 用户代理
+     *
+     * @var string
+     */
     private static $userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36';
 
+    /**
+     * 网络请求客户端
+     *
+     * @var GuzzleHttp\Client
+     */
     private $client;
 
+    /**
+     * 全局交互cookie
+     *
+     * @var GuzzleHttp\Cookie\CookieJar
+     */
     private $cookie;
 
+    /**
+     * 构造函数
+     */
     public function __construct()
     {
-        $this->client = new Client();
+        $this->client = new Client(
+            [
+                'base_uri' => self::$url['base'],
+            ]
+        );
     }
 
     /**
      * 获取初始化cookie
      *
-     * @return \GuzzleHttp\Cookie\CookieJar
+     * @return GuzzleHttp\Cookie\CookieJar
      */
     public function getCookie()
     {
@@ -45,7 +75,7 @@ class Edu
             ],
         ];
 
-        $response = $this->client->request('GET', self::$url['base_url'], $options);
+        $response = $this->client->request('GET', self::$url['base'], $options);
 
         return $this->cookie;
     }
@@ -53,7 +83,7 @@ class Edu
     /**
      * 设置cookie
      *
-     * @param \GuzzleHttp\Cookie\CookieJar $cookie
+     * @param GuzzleHttp\Cookie\CookieJar $cookie
      */
     public function setCookie($cookie)
     {
@@ -63,7 +93,7 @@ class Edu
     /**
      * 获取验证码
      *
-     * @return
+     * @return string 验证码Base64字符串
      */
     public function getVcCode()
     {
@@ -74,7 +104,7 @@ class Edu
             ],
         ];
 
-        $response = $this->client->request('GET', self::$url['vccode_url'], $options);
+        $response = $this->client->request('GET', self::$url['code'], $options);
         $result   = $response->getBody();
 
         $imageType   = getimagesizefromstring($result)['mime'];
@@ -94,9 +124,13 @@ class Edu
      */
     public function login($xh, $mm, $vm)
     {
-        $viewstate = $this->loginHiddenValue();
+        $viewstate = $this->getLoginHiddenValue($xh);
 
         $options = [
+            'cookies'     => $this->cookie,
+            'headers'     => [
+                'User-Agent' => self::$userAgent,
+            ],
             'form_params' => [
                 '__VIEWSTATE'      => $viewstate,
                 'txtUserName'      => $xh,
@@ -108,22 +142,21 @@ class Edu
                 'hidPdrs'          => "",
                 'hidsc'            => "",
             ],
-            'headers'     => [
-                'User-Agent' => self::$userAgent,
-            ],
-            'cookies'     => $this->cookie,
-
         ];
 
-        $response = $this->client->request('POST', self::$url['login_url'], $options);
+        $response = $this->client->request('POST', self::$url['login'], $options);
+
+        return iconv('gb2312', 'UTF-8', $response->getBody());
     }
 
     /**
      * 获取登录隐藏值
      *
-     * @return string
+     * @param  string $xh 学号
+     *
+     * @return array
      */
-    public function loginHiddenValue()
+    public function getLoginHiddenValue($xh)
     {
         $options = [
             'cookies' => $this->cookie,
@@ -131,7 +164,8 @@ class Edu
                 'User-Agent' => self::$userAgent,
             ],
         ];
-        $response = $this->client->request('GET', self::$url['login_url'], $options);
+
+        $response = $this->client->request('GET', self::$url['login'], $options);
 
         return $this->parserViewState($response->getBody());
     }
@@ -143,21 +177,22 @@ class Edu
      *
      * @return array
      */
-    public function getStudentInfo($xh)
+    public function getPersosInfo($xh)
     {
-        $url     = self::$url['info_url'] . '?xh=' . $xh;
+        $url = self::$url['persos_get'] . '?xh=' . $xh;
+
         $options = [
-            'headers' => [
-                'Referer'    => $url,
-                'User-Agent' => self::$userAgent,
-            ],
             'cookies' => $this->cookie,
+            'headers' => [
+                'User-Agent' => self::$userAgent,
+                'Referer'    => $url,
+            ],
 
         ];
 
         $response = $this->client->request('GET', $url, $options);
 
-        return $this->parserStudentInfo($response->getBody());
+        return $this->parserPersosInfo($response->getBody());
     }
 
     /**
@@ -167,12 +202,17 @@ class Edu
      *
      * @return array
      */
-    public function getGradesList($xh)
+    public function getGradesInfo($xh)
     {
-        $url       = self::$url['grade_url'] . '?xh=' . $xh;
-        $viewstate = $this->gradesHiddenValue($xh);
+        $url       = self::$url['grades_post'] . '?xh=' . $xh;
+        $viewstate = $this->getGradesHiddenValue($xh);
 
         $options = [
+            'cookies'     => $this->cookie,
+            'headers'     => [
+                'User-Agent' => self::$userAgent,
+                'Referer'    => $url,
+            ],
             'form_params' => [
                 '__VIEWSTATE' => $viewstate,
                 'hidLanguage' => "",
@@ -181,41 +221,11 @@ class Edu
                 'ddl_kcxz'    => "",
                 'btn_zcj'     => iconv('utf-8', 'gb2312', '历年成绩'),
             ],
-            'headers'     => [
-                'Referer'    => $url,
-                'User-Agent' => self::$userAgent,
-            ],
-            'cookies'     => $this->cookie,
-
         ];
 
         $response = $this->client->request('POST', $url, $options);
 
-        return $this->parserGradesList($response->getBody());
-    }
-
-    /**
-     * 获取学生课表
-     *
-     * @param  string $xh 学号
-     *
-     * @return array
-     */
-    public function getTimetable($xh)
-    {
-        $url     = self::$url['table_url'] . '?xh=' . $xh;
-        $options = [
-            'headers' => [
-                'Referer'    => $url,
-                'User-Agent' => self::$userAgent,
-            ],
-            'cookies' => $this->cookie,
-
-        ];
-
-        $response = $this->client->request('GET', $url, $options);
-
-        return $this->parserTimetable($response->getBody());
+        return $this->parserGradesInfo($response->getBody());
     }
 
     /**
@@ -225,21 +235,45 @@ class Edu
      *
      * @return string
      */
-    public function gradesHiddenValue($xh)
+    public function getGradesHiddenValue($xh)
     {
-        $url     = self::$url['grade_url'] . '?xh=' . $xh;
-        $options = [
-            'headers' => [
-                'Referer'    => $url,
-                'User-Agent' => self::$userAgent,
-            ],
-            'cookies' => $this->cookie,
+        $url = self::$url['grades_get'] . '?xh=' . $xh;
 
+        $options = [
+            'cookies' => $this->cookie,
+            'headers' => [
+                'User-Agent' => self::$userAgent,
+                'Referer'    => $url,
+            ],
         ];
 
         $response = $this->client->request('GET', $url, $options);
 
         return $this->parserViewState($response->getBody());
+    }
+
+    /**
+     * 获取学生课表
+     *
+     * @param  string $xh 学号
+     *
+     * @return string
+     */
+    public function getTablesInfo($xh)
+    {
+        $url = self::$url['tables_get'] . '?xh=' . $xh;
+
+        $options = [
+            'cookies' => $this->cookie,
+            'headers' => [
+                'User-Agent' => self::$userAgent,
+                'Referer'    => $url,
+            ],
+        ];
+
+        $response = $this->client->request('GET', $url, $options);
+
+        return $this->parserTablesInfo($response->getBody());
     }
 
     /**
@@ -256,13 +290,13 @@ class Edu
     }
 
     /**
-     * 解析获取学生信息
+     * 解析学生个人信息
      *
      * @param  string $html
      *
-     * @return string
+     * @return array
      */
-    public function parserStudentInfo($html)
+    public function parserPersosInfo($html)
     {
         $crawler = new Crawler((string) $html);
 
@@ -284,13 +318,13 @@ class Edu
     }
 
     /**
-     * 解析获取学生成绩
+     * 解析学生成绩
      *
      * @param  string $html
      *
-     * @return string
+     * @return array
      */
-    public function parserGradesList($html)
+    public function parserGradesInfo($html)
     {
         $crawler = new Crawler((string) $html);
         $table   = $crawler->filterXPath('//table[@id="Datagrid1"]');
@@ -323,7 +357,7 @@ class Edu
      *
      * @return string
      */
-    public function parserTimetable($html)
+    public function parserTablesInfo($html)
     {
         $crawler = new Crawler((string) $html);
         $table   = $crawler->filterXPath('//table[@id="Table6"]')->html();
