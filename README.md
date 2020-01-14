@@ -24,4 +24,8 @@ composer install
 
 修改配置文件app->config->config.php
 
+[Nginx服务器配置参考](https://www.kancloud.cn/jaya1992/phalcon_doc_zh/753243#Nginx_46)
+
+[Apache服务器配置参考](https://www.kancloud.cn/jaya1992/phalcon_doc_zh/753243#Apache_148)
+
 本系统使用[Phalcon](https://phalcon.io/zh-cn)框架，[中文开发文档](https://www.kancloud.cn/jaya1992/phalcon_doc_zh)
