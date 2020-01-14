@@ -6,20 +6,7 @@
     <meta content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover" name="viewport">
     <title>拟物校园</title>
     <link href="/css/weui.css" rel="stylesheet" />
-    <style type="text/css">
-        .page, body {
-            background-color: #ededed;
-        }
-        .page.flex .placeholder {
-            margin: 5px;
-            padding: 0 10px;
-            background-color: #f7f7f7;
-            height: 2.3em;
-            line-height: 2.3em;
-            text-align: center;
-            color: rgba(0,0,0,.3);
-        }
-    </style>
+    <link href="/css/main.css" rel="stylesheet" />
 </head>
 
 
@@ -29,28 +16,47 @@
         <div class="page__hd">
             <h1 class="page__title">基本信息</h1>
         </div>
-
         <div class="page__bd">
-            <div class="weui-flex">
-                <div class="weui-flex__item"><div class="placeholder">{{ persos['xm'] }}</div></div>
-            </div>
-            <div class="weui-flex">
-                <div class="weui-flex__item"><div class="placeholder">学号:{{ persos['xh'] }}</div></div>
-                <div class="weui-flex__item"><div class="placeholder">性别:{{ persos['xb'] }}</div></div>
-            </div>
-            <div class="weui-flex">
-                <div class="weui-flex__item"><div class="placeholder">生日:{{ persos['sr'] }}</div></div>
-                <div class="weui-flex__item"><div class="placeholder">民族:{{ persos['mz'] }}</div></div>
-            </div>
-            <div class="weui-flex">
-                <div class="weui-flex__item"><div class="placeholder">学历:{{ persos['xl'] }}</div></div>
-                <div class="weui-flex__item"><div class="placeholder">学院:{{ persos['xy'] }}</div></div>
-            </div>
-            <div class="weui-flex">
-                <div class="weui-flex__item"><div class="placeholder">专业:{{ persos['zy'] }}</div></div>
-                <div class="weui-flex__item"><div class="placeholder">班级:{{ persos['bj'] }}</div></div>
+            <div class="weui-form-preview weui-form-show nivin">
+                <div class="weui-form-preview__hd">
+                    <div class="weui-form-preview__item">
+                        <label class="weui-form-preview__label">{{ persos['xm'] }}</label>
+                        <em class="weui-form-preview__value">{{ persos['xh'] }}</em>
+                    </div>
+                </div>
+                <div class="weui-form-preview__bd">
+                    <div class="weui-form-preview__item">
+                        <label class="weui-form-preview__label">性别</label>
+                        <span class="weui-form-preview__value">{{ persos['xb'] }}</span>
+                    </div>
+                    <div class="weui-form-preview__item">
+                        <label class="weui-form-preview__label">出生日期</label>
+                        <span class="weui-form-preview__value">{{ persos['sr'] }}</span>
+                    </div>
+                    <div class="weui-form-preview__item">
+                        <label class="weui-form-preview__label">民族</label>
+                        <span class="weui-form-preview__value">{{ persos['mz'] }}</span>
+                    </div>
+                    <div class="weui-form-preview__item">
+                        <label class="weui-form-preview__label">学历</label>
+                        <span class="weui-form-preview__value">{{ persos['xl'] }}</span>
+                    </div>
+                    <div class="weui-form-preview__item">
+                        <label class="weui-form-preview__label">学院</label>
+                        <span class="weui-form-preview__value">{{ persos['xy'] }}</span>
+                    </div>
+                    <div class="weui-form-preview__item">
+                        <label class="weui-form-preview__label">专业</label>
+                        <span class="weui-form-preview__value">{{ persos['zy'] }}</span>
+                    </div>
+                    <div class="weui-form-preview__item">
+                        <label class="weui-form-preview__label">班级</label>
+                        <span class="weui-form-preview__value">{{ persos['bj'] }}</span>
+                    </div>
+                </div>
             </div>
         </div>
+
         {% if school === '池州学院' %}
 
             <div class="page__hd">
@@ -58,30 +64,24 @@
             </div>
        
             <div class="page__bd">
-                    <div class="weui-flex">
-                        <div class="weui-flex__item"><div class="placeholder">课程</div></div>
-                        <div class="weui-flex__item"><div class="placeholder">成绩</div></div>
-                        <div class="weui-flex__item"><div class="placeholder">绩点</div></div>
-                        <div class="weui-flex__item"><div class="placeholder">学分</div></div>
+                <div class="weui-form-preview weui-form-show nivin">
+                    <div class="weui-form-preview__bd">
+                        {% for grade in grades %}
+                        <div class="weui-form-preview__item">
+                            <label class="weui-form-preview__label">{{ grade['km'] }}</label>
+                            <span class="weui-form-preview__value">{{ grade['cj'] }}-{{ grade['jd'] }}-{{ grade['xf'] }}</span>
+                        </div>
+                        {% endfor %}
                     </div>
-                {% for grade in grades %}
-                    <div class="weui-flex">
-                        <div class="weui-flex__item"><div class="placeholder">{{ grade['km'] }}</div></div>
-                        <div class="weui-flex__item"><div class="placeholder">{{ grade['cj'] }}</div></div>
-                        <div class="weui-flex__item"><div class="placeholder">{{ grade['jd'] }}</div></div>
-                        <div class="weui-flex__item"><div class="placeholder">{{ grade['xf'] }}</div></div>
-                    </div>
-                {% endfor %}
+                </div>
             </div>
-
-
             
             <div class="page__hd">
                 <h1 class="page__title">课表</h1>
             </div>
 
             <div class="page__bd">
-                <div style="background-color: #f7f7f7;">
+                <div class="weui-form-preview weui-form-show nivin">
                    {{ tables }} 
                 </div>
             </div>
@@ -96,7 +96,9 @@
        
             <div class="page__bd">
                 {% for grade in grades %}
+                <div class="weui-form-preview weui-form-show nivin" style="padding: 10px;">
                     <img src="{{ grade }}" style="width: 100%;">
+                </div>
                 {% endfor %}
             </div>
 
@@ -106,7 +108,9 @@
 
             <div class="page__bd">
                 {% for table in tables %}
+                <div class="weui-form-preview weui-form-show nivin" style="padding: 10px;">
                     <img src="{{ table }}" style="width: 100%;">
+                </div>
                 {% endfor %}
             </div>
 

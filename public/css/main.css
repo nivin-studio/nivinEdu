@@ -44,6 +44,28 @@ body {
     color: #fa8c16;
 }
 
+.weui-form-show:before,
+.weui-form-show:after {
+    border: none;
+}
+
+.weui-form-show {
+    margin: 20px 10px;
+}
+
+.weui-form-show>img {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.weui-form-preview .weui-form-preview__label {
+    width: 100px;
+    text-align-last: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .nivin-no-radius {
     border: 1px solid rgba(255, 255, 255, 0.20);
     box-shadow: 6px 6px 16px 0 rgba(217, 210, 200, 0.51), -6px -6px 26px 0 rgba(255, 255, 255, 0.83);
