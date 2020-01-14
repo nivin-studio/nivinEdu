@@ -27,7 +27,7 @@ class CzxyController extends ControllerBase
         // 缓存cookie10分钟
         $this->redis->setex($uuid, 600, $cookie);
 
-        $this->view->pick('index/index');
+        $this->view->pick('index/login');
         $this->view->setVar('uuid', $uuid);
         $this->view->setVar('vccode', $vccode);
         $this->view->setVar('loginUrl', '/czxy/login');

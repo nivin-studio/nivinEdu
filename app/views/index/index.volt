@@ -10,47 +10,36 @@
 
 <body>
     <div class="page">
-        <form action="{{ loginUrl }}" class="weui-form" method="POST">
-            <div class="weui-form__text-area">
-                <h2 class="weui-form__title">登  录</h2>
-                <div class="weui-form__desc">{{ school }}</div>
-            </div>
-            <div class="weui-form__control-area">
-                <div class="weui-cells__group weui-cells__group_form">
-                    <div class="weui-cells weui-cells_form">
-                        <div class="weui-cell">
-                            <div class="weui-cell__hd"><label class="weui-label">学号</label></div>
-                            <div class="weui-cell__bd">
-                                <input class="weui-input" name="xh" placeholder="填写学号" />
-                            </div>
-                        </div>
-                        <div class="weui-cell">
-                            <div class="weui-cell__hd"><label class="weui-label">密码</label></div>
-                            <div class="weui-cell__bd">
-                                <input class="weui-input" name="mm" placeholder="填写密码" />
-                            </div>
-                        </div>
-                        <div class="weui-cell">
-                            <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
-                            <div class="weui-cell__bd">
-                                <input class="weui-input" name="vm" placeholder="填写验证码" />
-                                <img src="{{ vccode }}">
-                            </div>
-                        </div>
-                        <input name="<?php echo $this->security->getTokenKey() ?>" type="hidden" value="<?php echo $this->security->getToken() ?>" />
-                        <input name="uuid" type="hidden" value="{{ uuid }}" />
+
+        <div class="page__hd">
+            <h1 class="page__title" style="text-align: center;">拟物校园</h1>
+        </div>
+
+        <div class="page__bd">
+            <div class="weui-cells">
+
+                <a class="weui-cell weui-cell_access weui-cell_example" href="{{ url('czxy/index') }}">
+                    <div class="weui-cell__hd">
+                        <img src="https://dss0.bdstatic.com/6Ox1bjeh1BF3odCf/it/u=2638504072,1593727505&fm=74&app=80&f=JPG&size=f121,121?sec=1880279984&t=12a5279172cdd49ceeaeb38a0f8301ab" alt="" style="width:20px;margin-right:16px;display:block">
                     </div>
-                </div>
+                    <div class="weui-cell__bd">
+                        <p>池州学院</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+
+                <a class="weui-cell weui-cell_access weui-cell_example" href="{{ url('xnkjdx/index') }}">
+                    <div class="weui-cell__hd">
+                        <img src="https://dss0.bdstatic.com/6Ox1bjeh1BF3odCf/it/u=3509375383,2214473354&fm=74&app=80&f=PNG&size=f121,121?sec=1880279984&t=917e131f8674a22aebd3fed8f5365d7a" alt="" style="width:20px;margin-right:16px;display:block">
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>西南科技大学</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+
             </div>
-            <div class="weui-form__opr-area">
-                <input class="weui-btn weui-btn_primary" type="submit" value="确定" />
-            </div>
-            <div class="weui-form__extra-area">
-                <div class="weui-footer">
-                    <p class="weui-footer__text">Copyright © 2008-2019 weui.io</p>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
 </body>
 
