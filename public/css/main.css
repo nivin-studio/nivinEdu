@@ -6,7 +6,7 @@ html {
 body {
     width: 100%;
     height: 100%;
-    background-color: #efeeee;
+    background-color: #EFEEEE;
 }
 
 .page {
@@ -28,7 +28,39 @@ body {
 }
 
 .weui-cells {
-    background-color: #efeeee;
+    background-color: #EFEEEE;
+}
+
+.weui-form {
+    background-color: #EFEEEE;
+}
+
+.weui-form .weui-form__control-area {
+    margin: 20px 20px;
+    -webkit-flex: 0;
+    flex: 0;
+}
+
+.weui-form .vcode {
+    width: 50px;
+    height: 30px;
+}
+
+.weui-form .weui-label {
+    width: 3em;
+}
+
+.weui-form .weui-input {
+    font-size: 15px;
+    padding: 5px 10px;
+}
+
+.weui-form .weui-form__text-area {
+    color: #333D6E;
+}
+
+.weui-form .weui-btn {
+    color: #333D6E;
 }
 
 .weui-cells .weui-cell {
@@ -57,7 +89,7 @@ body {
 }
 
 .weui-form-show {
-    background-color: #efeeee;
+    background-color: #EFEEEE;
     margin: 20px 20px;
 }
 
@@ -80,27 +112,28 @@ body {
 }
 
 .nivin-no-radius {
-    background-color: #efeeee;
+    background-color: #EFEEEE;
     border: 1px solid rgba(255, 255, 255, 0.20);
     box-shadow: 6px 6px 16px 0 rgba(217, 210, 200, 0.51), -6px -6px 26px 0 rgba(255, 255, 255, 0.8);
 }
 
 .nivin-inset {
-    background-color: #efeeee;
+    background-color: #EFEEEE;
     border: 1px solid rgba(255, 255, 255, 0.20);
     border-radius: 12px;
     box-shadow: 6px 6px 16px 0 rgba(217, 210, 200, 0.8) inset, -6px -6px 16px 0 rgba(255, 255, 255, 0.51) inset;
 }
 
-.nivin {
-    background-color: #efeeee;
+.nivin,
+.nivin-a {
+    background-color: #EFEEEE;
     border: 1px solid rgba(255, 255, 255, 0.20);
     border-radius: 12px;
     box-shadow: 6px 6px 16px 0 rgba(217, 210, 200, 0.51), -6px -6px 26px 0 rgba(255, 255, 255, 0.8);
 }
 
-.nivin:active {
-    background-color: #efeeee;
+.nivin-a:active {
+    background-color: #EFEEEE;
     border: 1px solid rgba(255, 255, 255, 0.20);
     border-radius: 12px;
     box-shadow: 6px 6px 16px 0 rgba(217, 210, 200, 0.8) inset, -6px -6px 16px 0 rgba(255, 255, 255, 0.51) inset;

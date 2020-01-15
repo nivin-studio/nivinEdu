@@ -16,7 +16,7 @@
         </div>
         <div class="page__bd">
             <div class="weui-cells">
-                <a class="weui-cell weui-cell_access nivin" href="{{ url('czxy/index') }}">
+                <a class="weui-cell weui-cell_access nivin-a" href="{{ url('czxy/index') }}">
                     <div class="weui-cell__hd">
                         <img src="https://dss0.bdstatic.com/6Ox1bjeh1BF3odCf/it/u=2638504072,1593727505&fm=74&app=80&f=JPG&size=f121,121?sec=1880279984&t=12a5279172cdd49ceeaeb38a0f8301ab" alt="">
                     </div>
@@ -25,7 +25,7 @@
                     </div>
                     <div class="weui-cell__ft"></div>
                 </a>
-                <a class="weui-cell weui-cell_access nivin" href="{{ url('xnkjdx/index') }}">
+                <a class="weui-cell weui-cell_access nivin-a" href="{{ url('xnkjdx/index') }}">
                     <div class="weui-cell__hd">
                         <img src="https://dss0.bdstatic.com/6Ox1bjeh1BF3odCf/it/u=3509375383,2214473354&fm=74&app=80&f=PNG&size=f121,121?sec=1880279984&t=917e131f8674a22aebd3fed8f5365d7a" alt="">
                     </div>
