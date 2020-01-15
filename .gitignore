@@ -3,3 +3,5 @@ cache/*
 logs/*
 
 sftp-config.json
+
+composer.lock

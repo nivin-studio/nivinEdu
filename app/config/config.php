@@ -24,7 +24,7 @@ return new \Phalcon\Config([
         'database' => 'test',
     ],
     'redis'       => [
-        'host' => '172.27.0.3',
+        'host' => '172.0.0.1',
         'port' => '6379',
     ],
     'redisGroup'  => [
