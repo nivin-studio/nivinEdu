@@ -17,7 +17,7 @@
             <h1 class="page__title">基本信息</h1>
         </div>
         <div class="page__bd">
-            <div class="weui-form-preview weui-form-show nivin-inset">
+            <div class="weui-form-preview weui-form-show nivin">
                 <div class="weui-form-preview__hd">
                     <div class="weui-form-preview__item">
                         <label class="weui-form-preview__label">{{ persos['xm'] }}</label>
@@ -64,7 +64,7 @@
             </div>
        
             <div class="page__bd">
-                <div class="weui-form-preview weui-form-show nivin-inset">
+                <div class="weui-form-preview weui-form-show nivin">
                     <div class="weui-form-preview__bd">
                         {% for grade in grades %}
                         <div class="weui-form-preview__item">
@@ -81,7 +81,7 @@
             </div>
 
             <div class="page__bd">
-                <div class="weui-form-preview weui-form-show nivin-inset" style="padding: 10px;">
+                <div class="weui-form-preview weui-form-show nivin" style="padding: 10px;">
                    {{ tables }} 
                 </div>
             </div>

@@ -74,6 +74,11 @@ body {
     white-space: nowrap;
 }
 
+.weui-form-preview__hd .weui-form-preview__value {
+    font-size: 1em;
+    font-weight: bold;
+}
+
 .nivin-no-radius {
     background-color: #efeeee;
     border: 1px solid rgba(255, 255, 255, 0.20);
