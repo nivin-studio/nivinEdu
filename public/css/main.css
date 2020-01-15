@@ -141,7 +141,7 @@ body {
     box-shadow: 6px 6px 16px 0 rgba(217, 210, 200, 0.51), -6px -6px 26px 0 rgba(255, 255, 255, 0.8);
 }
 
-.nivin-a:active {
+.nivin-a:focus {
     background-color: #EFEEEE;
     border: 1px solid rgba(255, 255, 255, 0.20);
     border-radius: 12px;
