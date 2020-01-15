@@ -51,7 +51,7 @@ body {
 }
 
 .weui-form .weui-input {
-    font-size: 15px;
+    font-size: 16px;
     padding: 5px 10px;
 }
 
@@ -70,6 +70,15 @@ body {
     font-weight: bold;
     color: #333D6E;
 }
+
+.weui-cells_form .weui-cell {
+    margin: 20px 20px;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333D6E;
+}
+
 
 .weui-cells .weui-cell .weui-cell__hd>img {
     width: 35px;
