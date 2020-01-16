@@ -2,6 +2,7 @@ vendor
 cache/*
 logs/*
 
-sftp-config.json
+.env
 
+sftp-config.json
 composer.lock
