@@ -1,5 +1,5 @@
 <?php
-
+use Dotenv\Dotenv;
 use Phalcon\Crypt;
 use Phalcon\Flash\Direct as Flash;
 use Phalcon\Http\Response\Cookies;
@@ -16,6 +16,11 @@ use Predis\Client as Redis;
  * Shared configuration service
  */
 $di->setShared('config', function () {
+    try {
+        (new Dotenv(BASE_PATH))->load();
+    } catch (InvalidPathException $e) {
+
+    }
     return include APP_PATH . "/config/config.php";
 });
 

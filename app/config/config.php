@@ -8,24 +8,24 @@ defined('APP_PATH') || define('APP_PATH', BASE_PATH . '/app');
 
 return new \Phalcon\Config([
     'database'    => [
-        'adapter'  => 'Mysql',
-        'host'     => '127.0.0.1',
-        'port'     => '3306',
-        'username' => 'root',
-        'password' => 'root',
-        'dbname'   => 'test',
-        'charset'  => 'utf8',
+        'adapter'  => env('DB_ADAPTER', 'Mysql'),
+        'host'     => env('DB_HOST', '172.0.0.1'),
+        'port'     => env('DB_PORT', '3306'),
+        'username' => env('DB_USERNAME', 'root'),
+        'password' => env('DB_PASSWORD', 'root'),
+        'dbname'   => env('DB_DATABASE', 'test'),
+        'charset'  => env('DB_CHARSET', 'utf8'),
     ],
     'mongo'       => [
-        'host'     => '172.27.0.5',
-        'port'     => '27017',
-        'username' => 'root',
-        'password' => 'root',
-        'database' => 'test',
+        'host'     => env('MONGO_HOST', '172.0.0.1'),
+        'port'     => env('MONGO_PORT', '27017'),
+        'username' => env('MONGO_USERNAME', 'root'),
+        'password' => env('MONGO_PASSWORD', 'root'),
+        'database' => env('MONGO_DATABASE', 'test'),
     ],
     'redis'       => [
-        'host' => '172.0.0.1',
-        'port' => '6379',
+        'host' => env('REDIS_HOST', '172.0.0.1'),
+        'port' => env('REDIS_PORT', '6379'),
     ],
     'redisGroup'  => [
         'tcp://127.0.0.1:6001',

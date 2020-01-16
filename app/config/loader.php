@@ -15,12 +15,5 @@ $loader->registerDirs(
     ]
 );
 
-// 注册文件
-$loader->registerFiles(
-    [
-        $config->application->libraryDir . 'functions.php',
-    ]
-);
-
 // 注册自动加载器
 $loader->register();

@@ -41,7 +41,7 @@ try {
      */
     $application = new \Phalcon\Mvc\Application($di);
 
-    echo str_replace(["\n","\r","\t"], '', $application->handle()->getContent());
+    echo str_replace(["\n", "\r", "\t"], '', $application->handle()->getContent());
 
 } catch (\Exception $e) {
     echo $e->getMessage() . '<br>';
