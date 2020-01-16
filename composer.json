@@ -11,7 +11,7 @@
         ]
     },
     "scripts": {
-        "post-install-cmd": [
+        "post-autoload-dump": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ]
     }
