@@ -2,7 +2,7 @@
 
 	php: ^5.5.9
 	redis extension
-	phalcon extension
+	phalcon3.4.4 extension
 
 ## 支持院校
 
