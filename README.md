@@ -1,8 +1,10 @@
 ## 环境要求
 
 	php: ^5.5.9
-	redis extension
-	phalcon3.4.4 extension
+
+	--php扩展--
+	redis
+	phalcon: ~3.4.4
 
 ## 支持院校
 
@@ -17,15 +19,19 @@
 
 ## 安装使用
 
-体验地址[edu.nivin.cn](http://edu.nivin.cn/)
+- 体验地址[edu.nivin.cn](http://edu.nivin.cn/)
 
-依赖安装
+- 配置修改
+
+```bash
+app/config/config.php
+```
+
+- 依赖安装
 
 ```bash
 composer install
 ```
-
-修改配置文件app->config->config.php
 
 [Nginx服务器配置参考](https://www.kancloud.cn/jaya1992/phalcon_doc_zh/753243#Nginx_46)
 
