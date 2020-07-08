@@ -9,6 +9,7 @@
 ### 正方教务
 
 - :white_check_mark: 池州学院
+- :white_check_mark: 四川大学锦江学院
 
 ### 青果教务
 
