@@ -1,3 +1,8 @@
+# nivinEdu
+高校教务爬虫，可查询学生个人信息，成绩，课表等。已支持正方教务，青果教务。
+
+体验地址: [edu.nivin.cn](http://edu.nivin.cn/)
+
 ## 环境要求
 
 	php: ^5.5.9
@@ -18,8 +23,6 @@
 - :white_check_mark: 西南科技大学
 
 ## 安装使用
-
-- 体验地址[edu.nivin.cn](http://edu.nivin.cn/)
 
 - 配置修改
 
