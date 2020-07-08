@@ -115,6 +115,37 @@
             </div>
 
         {% endif %}
+
+        {% if school === '四川大学锦江学院' %}
+        
+            <div class="page__hd">
+                <h1 class="page__title">成绩</h1>
+            </div>
+    
+            <div class="page__bd">
+                <div class="weui-form-preview weui-form-show nivin">
+                    <div class="weui-form-preview__bd">
+                        {% for grade in grades %}
+                        <div class="weui-form-preview__item">
+                            <label class="weui-form-preview__label">{{ grade['km'] }}</label>
+                            <span class="weui-form-preview__value">{{ grade['cj'] }}-{{ grade['jd'] }}-{{ grade['xf'] }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="page__hd">
+                <h1 class="page__title">课表</h1>
+            </div>
+
+            <div class="page__bd">
+                <div class="weui-form-preview weui-form-show nivin" style="padding: 10px;">
+                {{ tables }} 
+                </div>
+            </div>
+
+        {% endif %}
         <div class="page__ft">
             <div class="weui-footer">
                 <p class="weui-footer__text">Copyright © 2016-2020 nivin.cn</p>

@@ -1,6 +1,7 @@
 vendor
 cache/*
 logs/*
+.vscode
 
 .env
 
