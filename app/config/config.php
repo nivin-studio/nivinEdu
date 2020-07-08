@@ -9,7 +9,7 @@ defined('APP_PATH') || define('APP_PATH', BASE_PATH . '/app');
 return new \Phalcon\Config([
     'database'    => [
         'adapter'  => env('DB_ADAPTER', 'Mysql'),
-        'host'     => env('DB_HOST', '172.0.0.1'),
+        'host'     => env('DB_HOST', '127.0.0.1'),
         'port'     => env('DB_PORT', '3306'),
         'username' => env('DB_USERNAME', 'root'),
         'password' => env('DB_PASSWORD', 'root'),
@@ -17,14 +17,14 @@ return new \Phalcon\Config([
         'charset'  => env('DB_CHARSET', 'utf8'),
     ],
     'mongo'       => [
-        'host'     => env('MONGO_HOST', '172.0.0.1'),
+        'host'     => env('MONGO_HOST', '127.0.0.1'),
         'port'     => env('MONGO_PORT', '27017'),
         'username' => env('MONGO_USERNAME', 'root'),
         'password' => env('MONGO_PASSWORD', 'root'),
         'database' => env('MONGO_DATABASE', 'test'),
     ],
     'redis'       => [
-        'host' => env('REDIS_HOST', '172.0.0.1'),
+        'host' => env('REDIS_HOST', '127.0.0.1'),
         'port' => env('REDIS_PORT', '6379'),
     ],
     'redisGroup'  => [
