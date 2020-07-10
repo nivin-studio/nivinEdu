@@ -1,49 +1,43 @@
 <?php
-use Phalcon\Di\FactoryDefault;
 
-error_reporting(E_ALL);
+use Dotenv\Dotenv;
+use Phalcon\Di\FactoryDefault;
 
 define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
 
 require '../vendor/autoload.php';
 
-try {
+$dotenv = new Dotenv(BASE_PATH);
+$dotenv->load();
 
-    /**
-     * The FactoryDefault Dependency Injector automatically registers
-     * the services that provide a full stack framework.
-     */
-    $di = new FactoryDefault();
+env('APP_DEBUG') ? error_reporting(E_ALL) : error_reporting(0);
 
-    /**
-     * Handle routes
-     */
-    include APP_PATH . '/config/router.php';
+$di = new FactoryDefault();
 
-    /**
-     * Read services
-     */
-    include APP_PATH . '/config/services.php';
+/**
+ * 处理路由
+ */
+include APP_PATH . '/config/router.php';
 
-    /**
-     * Get config service for use in inline setup below
-     */
-    $config = $di->getConfig();
+/**
+ * 注册服务
+ */
+include APP_PATH . '/config/services.php';
 
-    /**
-     * Include Autoloader
-     */
-    include APP_PATH . '/config/loader.php';
+/**
+ * 获取配置
+ */
+$config = $di->getConfig();
 
-    /**
-     * Handle the request
-     */
-    $application = new \Phalcon\Mvc\Application($di);
+/**
+ * 自动加载器
+ */
+include APP_PATH . '/config/loader.php';
 
-    echo str_replace(["\n", "\r", "\t"], '', $application->handle()->getContent());
+/**
+ * Handle the request
+ */
+$application = new \Phalcon\Mvc\Application($di);
 
-} catch (\Exception $e) {
-    echo $e->getMessage() . '<br>';
-    echo '<pre>' . $e->getTraceAsString() . '</pre>';
-}
+echo str_replace(["\n", "\r", "\t"], '', $application->handle()->getContent());

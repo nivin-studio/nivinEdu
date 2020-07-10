@@ -1,10 +1,11 @@
 <?php
-use Dotenv\Dotenv;
 use Phalcon\Crypt;
-use Phalcon\Flash\Direct as Flash;
+use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Flash\Direct as FlashDirect;
+use Phalcon\Http\Request;
 use Phalcon\Http\Response\Cookies;
+use Phalcon\Logger\Adapter\File as FileLogger;
 use Phalcon\Logger\Factory as Logger;
-use Phalcon\Mvc\Model\Metadata\Memory as MetaDataAdapter;
 use Phalcon\Mvc\Url as UrlResolver;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
@@ -13,23 +14,23 @@ use Phalcon\Session\Adapter\Files as SessionAdapter;
 use Predis\Client as Redis;
 
 /**
- * Shared configuration service
+ * 配置文件
  */
 $di->setShared('config', function () {
-    try {
-        (new Dotenv(BASE_PATH))->load();
-    } catch (InvalidPathException $e) {
-
-    }
     return include APP_PATH . "/config/config.php";
 });
 
 /**
- * The URL component is used to generate all kind of urls in the application
+ * request
+ */
+$di->setShared('request', function () {
+    return new Request();
+});
+
+/**
+ * url
  */
 $di->setShared('url', function () {
-    $config = $this->getConfig();
-
     $url = new UrlResolver();
     $url->setBaseUri('/');
 
@@ -37,7 +38,27 @@ $di->setShared('url', function () {
 });
 
 /**
- * Setting up the view component
+ * 闪存消息
+ */
+$di->setShared('flash', function () {
+    $flashDirect = new FlashDirect(
+        [
+            'error'   => 'alert alert-danger',
+            'success' => 'alert alert-success',
+            'notice'  => 'alert alert-info',
+            'warning' => 'alert alert-warning',
+        ]
+    );
+
+    $flashDirect->setAutoescape(true);
+    $flashDirect->setAutomaticHtml(true);
+    $flashDirect->setImplicitFlush(false);
+
+    return $flashDirect;
+});
+
+/**
+ * 设置视图组件
  */
 $di->setShared('view', function () {
     $config = $this->getConfig();
@@ -47,7 +68,7 @@ $di->setShared('view', function () {
     $view->setViewsDir($config->application->viewsDir);
 
     $view->registerEngines([
-        '.volt'  => function ($view) {
+        '.volt' => function ($view) {
             $config = $this->getConfig();
 
             $volt = new VoltEngine($view, $this);
@@ -67,7 +88,7 @@ $di->setShared('view', function () {
 });
 
 /**
- * Database connection is created based in the parameters defined in the configuration file
+ * mysql数据库
  */
 $di->setShared('db', function () {
     $config = $this->getConfig();
@@ -87,11 +108,25 @@ $di->setShared('db', function () {
 
     $connection = new $class($params);
 
+    if ($config->debug) {
+        $eventsManager = new EventsManager();
+        $logger        = new FileLogger('../logs/debug.log');
+
+        $eventsManager->attach(
+            'db:beforeQuery',
+            function ($event, $connection) use ($logger) {
+                $logger->log('info', $connection->getSQLStatement());
+            }
+        );
+
+        $connection->setEventsManager($eventsManager);
+    }
+
     return $connection;
 });
 
 /**
- * mongoDB
+ * mongo数据库
  */
 $di->setShared('mongo', function () {
     $config = $this->getConfig();
@@ -118,7 +153,7 @@ $di->setShared('mongo', function () {
 });
 
 /**
- * redis
+ * redis缓存
  */
 $di->setShared('redis', function () {
     $config = $this->getConfig();
@@ -133,7 +168,7 @@ $di->setShared('redis', function () {
 });
 
 /**
- * redisGroup
+ * redis集群缓存
  */
 $di->setShared('redisGroup', function () {
     $config = $this->getConfig();
@@ -144,26 +179,7 @@ $di->setShared('redisGroup', function () {
 });
 
 /**
- * If the configuration specify the use of metadata adapter use it or use memory otherwise
- */
-$di->setShared('modelsMetadata', function () {
-    return new MetaDataAdapter();
-});
-
-/**
- * Register the session flash service with the Twitter Bootstrap classes
- */
-$di->set('flash', function () {
-    return new Flash([
-        'error'   => 'alert alert-danger',
-        'success' => 'alert alert-success',
-        'notice'  => 'alert alert-info',
-        'warning' => 'alert alert-warning',
-    ]);
-});
-
-/**
- * Start the session the first time some component request the session service
+ * session
  */
 $di->setShared('session', function () {
     $session = new SessionAdapter();
@@ -173,7 +189,7 @@ $di->setShared('session', function () {
 });
 
 /**
- * Cookies
+ * cookies
  */
 $di->setShared('cookies', function () {
     $cookies = new Cookies();
@@ -184,7 +200,7 @@ $di->setShared('cookies', function () {
 });
 
 /**
- * Crypt
+ * 加密
  */
 $di->setShared('crypt', function () {
     $crypt = new Crypt();
@@ -197,11 +213,11 @@ $di->setShared('crypt', function () {
 });
 
 /**
- * Logger
+ * 日志
  */
 $di->setShared('log', function () {
     $options = [
-        'name'    => '../log/log.txt',
+        'name'    => '../logs/runtime.log',
         'adapter' => 'file',
     ];
 

@@ -1,11 +1,16 @@
 {
-    "name": "nivin-studio/nivinEdu",
+    "name": "nivin-studio/nivinedu",
     "description": "educational crawler",
     "require": {
+        "php": ">=7.0",
         "predis/predis": "^1.1",
         "guzzlehttp/guzzle": "^6.3",
         "symfony/dom-crawler": "^3.4",
         "vlucas/phpdotenv": "~2.2"
+    },
+    "require-dev": {
+        "phalcon/devtools": "^3.0",
+        "phalcon/ide-stubs": "^3.0"
     },
     "autoload": {
         "files": [

@@ -1,12 +1,40 @@
 <?php
+use Phalcon\Di;
+
+/**
+ * 获取phalcon配置
+ *
+ * @param  string $key 配置键
+ * @return void
+ */
+function config($key)
+{
+    return Di::getDefault()->getShared('config')->$key;
+}
+
+/**
+ * 获取请求参数
+ *
+ * @param string        $name       参数名
+ * @param string        $filters    过滤器
+ * @param $defaultValue 默认值
+ */
+function request($name = null, $filters = null, $defaultValue = null)
+{
+    if (is_null($name)) {
+        return Di::getDefault()->getShared('request');
+    } else {
+        return Di::getDefault()->getShared('request')->get($name, $filters, $defaultValue);
+    }
+}
 
 /**
  * 判断num是否在min ~ max中间, min < num < max
  *
- * @param  number  $num 目标值
- * @param  number  $min 范围最小值
- * @param  number  $max 范围最大值
  *
+ * @param  number    $num 目标值
+ * @param  number    $min 范围最小值
+ * @param  number    $max 范围最大值
  * @return boolean
  */
 function isMiddle($num, $min, $max)
@@ -17,10 +45,10 @@ function isMiddle($num, $min, $max)
 /**
  * 判断num是否在min ~ max之间, min <= num <= max
  *
- * @param  number  $num 目标值
- * @param  number  $min 范围最小值
- * @param  number  $max 范围最大值
  *
+ * @param  number    $num 目标值
+ * @param  number    $min 范围最小值
+ * @param  number    $max 范围最大值
  * @return boolean
  */
 function isBetween($num, $min, $max)
@@ -31,9 +59,9 @@ function isBetween($num, $min, $max)
 /**
  * 获取环境变量的值
  *
- * @param  string $key
- * @param  mixed  $default]
  *
+ * @param  string  $key
+ * @param  mixed   $default
  * @return mixed
  */
 function env($key, $default = null)
@@ -60,6 +88,17 @@ function env($key, $default = null)
     }
 
     return $value;
+}
+
+/**
+ * 放回默认值
+ *
+ * @param  mixed   $value
+ * @return mixed
+ */
+function value($value)
+{
+    return $value instanceof Closure ? $value() : $value;
 }
 
 /**

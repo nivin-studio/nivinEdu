@@ -1,28 +1,31 @@
 <?php
 
+use Phalcon\Http\Response;
 use Phalcon\Mvc\Controller;
 
 class ControllerBase extends Controller
 {
-	/**
-	 * 获取请求参数
-	 *
-	 * @param string $name         参数名
-	 * @param string $filters      过滤器
-	 * @param        $defaultValue 默认值
-	 */
-    public function R($name, $filters = null, $defaultValue = null)
-    {
-        return $this->request->get($name, $filters, $defaultValue);
-    }
 
     /**
-     * 获取配置
+     * json输出
      *
-     * @param string $name 配置名
+     * @param  array  $data
+     * @param  int    $status
+     * @param  array  $headers
+     * @return void
      */
-    public function C($name)
+    public function JsonResponse($data = [], $status = 200, $headers = [])
     {
-        return $this->config->get($name);
+        $response = new Response();
+        $response->setStatusCode($status);
+        $response->setJsonContent($data);
+
+        if (!empty($headers)) {
+            foreach ($headers as $key => $value) {
+                $response->setHeader($key, $value);
+            }
+        }
+
+        return $response;
     }
 }
