@@ -116,10 +116,9 @@ class Edu
     /**
      * 登录
      *
-     * @param  string $xh 学号
-     * @param  string $mm 密码
-     * @param  string $vm 验证码
-     *
+     * @param  string  $xh 学号
+     * @param  string  $mm 密码
+     * @param  string  $vm 验证码
      * @return array
      */
     public function login($xh, $mm, $vm)
@@ -152,8 +151,7 @@ class Edu
     /**
      * 获取登录隐藏值
      *
-     * @param  string $xh 学号
-     *
+     * @param  string  $xh 学号
      * @return array
      */
     public function getLoginHiddenValue($xh)
@@ -173,8 +171,7 @@ class Edu
     /**
      * 获取学生个人信息
      *
-     * @param  string $xh 学号
-     *
+     * @param  string  $xh 学号
      * @return array
      */
     public function getPersosInfo($xh)
@@ -198,8 +195,7 @@ class Edu
     /**
      * 获取学生成绩
      *
-     * @param  string $xh 学号
-     *
+     * @param  string  $xh 学号
      * @return array
      */
     public function getGradesInfo($xh)
@@ -231,8 +227,7 @@ class Edu
     /**
      * 获取成绩隐藏值
      *
-     * @param  string $xh 学号
-     *
+     * @param  string   $xh 学号
      * @return string
      */
     public function getGradesHiddenValue($xh)
@@ -255,8 +250,7 @@ class Edu
     /**
      * 获取学生课表
      *
-     * @param  string $xh 学号
-     *
+     * @param  string   $xh 学号
      * @return string
      */
     public function getTablesInfo($xh)
@@ -279,8 +273,7 @@ class Edu
     /**
      * 解析获取隐藏的__VIEWSTATE
      *
-     * @param  string $html
-     *
+     * @param  string   $html
      * @return string
      */
     public function parserViewState($html)
@@ -292,8 +285,7 @@ class Edu
     /**
      * 解析学生个人信息
      *
-     * @param  string $html
-     *
+     * @param  string  $html
      * @return array
      */
     public function parserPersosInfo($html)
@@ -320,8 +312,7 @@ class Edu
     /**
      * 解析学生成绩
      *
-     * @param  string $html
-     *
+     * @param  string  $html
      * @return array
      */
     public function parserGradesInfo($html)
@@ -353,8 +344,7 @@ class Edu
     /**
      * 解析获取学生课表
      *
-     * @param  string $html
-     *
+     * @param  string   $html
      * @return string
      */
     public function parserTablesInfo($html)

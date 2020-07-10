@@ -122,10 +122,9 @@ class Edu
     /**
      * 登录
      *
-     * @param  string $xh 学号
-     * @param  string $mm 密码
-     * @param  string $vm 验证码
-     *
+     * @param  string  $xh 学号
+     * @param  string  $mm 密码
+     * @param  string  $vm 验证码
      * @return array
      */
     public function login($xh, $mm, $vm)
@@ -165,8 +164,7 @@ class Edu
     /**
      * 获取登录隐藏值
      *
-     * @param  string $xh 学号
-     *
+     * @param  string  $xh 学号
      * @return array
      */
     public function getLoginHiddenValue($xh)
@@ -187,8 +185,7 @@ class Edu
     /**
      * 获取学生个人信息
      *
-     * @param  string $xh 学号
-     *
+     * @param  string  $xh 学号
      * @return array
      */
     public function getPersosInfo($xh)
@@ -209,8 +206,7 @@ class Edu
     /**
      * 获取学生成绩
      *
-     * @param  string $xh 学号
-     *
+     * @param  string  $xh 学号
      * @return array
      */
     public function getGradesInfo($xh)
@@ -240,8 +236,7 @@ class Edu
     /**
      * 获取学生成绩图片
      *
-     * @param  string $url 图片url
-     *
+     * @param  string   $url 图片url
      * @return string
      */
     public function getGradesImages($url)
@@ -266,8 +261,7 @@ class Edu
     /**
      * 获取学生课表
      *
-     * @param  string $xh 学号
-     *
+     * @param  string  $xh 学号
      * @return array
      */
     public function getTablesInfo($xh)
@@ -306,8 +300,7 @@ class Edu
     /**
      * 获取学生课表图片
      *
-     * @param  string $url 图片url
-     *
+     * @param  string   $url 图片url
      * @return string
      */
     public function getTablesImages($url)
@@ -332,8 +325,7 @@ class Edu
     /**
      * 获取课表查询隐藏值
      *
-     * @param  string $xh 学号
-     *
+     * @param  string  $xh 学号
      * @return array
      */
     public function getTablesHiddenValue($xh)
@@ -354,8 +346,7 @@ class Edu
     /**
      * 解析登录隐藏值
      *
-     * @param  string $html
-     *
+     * @param  string   $html
      * @return string
      */
     public function parserLoginHiddenValue($html)
@@ -378,8 +369,7 @@ class Edu
     /**
      * 解析学生个人信息
      *
-     * @param  string $html
-     *
+     * @param  string  $html
      * @return array
      */
     public function parserPersosInfo($html)
@@ -406,8 +396,7 @@ class Edu
     /**
      * 解析学生成绩
      *
-     * @param  string $html
-     *
+     * @param  string  $html
      * @return array
      */
     public function parserGradesInfo($html)
@@ -422,8 +411,7 @@ class Edu
     /**
      * 解析课表查询隐藏值
      *
-     * @param  string $html
-     *
+     * @param  string  $html
      * @return array
      */
     public function parserTablesHiddenValue($html)
@@ -467,8 +455,7 @@ class Edu
     /**
      * 解析获取学生课表
      *
-     * @param  string $html
-     *
+     * @param  string   $html
      * @return string
      */
     public function parserTablesInfo($html)
@@ -497,8 +484,7 @@ class Edu
     /**
      * 数据字符串
      *
-     * @param  integer $number 需要的长度
-     *
+     * @param  integer  $number 需要的长度
      * @return string
      */
     public function randomStr($number = 15)
