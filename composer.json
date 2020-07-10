@@ -1,4 +1,6 @@
 {
+    "name": "nivinEdu",
+    "description": "educational crawler",
     "require": {
         "predis/predis": "^1.1",
         "guzzlehttp/guzzle": "^6.3",
