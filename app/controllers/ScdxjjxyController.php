@@ -75,13 +75,15 @@ class ScdxjjxyController extends ControllerBase
                 // cookies用户账号
                 $this->cookies->set('auth:scdxjjxy', json_encode(['xh' => $xh, 'mm' => $mm]), time() + 7 * 86400);
                 $this->cookies->send();
+
+                return $this->response->redirect('scdxjjxy/show');
             } else {
                 $this->flashSession->error($res['msg']);
-                return $this->response->redirect('czxy/index');
+                return $this->response->redirect('scdxjjxy/index');
             }
         } else {
             $this->flashSession->error('非法请求');
-            return $this->response->redirect('czxy/index');
+            return $this->response->redirect('scdxjjxy/index');
         }
     }
 
