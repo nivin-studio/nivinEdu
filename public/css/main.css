@@ -6,7 +6,7 @@ html {
 body {
     width: 100%;
     height: 100%;
-    background-color: #EFEEEE;
+    background-color: #ffffff;
 }
 
 .page {
@@ -28,11 +28,11 @@ body {
 }
 
 .weui-cells {
-    background-color: #EFEEEE;
+    background-color: #ffffff;
 }
 
 .weui-form {
-    background-color: #EFEEEE;
+    background-color: #ffffff;
 }
 
 .weui-form .weui-form__control-area {
@@ -98,7 +98,7 @@ body {
 }
 
 .weui-form-show {
-    background-color: #EFEEEE;
+    background-color: #ffffff;
     margin: 20px 20px;
 }
 
@@ -121,31 +121,31 @@ body {
 }
 
 .nivin-no-radius {
-    background-color: #EFEEEE;
+    background-color: #ffffff;
     border: 1px solid rgba(255, 255, 255, 0.20);
-    box-shadow: 6px 6px 16px 0 rgba(217, 210, 200, 0.51), -6px -6px 26px 0 rgba(255, 255, 255, 0.8);
+    box-shadow: 6px 6px 16px 0 rgba(217, 217, 217, 0.51), -6px -6px 26px 0 rgba(255, 255, 255, 0.8);
 }
 
 .nivin-inset {
-    background-color: #EFEEEE;
+    background-color: #ffffff;
     border: 1px solid rgba(255, 255, 255, 0.20);
     border-radius: 12px;
-    box-shadow: 6px 6px 16px 0 rgba(217, 210, 200, 0.8) inset, -6px -6px 16px 0 rgba(255, 255, 255, 0.51) inset;
+    box-shadow: 6px 6px 16px 0 rgba(217, 217, 217, 0.8) inset, -6px -6px 16px 0 rgba(255, 255, 255, 0.51) inset;
 }
 
 .nivin,
 .nivin-a {
-    background-color: #EFEEEE;
+    background-color: #ffffff;
     border: 1px solid rgba(255, 255, 255, 0.20);
     border-radius: 12px;
-    box-shadow: 6px 6px 16px 0 rgba(217, 210, 200, 0.51), -6px -6px 26px 0 rgba(255, 255, 255, 0.8);
+    box-shadow: 6px 6px 16px 0 rgba(217, 217, 217, 0.51), -6px -6px 26px 0 rgba(255, 255, 255, 0.8);
 }
 
 .nivin-a:focus {
-    background-color: #EFEEEE;
+    background-color: #ffffff;
     border: 1px solid rgba(255, 255, 255, 0.20);
     border-radius: 12px;
-    box-shadow: 6px 6px 16px 0 rgba(217, 210, 200, 0.8) inset, -6px -6px 16px 0 rgba(255, 255, 255, 0.51) inset;
+    box-shadow: 6px 6px 16px 0 rgba(217, 217, 217, 0.8) inset, -6px -6px 16px 0 rgba(255, 255, 255, 0.51) inset;
 }
 
 .alert {
