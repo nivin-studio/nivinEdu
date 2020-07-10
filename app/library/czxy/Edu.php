@@ -145,7 +145,7 @@ class Edu
 
         $response = $this->client->request('POST', self::$url['login'], $options);
 
-        return iconv('gb2312', 'UTF-8', $response->getBody());
+        return $this->parserLogin($response->getBody());
     }
 
     /**
@@ -271,6 +271,31 @@ class Edu
     }
 
     /**
+     * 解析登录
+     *
+     * @param  string           $html
+     * @return (int|string)[]
+     */
+    public function parserLogin($html)
+    {
+        $html = (string) iconv('gb2312', 'UTF-8', $html);
+
+        if (preg_match("/欢迎您/", $html)) {
+            return ['code' => 0, 'msg' => '登录成功！'];
+        } else if (preg_match("/验证码不正确/", $html)) {
+            return ['code' => -1, 'msg' => '验证码不正确！'];
+        } else if (preg_match("/密码错误/", $html)) {
+            return ['code' => -1, 'msg' => '密码错误！'];
+        } else if (preg_match("/用户名不存在/", $html)) {
+            return ['code' => -1, 'msg' => '用户名不存在！'];
+        } else if (preg_match("/您的密码安全性较低/", $html)) {
+            return ['code' => -1, 'msg' => '密码安全性低,登录官方教务修改！'];
+        } else {
+            return ['code' => -1, 'msg' => '登录错误,请稍后再试！'];
+        }
+    }
+
+    /**
      * 解析获取隐藏的__VIEWSTATE
      *
      * @param  string   $html
@@ -278,8 +303,12 @@ class Edu
      */
     public function parserViewState($html)
     {
-        $crawler = new Crawler((string) $html);
-        return $crawler->filterXPath('//input[@name="__VIEWSTATE"]')->attr('value');
+        try {
+            $crawler = new Crawler((string) $html);
+            return $crawler->filterXPath('//input[@name="__VIEWSTATE"]')->attr('value');
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**
@@ -290,23 +319,27 @@ class Edu
      */
     public function parserPersosInfo($html)
     {
-        $crawler = new Crawler((string) $html);
+        try {
+            $crawler = new Crawler((string) $html);
 
-        $info = [
-            'xh' => $crawler->filterXPath('//span[@id="xh"]')->html(),        //学号
-            'xm' => $crawler->filterXPath('//span[@id="xm"]')->html(),        //姓名
-            'xb' => $crawler->filterXPath('//span[@id="lbl_xb"]')->html(),    //性别
-            'sr' => $crawler->filterXPath('//span[@id="lbl_csrq"]')->html(),  //出生日期
-            'mz' => $crawler->filterXPath('//span[@id="lbl_mz"]')->html(),    //民族
-            'xl' => $crawler->filterXPath('//span[@id="lbl_CC"]')->html(),    //学历
-            'xy' => $crawler->filterXPath('//span[@id="lbl_xy"]')->html(),    //学院
-            'zy' => $crawler->filterXPath('//span[@id="lbl_zymc"]')->html(),  //专业
-            'bj' => $crawler->filterXPath('//span[@id="lbl_xzb"]')->html(),   //班级
-            'xz' => $crawler->filterXPath('//span[@id="lbl_xz"]')->html(),    //学制
-            'nj' => $crawler->filterXPath('//span[@id="lbl_dqszj"]')->html(), //年级
-        ];
+            $info = [
+                'xh' => $crawler->filterXPath('//span[@id="xh"]')->html(),        //学号
+                'xm' => $crawler->filterXPath('//span[@id="xm"]')->html(),        //姓名
+                'xb' => $crawler->filterXPath('//span[@id="lbl_xb"]')->html(),    //性别
+                'sr' => $crawler->filterXPath('//span[@id="lbl_csrq"]')->html(),  //出生日期
+                'mz' => $crawler->filterXPath('//span[@id="lbl_mz"]')->html(),    //民族
+                'xl' => $crawler->filterXPath('//span[@id="lbl_CC"]')->html(),    //学历
+                'xy' => $crawler->filterXPath('//span[@id="lbl_xy"]')->html(),    //学院
+                'zy' => $crawler->filterXPath('//span[@id="lbl_zymc"]')->html(),  //专业
+                'bj' => $crawler->filterXPath('//span[@id="lbl_xzb"]')->html(),   //班级
+                'xz' => $crawler->filterXPath('//span[@id="lbl_xz"]')->html(),    //学制
+                'nj' => $crawler->filterXPath('//span[@id="lbl_dqszj"]')->html(), //年级
+            ];
 
-        return $info;
+            return $info;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**
@@ -317,28 +350,32 @@ class Edu
      */
     public function parserGradesInfo($html)
     {
-        $crawler = new Crawler((string) $html);
-        $table   = $crawler->filterXPath('//table[@id="Datagrid1"]');
-        $nodes   = $table->children();
-        $data    = [];
+        try {
+            $crawler = new Crawler((string) $html);
+            $table   = $crawler->filterXPath('//table[@id="Datagrid1"]');
+            $nodes   = $table->children();
+            $data    = [];
 
-        foreach ($nodes as $i => $node) {
-            if ($i != 0) {
-                $node   = new Crawler($node);
-                $data[] = [
-                    'xn' => $node->filterXPath('//td[1]')->html(),
-                    'xq' => $node->filterXPath('//td[2]')->html(),
-                    'kc' => $node->filterXPath('//td[3]')->html(),
-                    'km' => $node->filterXPath('//td[4]')->html(),
-                    'kx' => $node->filterXPath('//td[5]')->html(),
-                    'xf' => $node->filterXPath('//td[7]')->html(),
-                    'jd' => $node->filterXPath('//td[8]')->html(),
-                    'cj' => $node->filterXPath('//td[9]')->html(),
-                ];
+            foreach ($nodes as $i => $node) {
+                if ($i != 0) {
+                    $node   = new Crawler($node);
+                    $data[] = [
+                        'xn' => $node->filterXPath('//td[1]')->html(),
+                        'xq' => $node->filterXPath('//td[2]')->html(),
+                        'kc' => $node->filterXPath('//td[3]')->html(),
+                        'km' => $node->filterXPath('//td[4]')->html(),
+                        'kx' => $node->filterXPath('//td[5]')->html(),
+                        'xf' => $node->filterXPath('//td[7]')->html(),
+                        'jd' => $node->filterXPath('//td[8]')->html(),
+                        'cj' => $node->filterXPath('//td[9]')->html(),
+                    ];
+                }
             }
-        }
 
-        return $data;
+            return $data;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**
@@ -349,11 +386,15 @@ class Edu
      */
     public function parserTablesInfo($html)
     {
-        $crawler = new Crawler((string) $html);
-        $table   = $crawler->filterXPath('//table[@id="Table6"]')->html();
+        try {
+            $crawler = new Crawler((string) $html);
+            $table   = $crawler->filterXPath('//table[@id="Table6"]')->html();
 
-        $result = '<table rules="all" border="1">' . $table . '</table>';
+            $result = '<table rules="all" border="1">' . $table . '</table>';
 
-        return $result;
+            return $result;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }

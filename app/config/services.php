@@ -2,6 +2,7 @@
 use Phalcon\Crypt;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Flash\Direct as FlashDirect;
+use Phalcon\Flash\Session as FlashSession;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response\Cookies;
 use Phalcon\Logger\Adapter\File as FileLogger;
@@ -55,6 +56,26 @@ $di->setShared('flash', function () {
     $flashDirect->setImplicitFlush(false);
 
     return $flashDirect;
+});
+
+/**
+ * 闪存消息
+ */
+$di->setShared('flashSession', function () {
+    $FlashSession = new FlashSession(
+        [
+            'error'   => 'alert alert-danger',
+            'success' => 'alert alert-success',
+            'notice'  => 'alert alert-info',
+            'warning' => 'alert alert-warning',
+        ]
+    );
+
+    $FlashSession->setAutoescape(true);
+    $FlashSession->setAutomaticHtml(true);
+    $FlashSession->setImplicitFlush(true);
+
+    return $FlashSession;
 });
 
 /**

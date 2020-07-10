@@ -10,10 +10,12 @@
 </head>
 
 <body>
+
+    {{ flashSession.output() }}
     <div class="page">
         <form action="{{ loginUrl }}" class="weui-form" method="POST">
             <div class="weui-form__text-area">
-                <h2 class="weui-form__title">登  录</h2>
+                <h2 class="weui-form__title">登 录</h2>
                 <div class="weui-form__desc">{{ school }}</div>
             </div>
             <div class="weui-form__control-area nivin">
@@ -38,7 +40,8 @@
                             </div>
                             <img class="vcode" src="{{ vccode }}">
                         </div>
-                        <input name="<?php echo $this->security->getTokenKey() ?>" type="hidden" value="<?php echo $this->security->getToken() ?>" />
+                        <input name="<?php echo $this->security->getTokenKey() ?>" type="hidden"
+                            value="<?php echo $this->security->getToken() ?>" />
                         <input name="uuid" type="hidden" value="{{ uuid }}" />
                     </div>
                 </div>

@@ -35,12 +35,12 @@ class ScdxjjxyController extends ControllerBase
 
     public function loginAction()
     {
-        if ($this->request->isPost() && $this->security->checkToken()) {
+        if (request()->isPost() && $this->security->checkToken()) {
 
-            $xh   = $this->R('xh', 'trim', '');
-            $mm   = $this->R('mm', 'trim', '');
-            $vm   = $this->R('vm', 'trim', '');
-            $uuid = $this->R('uuid', 'trim', '');
+            $xh   = request('xh', 'trim', '');
+            $mm   = request('mm', 'trim', '');
+            $vm   = request('vm', 'trim', '');
+            $uuid = request('uuid', 'trim', '');
 
             // 获取缓存cookie
             $cookie = $this->redis->get($uuid);

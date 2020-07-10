@@ -35,12 +35,12 @@ class CzxyController extends ControllerBase
 
     public function loginAction()
     {
-        if ($this->request->isPost() && $this->security->checkToken()) {
+        if (request()->isPost() && $this->security->checkToken()) {
 
-            $xh   = $this->R('xh', 'trim', '');
-            $mm   = $this->R('mm', 'trim', '');
-            $vm   = $this->R('vm', 'trim', '');
-            $uuid = $this->R('uuid', 'trim', '');
+            $xh   = request('xh', 'trim', '');
+            $mm   = request('mm', 'trim', '');
+            $vm   = request('vm', 'trim', '');
+            $uuid = request('uuid', 'trim', '');
 
             // 获取缓存cookie
             $cookie = $this->redis->get($uuid);
@@ -49,33 +49,39 @@ class CzxyController extends ControllerBase
             // 使用缓存cookie登录教务系统
             $edu = new Edu();
             $edu->setCookie($cookie);
-            $edu->login($xh, $mm, $vm);
+            $res = $edu->login($xh, $mm, $vm);
 
-            // 获取学生信息
-            $persos = $edu->getPersosInfo($xh);
-            // 获取成绩信息
-            $grades = $edu->getGradesInfo($xh);
-            // 获取课表信息
-            $tables = $edu->getTablesInfo($xh);
+            if ($res['code'] == 0) {
+                // 获取学生信息
+                $persos = $edu->getPersosInfo($xh);
+                // 获取成绩信息
+                $grades = $edu->getGradesInfo($xh);
+                // 获取课表信息
+                $tables = $edu->getTablesInfo($xh);
 
-            /**
-             *
-             * 数据落库
-             *
-             */
+                /**
+                 *
+                 * 数据落库
+                 *
+                 */
 
-            // 缓存学生信息
-            $this->redis->setex('edu:czxy:persos:' . $xh, 7 * 86400, json_encode($persos));
-            // 缓存成绩信息
-            $this->redis->setex('edu:czxy:grades:' . $xh, 7 * 86400, json_encode($grades));
-            // 缓存课表信息
-            $this->redis->setex('edu:czxy:tables:' . $xh, 7 * 86400, json_encode($tables));
-            // cookies用户账号
-            $this->cookies->set('auth:czxy', json_encode(['xh' => $xh, 'mm' => $mm]), time() + 7 * 86400);
-            $this->cookies->send();
+                // 缓存学生信息
+                $this->redis->setex('edu:czxy:persos:' . $xh, 7 * 86400, json_encode($persos));
+                // 缓存成绩信息
+                $this->redis->setex('edu:czxy:grades:' . $xh, 7 * 86400, json_encode($grades));
+                // 缓存课表信息
+                $this->redis->setex('edu:czxy:tables:' . $xh, 7 * 86400, json_encode($tables));
+                // cookies用户账号
+                $this->cookies->set('auth:czxy', json_encode(['xh' => $xh, 'mm' => $mm]), time() + 7 * 86400);
+                $this->cookies->send();
 
-            return $this->response->redirect('czxy/show');
+                return $this->response->redirect('czxy/show');
+            } else {
+                $this->flashSession->error($res['msg']);
+                return $this->response->redirect('czxy/index');
+            }
         } else {
+            $this->flashSession->error('非法请求');
             return $this->response->redirect('czxy/index');
         }
     }
