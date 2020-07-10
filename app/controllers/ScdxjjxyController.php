@@ -11,10 +11,10 @@ class ScdxjjxyController extends ControllerBase
 
     public function indexAction()
     {
-        // // 用户是否登录过
-        // if ($this->cookies->has('auth:scdxjjxy')) {
-        //     return $this->response->redirect('scdxjjxy/show');
-        // }
+        // 用户是否登录过
+        if ($this->cookies->has('auth:scdxjjxy')) {
+            return $this->response->redirect('scdxjjxy/show');
+        }
 
         $edu = new Edu();
         // 获取cookie
@@ -49,34 +49,39 @@ class ScdxjjxyController extends ControllerBase
             // 使用缓存cookie登录教务系统
             $edu = new Edu();
             $edu->setCookie($cookie);
-            $edu->login($xh, $mm, $vm);
+            $res = $edu->login($xh, $mm, $vm);
 
-            // 获取学生信息
-            $persos = $edu->getPersosInfo($xh);
-            // 获取成绩信息
-            $grades = $edu->getGradesInfo($xh);
-            // 获取课表信息
-            $tables = $edu->getTablesInfo($xh);
+            if ($res['code'] == 0) {
 
-            /**
-             *
-             * 数据落库
-             *
-             */
+                // 获取学生信息
+                $persos = $edu->getPersosInfo($xh);
+                // 获取成绩信息
+                $grades = $edu->getGradesInfo($xh);
+                // 获取课表信息
+                $tables = $edu->getTablesInfo($xh);
 
-            // 缓存学生信息
-            $this->redis->setex('edu:scdxjjxy:persos:' . $xh, 7 * 86400, json_encode($persos));
-            // 缓存成绩信息
-            $this->redis->setex('edu:scdxjjxy:grades:' . $xh, 7 * 86400, json_encode($grades));
-            // 缓存课表信息
-            $this->redis->setex('edu:scdxjjxy:tables:' . $xh, 7 * 86400, json_encode($tables));
-            // cookies用户账号
-            $this->cookies->set('auth:scdxjjxy', json_encode(['xh' => $xh, 'mm' => $mm]), time() + 7 * 86400);
-            $this->cookies->send();
+                /**
+                 *
+                 * 数据落库
+                 *
+                 */
 
-            return $this->response->redirect('scdxjjxy/show');
+                // 缓存学生信息
+                $this->redis->setex('edu:scdxjjxy:persos:' . $xh, 7 * 86400, json_encode($persos));
+                // 缓存成绩信息
+                $this->redis->setex('edu:scdxjjxy:grades:' . $xh, 7 * 86400, json_encode($grades));
+                // 缓存课表信息
+                $this->redis->setex('edu:scdxjjxy:tables:' . $xh, 7 * 86400, json_encode($tables));
+                // cookies用户账号
+                $this->cookies->set('auth:scdxjjxy', json_encode(['xh' => $xh, 'mm' => $mm]), time() + 7 * 86400);
+                $this->cookies->send();
+            } else {
+                $this->flashSession->error($res['msg']);
+                return $this->response->redirect('czxy/index');
+            }
         } else {
-            return $this->response->redirect('scdxjjxy/index');
+            $this->flashSession->error('非法请求');
+            return $this->response->redirect('czxy/index');
         }
     }
 

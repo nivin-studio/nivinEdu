@@ -146,7 +146,7 @@ class Edu
 
         $response = $this->client->request('POST', self::$url['login'], $options);
 
-        return iconv('gb2312', 'UTF-8', $response->getBody());
+        return $this->parserLogin($response->getBody());
     }
 
     /**
@@ -279,6 +279,31 @@ class Edu
     }
 
     /**
+     * 解析登录
+     *
+     * @param  string           $html
+     * @return (int|string)[]
+     */
+    public function parserLogin($html)
+    {
+        $html = (string) iconv('gb2312', 'UTF-8', $html);
+
+        if (preg_match("/欢迎您/", $html)) {
+            return ['code' => 0, 'msg' => '登录成功！'];
+        } else if (preg_match("/验证码不正确/", $html)) {
+            return ['code' => -1, 'msg' => '验证码不正确！'];
+        } else if (preg_match("/密码错误/", $html)) {
+            return ['code' => -1, 'msg' => '密码错误！'];
+        } else if (preg_match("/用户名不存在/", $html)) {
+            return ['code' => -1, 'msg' => '用户名不存在！'];
+        } else if (preg_match("/您的密码安全性较低/", $html)) {
+            return ['code' => -1, 'msg' => '密码安全性低,登录官方教务修改！'];
+        } else {
+            return ['code' => -1, 'msg' => '登录错误,请稍后再试！'];
+        }
+    }
+
+    /**
      * 解析获取隐藏的__VIEWSTATE
      *
      *
@@ -292,7 +317,7 @@ class Edu
 
             return $crawler->filterXPath('//input[@name="__VIEWSTATE"]')->attr('value');
         } catch (\Exception $e) {
-            return '';
+            return false;
         }
     }
 
@@ -324,7 +349,7 @@ class Edu
 
             return $info;
         } catch (\Exception $e) {
-            return [];
+            return false;
         }
     }
 
@@ -361,7 +386,7 @@ class Edu
 
             return $data;
         } catch (\Exception $e) {
-            return [];
+            return false;
         }
     }
 
@@ -382,7 +407,7 @@ class Edu
 
             return $result;
         } catch (\Exception $e) {
-            return '';
+            return false;
         }
     }
 }
