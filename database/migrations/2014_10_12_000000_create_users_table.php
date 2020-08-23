@@ -15,7 +15,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('school_id', 10)->default(0)->comment('学校');
+            $table->unsignedInteger('school_id', 10)->default(0)->comment('学校');
             $table->string('xh', 20)->default('')->comment('学号');
             $table->string('mm', 50)->default('')->comment('密码');
             $table->string('xm', 10)->default('')->comment('姓名');
