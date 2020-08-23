@@ -22,15 +22,19 @@ class AdminTablesSeeder extends Seeder
         Administrator::create([
             'username'   => 'admin',
             'password'   => bcrypt('admin'),
-            'name'       => 'Administrator',
+            'name'       => '超级管理员',
             'created_at' => $createdAt,
         ]);
 
         // create a role.
         Role::truncate();
         Role::create([
-            'name'       => 'Administrator',
+            'name'       => '超级管理员',
             'slug'       => Role::ADMINISTRATOR,
+            'created_at' => $createdAt,
+        ], [
+            'name'       => '学校管理员',
+            'slug'       => 'general',
             'created_at' => $createdAt,
         ]);
 
@@ -42,7 +46,7 @@ class AdminTablesSeeder extends Seeder
         Permission::insert([
             [
                 'id'          => 1,
-                'name'        => 'Auth management',
+                'name'        => '授权管理',
                 'slug'        => 'auth-management',
                 'http_method' => '',
                 'http_path'   => '',
@@ -52,7 +56,7 @@ class AdminTablesSeeder extends Seeder
             ],
             [
                 'id'          => 2,
-                'name'        => 'Users',
+                'name'        => '管理用户',
                 'slug'        => 'users',
                 'http_method' => '',
                 'http_path'   => '/auth/users*',
@@ -62,7 +66,7 @@ class AdminTablesSeeder extends Seeder
             ],
             [
                 'id'          => 3,
-                'name'        => 'Roles',
+                'name'        => '角色',
                 'slug'        => 'roles',
                 'http_method' => '',
                 'http_path'   => '/auth/roles*',
@@ -72,7 +76,7 @@ class AdminTablesSeeder extends Seeder
             ],
             [
                 'id'          => 4,
-                'name'        => 'Permissions',
+                'name'        => '权限',
                 'slug'        => 'permissions',
                 'http_method' => '',
                 'http_path'   => '/auth/permissions*',
@@ -82,7 +86,7 @@ class AdminTablesSeeder extends Seeder
             ],
             [
                 'id'          => 5,
-                'name'        => 'Menu',
+                'name'        => '菜单',
                 'slug'        => 'menu',
                 'http_method' => '',
                 'http_path'   => '/auth/menu*',
@@ -92,7 +96,7 @@ class AdminTablesSeeder extends Seeder
             ],
             [
                 'id'          => 6,
-                'name'        => 'Operation log',
+                'name'        => '操作日志',
                 'slug'        => 'operation-log',
                 'http_method' => '',
                 'http_path'   => '/auth/logs*',
@@ -111,7 +115,7 @@ class AdminTablesSeeder extends Seeder
             [
                 'parent_id'  => 0,
                 'order'      => 1,
-                'title'      => 'Index',
+                'title'      => '主页',
                 'icon'       => 'feather icon-bar-chart-2',
                 'uri'        => '/',
                 'created_at' => $createdAt,
@@ -119,47 +123,79 @@ class AdminTablesSeeder extends Seeder
             [
                 'parent_id'  => 0,
                 'order'      => 2,
-                'title'      => 'Admin',
+                'title'      => '学校',
+                'icon'       => 'feather icon-home',
+                'uri'        => '/schcool',
+                'created_at' => $createdAt,
+            ],
+            [
+                'parent_id'  => 0,
+                'order'      => 3,
+                'title'      => '学生',
+                'icon'       => 'feather icon-users',
+                'uri'        => '/user',
+                'created_at' => $createdAt,
+            ],
+            [
+                'parent_id'  => 0,
+                'order'      => 4,
+                'title'      => '成绩',
+                'icon'       => 'feather icon-slack',
+                'uri'        => '/grade',
+                'created_at' => $createdAt,
+            ],
+            [
+                'parent_id'  => 0,
+                'order'      => 5,
+                'title'      => '系统',
                 'icon'       => 'feather icon-settings',
                 'uri'        => '',
                 'created_at' => $createdAt,
             ],
             [
-                'parent_id'  => 2,
-                'order'      => 3,
-                'title'      => 'Users',
+                'parent_id'  => 5,
+                'order'      => 6,
+                'title'      => '信息',
+                'icon'       => '',
+                'uri'        => '/system/info',
+                'created_at' => $createdAt,
+            ],
+            [
+                'parent_id'  => 5,
+                'order'      => 7,
+                'title'      => '管理员用户',
                 'icon'       => '',
                 'uri'        => 'auth/users',
                 'created_at' => $createdAt,
             ],
             [
-                'parent_id'  => 2,
-                'order'      => 4,
-                'title'      => 'Roles',
+                'parent_id'  => 5,
+                'order'      => 8,
+                'title'      => '角色',
                 'icon'       => '',
                 'uri'        => 'auth/roles',
                 'created_at' => $createdAt,
             ],
             [
-                'parent_id'  => 2,
-                'order'      => 5,
-                'title'      => 'Permission',
+                'parent_id'  => 5,
+                'order'      => 9,
+                'title'      => '权限',
                 'icon'       => '',
                 'uri'        => 'auth/permissions',
                 'created_at' => $createdAt,
             ],
             [
-                'parent_id'  => 2,
-                'order'      => 6,
-                'title'      => 'Menu',
+                'parent_id'  => 5,
+                'order'      => 10,
+                'title'      => '菜单',
                 'icon'       => '',
                 'uri'        => 'auth/menu',
                 'created_at' => $createdAt,
             ],
             [
-                'parent_id'  => 2,
-                'order'      => 7,
-                'title'      => 'Operation log',
+                'parent_id'  => 5,
+                'order'      => 11,
+                'title'      => '操作日志',
                 'icon'       => '',
                 'uri'        => 'auth/logs',
                 'created_at' => $createdAt,
