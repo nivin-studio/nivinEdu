@@ -7,7 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use Symfony\Component\DomCrawler\Crawler;
 
-class Xnkjdx implements EduInterface
+class Xnkjdxcsxy implements EduInterface
 {
     /**
      * 相关网络地址
