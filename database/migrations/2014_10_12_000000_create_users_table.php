@@ -32,6 +32,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
             // 添加索引
+            $table->index('school_id');
             $table->index('xh');
             $table->index('xm');
             $table->index('sf');

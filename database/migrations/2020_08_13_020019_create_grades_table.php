@@ -28,7 +28,7 @@ class CreateGradesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             // 添加索引
-            $table->index('xx');
+            $table->index('school_id');
             $table->index('xh');
             $table->index('created_at');
             $table->index('updated_at');
