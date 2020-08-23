@@ -15,7 +15,7 @@ class CreateGradesTable extends Migration
     {
         Schema::create('grades', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('school_id', 10)->default(0)->comment('学校');
+            $table->unsignedInteger('school_id')->default(0)->comment('学校');
             $table->string('xh', 20)->default('')->comment('学号');
             $table->string('xn', 30)->default('')->comment('学年');
             $table->unsignedTinyInteger('xq')->default(0)->comment('学期');

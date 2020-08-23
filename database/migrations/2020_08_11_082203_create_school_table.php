@@ -15,7 +15,7 @@ class CreateSchoolTable extends Migration
     {
         Schema::create('school', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('admin_id', 10)->default(0)->comment('管理员用户');
+            $table->unsignedInteger('admin_id')->default(0)->comment('管理员用户');
             $table->string('name', 50)->default('')->comment('学校名称');
             $table->string('icon', 255)->default('')->comment('学校图标');
             $table->unsignedTinyInteger('type')->default(0)->comment('教务平台');
