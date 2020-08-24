@@ -22,7 +22,7 @@
 
 <body>
     <div class="preloader">
-        <img src="{{ URL::asset('index/images/loader.png') }}" height="100" class="preloader__image" alt="">
+        <img src="{{ URL::asset('index/images/logo.png') }}" height="100" class="preloader__image" alt="">
     </div><!-- /.preloader -->
     <div class="page-wrapper">
         <header class="site-header-one stricky site-header-one__fixed-top">
