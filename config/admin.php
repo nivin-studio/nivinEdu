@@ -22,7 +22,7 @@ return [
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
      */
-    'logo' => '<img src="/vendors/dcat-admin/images/logo.png" width="35"> &nbsp;拟物校园',
+    'logo' => '<img src="/vendors/dcat-admin/images/logo.png" width="45">',
 
     /*
     |--------------------------------------------------------------------------
@@ -44,7 +44,7 @@ return [
     | Set a default avatar for newly created users.
     |
      */
-    'default_avatar' => '@admin/images/default-avatar.jpg',
+    'default_avatar' => '@admin/images/default-avatar.png',
 
     /*
     |--------------------------------------------------------------------------

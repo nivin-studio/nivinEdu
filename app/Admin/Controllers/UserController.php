@@ -36,7 +36,9 @@ class UserController extends AdminController
             $grid->xh;
             $grid->mm;
             $grid->xm;
-            $grid->sf;
+            $grid->column('sf')->display(function ($text) {
+                return substr_replace($text, '****', -4);
+            });
             $grid->xb->using([
                 1 => '男',
                 2 => '女',

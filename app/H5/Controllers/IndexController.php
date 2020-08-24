@@ -22,7 +22,7 @@ class IndexController extends Controller
      */
     public function index()
     {
-        $schools = School::all();
+        $schools = School::where('state', 3)->get();
         return view('h5.index', ['schools' => $schools]);
     }
 

@@ -39,7 +39,9 @@ class SchoolController extends AdminController
             ]);
             $grid->edu_url;
             $grid->edu_xh;
-            $grid->edu_mm;
+            $grid->column('edu_mm')->display(function ($text) {
+                return '******';
+            });
             $grid->state->using([
                 1 => '未开发',
                 2 => '开发中',
