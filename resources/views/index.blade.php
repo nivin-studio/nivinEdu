@@ -64,7 +64,7 @@
                                 <i class="piloz-lamp"></i>
                             </div>
                             <div class="banner-icon-2">
-                                <i class="piloz-linked"></i>
+                                <i class="piloz-shield"></i>
                             </div>
                             <div class="banner-icon-3">
                                 <i class="piloz-human-resources"></i>
@@ -97,7 +97,7 @@
                         <div class="service-one__single">
                             <div class="service-icon icon-bg-2">
                                 <div class="icon-box icon-box-bg-2">
-                                    <i class="piloz-shield"></i>
+                                    <i class="piloz-linked"></i>
                                 </div>
                             </div>
                             <div class="text">
