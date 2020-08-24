@@ -44,6 +44,14 @@ php artisan migrate
 php artisan db:seed
 ```
 
+- 运行访问
+
+```text
+前台地址：http://127.0.0.1/
+
+后台地址：http://127.0.0.1/admin  账号：admin 密码：admin
+```
+
 ## 鸣谢
 + [Laravel](https://laravel.com/)
 + [Dact Admin](http://www.dcatadmin.com/)
