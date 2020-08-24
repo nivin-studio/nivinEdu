@@ -20,10 +20,28 @@
 
 ## 安装使用
 
-- 依赖安装
+- 安装依赖
 
 ```bash
 composer install
+```
+
+- 创建配置，在.env中添加数据库配置
+
+```bash
+composer run-script create-config
+```
+
+- 运行Migrate，创建数据表
+
+```bash
+php artisan migrate
+```
+
+- 运行Seeders，导入初始数据
+
+```bash
+php artisan db:seed
 ```
 
 ## 鸣谢
