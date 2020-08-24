@@ -12,7 +12,7 @@ Route::group([
     'middleware' => config('admin.route.middleware'),
 ], function (Router $router) {
 
-    $router->get('/', 'HomeController@index');
+    $router->get('/', 'HomeController@index')->name('admin.index');
     $router->get('/system/info', 'SystemController@info');
 
     $router->resource('/schcool', 'SchoolController');

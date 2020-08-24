@@ -11,6 +11,9 @@
 |
  */
 
+use App\Models\School;
+
 Route::get('/', function () {
-    return redirect()->route('h5.index');
+    $schools = School::limit(10)->get();
+    return view('index', ['schools' => $schools]);
 });
