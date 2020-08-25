@@ -7,7 +7,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use Symfony\Component\DomCrawler\Crawler;
 
-class Xnkjdxcsxy implements EduInterface
+class Llxy implements EduInterface
 {
     /**
      * 相关网络地址
@@ -15,20 +15,20 @@ class Xnkjdxcsxy implements EduInterface
      * @var array
      */
     private static $url = [
-        'base'        => 'http://jwgl.ccswust.edu.cn', //根域名
-        'home'        => '/home.aspx',                 //首页，获取Cookie
-        'code'        => '/sys/ValidateCode.aspx',     //验证码
-        'login'       => '/_data/login_home.aspx',     //登录
-        'main'        => '/MAINFRM.aspx',              //登录后的主页
-        'menu'        => '/SYS/menu.aspx',             //侧边菜单
-        'persos_get'  => '/xsxj/Stu_MyInfo.aspx',      //个人信息
-        'persos_post' => '/xsxj/Stu_MyInfo_RPT.aspx',  //获取个人信息
-        'grades_get'  => '/xscj/Stu_cjfb.aspx',        //成绩
-        'grades_post' => '/xscj/Stu_cjfb_rpt.aspx',    //获取成绩
-        'grades_img'  => '/xscj/',                     //成绩图片根路径
-        'tables_get'  => '/znpk/Pri_StuSel.aspx',      //课表
-        'tables_post' => '/znpk/Pri_StuSel_rpt.aspx',  //获取课表
-        'tables_img'  => '/znpk/',                     //课表图片根路径
+        'base'        => 'http://jwgl.llhc.edu.cn:8003', //根域名
+        'home'        => '/home.aspx',                   //首页，获取Cookie
+        'code'        => '/sys/ValidateCode.aspx',       //验证码
+        'login'       => '/_data/login_home.aspx',       //登录
+        'main'        => '/MAINFRM.aspx',                //登录后的主页
+        'menu'        => '/SYS/menu.aspx',               //侧边菜单
+        'persos_get'  => '/xsxj/Stu_MyInfo.aspx',        //个人信息
+        'persos_post' => '/xsxj/Stu_MyInfo_RPT.aspx',    //获取个人信息
+        'grades_get'  => '/xscj/Stu_cjfb.aspx',          //成绩
+        'grades_post' => '/xscj/Stu_cjfb_rpt.aspx',      //获取成绩
+        'grades_img'  => '/xscj/',                       //成绩图片根路径
+        'tables_get'  => '/znpk/Pri_StuSel.aspx',        //课表
+        'tables_post' => '/znpk/Pri_StuSel_rpt.aspx',    //获取课表
+        'tables_img'  => '/znpk/',                       //课表图片根路径
     ];
 
     /**
@@ -140,7 +140,8 @@ class Xnkjdxcsxy implements EduInterface
             'form_params' => [
                 '__VIEWSTATE'              => $value['__VIEWSTATE'],
                 '__EVENTVALIDATION'        => $value['__EVENTVALIDATION'],
-                'pcInfo'                   => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36undefined5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36 SN:NULL',
+                '__VIEWSTATEGENERATOR'     => $value['__VIEWSTATEGENERATOR'],
+                'pcInfo'                   => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36undefined5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36 SN:NULL',
                 'txt_mm_expression'        => $value['txt_mm_expression'],
                 'txt_mm_length'            => $value['txt_mm_length'],
                 'txt_mm_userzh'            => $value['txt_mm_userzh'],
@@ -350,6 +351,8 @@ class Xnkjdxcsxy implements EduInterface
 
         if (preg_match("/您在别处的登录已下线/", $html)) {
             return ['code' => 0, 'msg' => '登录成功！'];
+        } else if (preg_match("/MAINFRM/", $html)) {
+            return ['code' => 0, 'msg' => '登录成功！'];
         } else if (preg_match("/验证码不正确/", $html)) {
             return ['code' => -1, 'msg' => '验证码不正确！'];
         } else if (preg_match("/密码错误/", $html)) {
@@ -482,6 +485,7 @@ class Xnkjdxcsxy implements EduInterface
         $value = [
             '__VIEWSTATE'          => $crawler->filterXPath('//input[@name="__VIEWSTATE"]')->attr('value'),
             '__EVENTVALIDATION'    => $crawler->filterXPath('//input[@name="__EVENTVALIDATION"]')->attr('value'),
+            '__VIEWSTATEGENERATOR' => $crawler->filterXPath('//input[@name="__VIEWSTATEGENERATOR"]')->attr('value'),
             'txt_mm_expression'    => $crawler->filterXPath('//input[@name="txt_mm_expression"]')->attr('value'),
             'txt_mm_length'        => $crawler->filterXPath('//input[@name="txt_mm_length"]')->attr('value'),
             'txt_mm_userzh'        => $crawler->filterXPath('//input[@name="txt_mm_userzh"]')->attr('value'),
@@ -544,7 +548,7 @@ class Xnkjdxcsxy implements EduInterface
      */
     public function generateEncryptValue($plaintext, $assist = '')
     {
-        return strtoupper(substr(md5($assist . strtoupper(substr(md5($plaintext), 0, 30)) . '14045'), 0, 30));
+        return strtoupper(substr(md5($assist . strtoupper(substr(md5($plaintext), 0, 30)) . '10812'), 0, 30));
     }
 
     /**
