@@ -17,6 +17,7 @@
 ### 青果教务
 
 - :white_check_mark: 西南科技大学
+- :white_check_mark: 吕梁学院
 
 ## 安装使用
 
