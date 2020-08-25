@@ -23,8 +23,8 @@ class Xnkjdxcsxy implements EduInterface
         'menu'        => '/SYS/menu.aspx',             //侧边菜单
         'persos_get'  => '/xsxj/Stu_MyInfo.aspx',      //个人信息
         'persos_post' => '/xsxj/Stu_MyInfo_RPT.aspx',  //获取个人信息
-        'grades_get'  => '/xscj/Stu_MyScore.aspx',     //成绩
-        'grades_post' => '/xscj/Stu_MyScore_rpt.aspx', //获取成绩
+        'grades_get'  => '/xscj/Stu_cjfb.aspx',        //成绩
+        'grades_post' => '/xscj/Stu_cjfb_rpt.aspx',    //获取成绩
         'grades_img'  => '/xscj/',                     //成绩图片根路径
         'tables_get'  => '/znpk/Pri_StuSel.aspx',      //课表
         'tables_post' => '/znpk/Pri_StuSel_rpt.aspx',  //获取课表
@@ -158,7 +158,7 @@ class Xnkjdxcsxy implements EduInterface
 
         $response = $this->client->request('POST', self::$url['login'], $options);
 
-        return iconv('gb2312', 'UTF-8', $response->getBody());
+        return $this->parserLoginInfo($response->getBody());
     }
 
     /**
@@ -218,13 +218,8 @@ class Xnkjdxcsxy implements EduInterface
                 'Referer'    => self::$url['grades_get'],
             ],
             'form_params' => [
-                'SJ'             => '0',
-                'btn_search'     => urlencode(iconv('UTF-8', 'gb2312', '检索')),
-                'SelXNXQ'        => '0',
-                'zfx_flag'       => '0',
-                'shownocomputjd' => '1',
-                'zxf'            => '0',
-                'hidparam_xh'    => '',
+                'SelXNXQ' => '0',
+                'submit'  => urlencode(iconv('UTF-8', 'gb2312', '检索')),
             ],
         ];
 
@@ -351,7 +346,21 @@ class Xnkjdxcsxy implements EduInterface
      */
     public function parserLoginInfo($html)
     {
+        $html = (string) iconv('gb2312', 'UTF-8', $html);
 
+        if (preg_match("/您在别处的登录已下线/", $html)) {
+            return ['code' => 0, 'msg' => '登录成功！'];
+        } else if (preg_match("/验证码不正确/", $html)) {
+            return ['code' => -1, 'msg' => '验证码不正确！'];
+        } else if (preg_match("/密码错误/", $html)) {
+            return ['code' => -1, 'msg' => '密码错误！'];
+        } else if (preg_match("/用户名不存在/", $html)) {
+            return ['code' => -1, 'msg' => '用户名不存在！'];
+        } else if (preg_match("/您的密码安全性较低/", $html)) {
+            return ['code' => -1, 'msg' => '密码安全性低,登录官方教务修改！'];
+        } else {
+            return ['code' => -1, 'msg' => '登录错误,请稍后再试！'];
+        }
     }
 
     /**
@@ -368,6 +377,7 @@ class Xnkjdxcsxy implements EduInterface
             'xh' => $crawler->filterXPath('//table/tr[2]/td[2]')->text(),  //学号
             'xm' => $crawler->filterXPath('//table/tr[2]/td[4]')->text(),  //姓名
             'xb' => $crawler->filterXPath('//table/tr[4]/td[2]')->text(),  //性别
+            'sf' => $crawler->filterXPath('//table/tr[4]/td[4]')->text(),  //身份证
             'sr' => $crawler->filterXPath('//table/tr[5]/td[2]')->text(),  //出生日期
             'mz' => $crawler->filterXPath('//table/tr[5]/td[4]')->text(),  //民族
             'xl' => $crawler->filterXPath('//table/tr[22]/td[6]')->text(), //学历
@@ -389,11 +399,56 @@ class Xnkjdxcsxy implements EduInterface
      */
     public function parserGradesInfo($html)
     {
-        $crawler = new Crawler((string) $html);
+        try {
+            $crawler = new Crawler((string) iconv('gb2312', 'UTF-8', $html));
+            $table   = $crawler->filterXPath('//table[@id="ID_Table"]');
+            $nodes   = $table->children();
+            $leng    = count($nodes);
+            $data    = [];
 
-        return $crawler->filterXPath('//img')->each(function (Crawler $nodeCrawler, $i) {
-            return $this->getGradesImages($nodeCrawler->attr('src'));
-        });
+            $tempXn = '';
+            $tempXq = '';
+            $tempKh = '';
+            $tempKm = '';
+
+            foreach ($nodes as $i => $node) {
+                // 排除最后两行
+                if ($i >= $leng - 2) {
+                    break;
+                }
+                $node = new Crawler($node);
+                // 处理学年学期
+                $oneTd = $node->filterXPath('//td[1]')->text();
+                if (!empty($oneTd)) {
+                    $oneSt = str_replace(['一', '二'], [1, 2], $oneTd);
+                    $isOk  = preg_match('/(?P<xn>\d{4}-\d{4})学年第(?P<xq>\d{1})学期/', $oneSt, $match);
+                    if ($isOk) {
+                        $tempXn = $match['xn'];
+                        $tempXq = $match['xq'];
+                    }
+                }
+                // 处理课号课名
+                $twoTd  = $node->filterXPath('//td[2]')->text();
+                $twoSt  = explode(']', $twoTd);
+                $tempKh = substr($twoSt[0], 1);
+                $tempKm = $twoSt[1];
+
+                $data[] = [
+                    'xn' => $tempXn,
+                    'xq' => $tempXq,
+                    'kh' => $tempKh,
+                    'km' => $tempKm,
+                    'kx' => $node->filterXPath('//td[4]')->text(),
+                    'xf' => $node->filterXPath('//td[3]')->text(),
+                    'jd' => 0,
+                    'cj' => $node->filterXPath('//td[12]')->text(),
+                ];
+            }
+
+            return $data;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**
