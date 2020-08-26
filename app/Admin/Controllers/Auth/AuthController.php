@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Admin\Controllers;
+namespace App\Admin\Controllers\Auth;
 
 use Dcat\Admin\Controllers\AuthController as BaseAuthController;
 
