@@ -40,6 +40,6 @@ Route::group([
         $router->resource('/schcool', 'SchoolController');
         $router->resource('/user', 'UserController');
         $router->resource('/grade', 'GradeController');
-
+        $router->resource('/task', 'TaskController');
     });
 });
