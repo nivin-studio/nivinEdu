@@ -8,6 +8,7 @@ use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Show;
+use Illuminate\Support\Facades\Artisan;
 
 class TaskController extends AdminController
 {
@@ -28,12 +29,39 @@ class TaskController extends AdminController
             $grid->column('id')->sortable();
             $grid->column('command', '命令');
             $grid->column('description', '描述');
-            $grid->column('parameters', '参数');
             $grid->column('expression', '时间表达式');
-            $grid->column('state', '状态');
-            $grid->column('dont_overlap', '避免重复');
-            $grid->column('run_in_maintenance', '维护模式');
+            $grid->column('parameters', '参数');
             $grid->column('notification_email_address', '通知邮件地址');
+            $grid->column('state', '状态')->using([
+                0 => '未开启',
+                1 => '已开启',
+            ])->dot(
+                [
+                    0 => 'gray',
+                    1 => 'success',
+                ],
+                'gray'
+            );
+            $grid->column('dont_overlap', '避免重复')->using([
+                0 => '未开启',
+                1 => '已开启',
+            ])->dot(
+                [
+                    0 => 'gray',
+                    1 => 'success',
+                ],
+                'gray'
+            );
+            $grid->column('run_in_maintenance', '维护模式')->using([
+                0 => '未开启',
+                1 => '已开启',
+            ])->dot(
+                [
+                    0 => 'gray',
+                    1 => 'success',
+                ],
+                'gray'
+            );
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
 
@@ -54,14 +82,41 @@ class TaskController extends AdminController
     {
         return Show::make($id, new Task(), function (Show $show) {
             $show->field('id');
-            $show->column('command', '命令');
-            $show->column('description', '描述');
-            $show->column('parameters', '参数');
-            $show->column('expression', '时间表达式');
-            $show->column('state', '状态');
-            $show->column('dont_overlap', '避免重复执行');
-            $show->column('run_in_maintenance', '维护也需执行');
-            $show->column('notification_email_address', '通知邮件地址');
+            $show->field('command', '命令');
+            $show->field('description', '描述');
+            $show->field('expression', '时间表达式');
+            $show->field('parameters', '参数');
+            $show->field('notification_email_address', '通知邮件地址');
+            $show->field('state', '状态')->using([
+                0 => '未开启',
+                1 => '已开启',
+            ])->dot(
+                [
+                    0 => 'gray',
+                    1 => 'success',
+                ],
+                'gray'
+            );
+            $show->field('dont_overlap', '避免重复执行')->using([
+                0 => '未开启',
+                1 => '已开启',
+            ])->dot(
+                [
+                    0 => 'gray',
+                    1 => 'success',
+                ],
+                'gray'
+            );
+            $show->field('run_in_maintenance', '维护也需执行')->using([
+                0 => '未开启',
+                1 => '已开启',
+            ])->dot(
+                [
+                    0 => 'gray',
+                    1 => 'success',
+                ],
+                'gray'
+            );
             $show->field('created_at');
             $show->field('updated_at');
         });
@@ -75,15 +130,17 @@ class TaskController extends AdminController
     protected function form()
     {
         return Form::make(new Task(), function (Form $form) {
+            $commands = array_keys(Artisan::all());
+
             $form->display('id');
-            $form->text('command', '命令');
+            $form->select('command', '命令')->options(array_combine($commands, $commands));
             $form->text('description', '描述');
-            $form->text('parameters', '参数');
             $form->text('expression', '时间表达式');
+            $form->text('parameters', '参数');
+            $form->text('notification_email_address', '通知邮件地址');
             $form->switch('state', '状态');
             $form->switch('dont_overlap', '避免重复执行');
             $form->switch('run_in_maintenance', '维护也需执行');
-            $form->text('notification_email_address', '通知邮件地址');
             $form->display('created_at');
             $form->display('updated_at');
         });
