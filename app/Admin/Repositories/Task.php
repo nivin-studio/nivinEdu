@@ -13,4 +13,24 @@ class Task extends EloquentRepository
      * @var string
      */
     protected $eloquentClass = Model::class;
+
+    /**
+     * 获取所有开启的任务
+     * @return mixed
+     */
+    public function findAllActive()
+    {
+        return $this->findAll()->filter(function ($task) {
+            return $task->is_active;
+        });
+    }
+
+    /**
+     * 获取所有任务
+     * @return mixed
+     */
+    public function findAll()
+    {
+        return $this->model->all();
+    }
 }
