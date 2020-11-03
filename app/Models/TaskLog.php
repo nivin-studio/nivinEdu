@@ -9,6 +9,13 @@ class TaskLog extends Model
 {
     protected $table = 'task_logs';
 
+    protected $fillable = [
+        'id',
+        'task_id',
+        'duration',
+        'content',
+    ];
+
     /**
      * 任务关系
      *

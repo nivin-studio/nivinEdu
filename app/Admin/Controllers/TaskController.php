@@ -15,7 +15,7 @@ class TaskController extends AdminController
     public function index(Content $content)
     {
         return $content
-            ->header('定时任务')
+            ->header('任务')
             ->body($this->grid());
     }
     /**
@@ -62,12 +62,16 @@ class TaskController extends AdminController
                 ],
                 'gray'
             );
+
+            $grid->actions(function (Grid\Displayers\Actions $actions) {
+                $actions->append('<a href="' . admin_url('taskLog/?task_id=' . $this->id) . '"><i class="fa fa-inbox"></i> 日志</a>');
+
+            });
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
 
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
-
             });
         });
     }

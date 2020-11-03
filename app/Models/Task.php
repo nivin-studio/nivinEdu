@@ -9,6 +9,18 @@ class Task extends Model
 {
     protected $table = 'tasks';
 
+    protected $fillable = [
+        'id',
+        'command',
+        'description',
+        'parameters',
+        'expression',
+        'state',
+        'dont_overlap',
+        'run_in_maintenance',
+        'notification_email_address',
+    ];
+
     /**
      * 日志关系
      *

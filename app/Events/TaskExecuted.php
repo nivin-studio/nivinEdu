@@ -5,13 +5,13 @@ namespace App\Events;
 use App\Models\Task;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Event;
 
-class TaskExecuted extends Event
+class TaskExecuted implements ShouldBroadcast
 {
-    use Dispatchable, SerializesModels, Dispatchable, InteractsWithSockets;
+    use SerializesModels, Dispatchable, InteractsWithSockets;
 
     /**
      * @var Task
@@ -31,8 +31,8 @@ class TaskExecuted extends Event
             $output = file_get_contents(storage_path($task->getMutexName()));
 
             $task->logs()->create([
-                'duration' => $duration * 1000,
-                'content'  => $output,
+                'duration' => round($duration * 1000, 2),
+                'content'  => !empty($output) ? $output : 'ok',
             ]);
 
             unlink(storage_path($task->getMutexName()));

@@ -41,5 +41,6 @@ Route::group([
         $router->resource('/user', 'UserController');
         $router->resource('/grade', 'GradeController');
         $router->resource('/task', 'TaskController');
+        $router->resource('/taskLog', 'TaskLogController');
     });
 });
