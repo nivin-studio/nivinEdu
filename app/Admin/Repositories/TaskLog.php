@@ -2,10 +2,10 @@
 
 namespace App\Admin\Repositories;
 
-use App\Models\Task as Model;
+use App\Models\TaskLog as Model;
 use Dcat\Admin\Repositories\EloquentRepository;
 
-class Task extends EloquentRepository
+class TaskLog extends EloquentRepository
 {
     /**
      * Model.

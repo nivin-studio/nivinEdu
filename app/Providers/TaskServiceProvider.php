@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Admin\Repositories\Task;
+use App\Models\Task;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\ServiceProvider;
 

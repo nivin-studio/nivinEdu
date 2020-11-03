@@ -25,14 +25,14 @@ class TaskExecuted extends Event
      */
     public function __construct(Task $task, $started)
     {
-        $time_elapsed_secs = microtime(true) - $started;
+        $duration = microtime(true) - $started;
 
         if (file_exists(storage_path($task->getMutexName()))) {
             $output = file_get_contents(storage_path($task->getMutexName()));
 
-            $task->results()->create([
-                'duration' => $time_elapsed_secs * 1000,
-                'result'   => $output,
+            $task->logs()->create([
+                'duration' => $duration * 1000,
+                'content'  => $output,
             ]);
 
             unlink(storage_path($task->getMutexName()));
