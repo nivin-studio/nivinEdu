@@ -3,22 +3,23 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\File;
 
-class Test extends Command
+class TaskTest1 extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'test:test';
+    protected $signature = 'taskTest1';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'test test';
+    protected $description = 'taskTest1';
 
     /**
      * Create a new command instance.
@@ -37,6 +38,6 @@ class Test extends Command
      */
     public function handle()
     {
-        //
+        File::append(storage_path('/logs/taskTest1.log'), 'BBBBBBB' . PHP_EOL);
     }
 }

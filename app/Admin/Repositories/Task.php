@@ -21,7 +21,7 @@ class Task extends EloquentRepository
     public function findAllActive()
     {
         return $this->findAll()->filter(function ($task) {
-            return $task->is_active;
+            return $task->state;
         });
     }
 

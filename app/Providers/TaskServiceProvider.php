@@ -31,5 +31,18 @@ class TaskServiceProvider extends ServiceProvider
 
         $tasks = $taskModel->findAllActive();
 
+        $tasks->each(function ($task) use ($schedule) {
+            $event = $schedule->command($task->command);
+
+            $event->cron($task->expression)
+                ->name($task->description);
+
+            if ($task->dont_overlap) {
+                $event->withoutOverlapping();
+            }
+            if ($task->run_in_maintenance) {
+                $event->evenInMaintenanceMode();
+            }
+        });
     }
 }
