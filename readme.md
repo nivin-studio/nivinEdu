@@ -45,6 +45,12 @@ php artisan migrate
 php artisan db:seed
 ```
 
+- 添加Laravel计划任务至Cron中(注：php和项目都需要绝对路径，可通过命令"which php"来查看的绝对路径)
+
+```bash
+* * * * * php /path-to-your-project/artisan schedule:run >> /dev/null 2>&1
+```
+
 - 运行访问
 
 ```text
