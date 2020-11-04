@@ -62,10 +62,11 @@ class TaskController extends AdminController
                 ],
                 'gray'
             );
-
-            $grid->actions(function (Grid\Displayers\Actions $actions) {
-                $actions->append('<a href="' . admin_url('taskLog/?task_id=' . $this->id) . '"><i class="fa fa-inbox"></i> 日志</a>');
-
+            $grid->column('logs', '日志')
+                ->prepend(function () {
+                    return '查看';
+                })->link(function () {
+                return admin_url('taskLog/?task_id=' . $this->id);
             });
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
