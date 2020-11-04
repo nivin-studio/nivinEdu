@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Grid\RowAction\TaskExecute;
 use App\Admin\Repositories\Task;
 use Dcat\Admin\Controllers\AdminController;
 use Dcat\Admin\Form;
@@ -62,6 +63,7 @@ class TaskController extends AdminController
                 ],
                 'gray'
             );
+            $grid->column('execute', '执行')->action(TaskExecute::class);
             $grid->column('logs', '日志')
                 ->prepend(function () {
                     return '查看';

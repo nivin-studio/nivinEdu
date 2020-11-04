@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Events\TaskExecuted;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Artisan;
 
 class Task extends Model
 {
@@ -49,6 +51,28 @@ class Task extends Model
     public function findAll()
     {
         return self::all();
+    }
+
+    /**
+     * 执行定时任务
+     *
+     * @param  $id
+     * @return int|Task
+     */
+    public function execute()
+    {
+        $start = microtime(true);
+        try {
+            Artisan::call($this->command);
+
+            file_put_contents(storage_path($this->getMutexName()), Artisan::output());
+        } catch (\Exception $e) {
+            file_put_contents(storage_path($this->getMutexName()), $e->getMessage());
+        }
+
+        TaskExecuted::dispatch($this, $start);
+
+        return $this;
     }
 
     /**

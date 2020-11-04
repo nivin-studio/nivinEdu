@@ -38,6 +38,6 @@ class TaskTest2 extends Command
      */
     public function handle()
     {
-        File::append(storage_path('/logs/taskTest2.log'), 'taskTest2:ok' . PHP_EOL);
+        File::append(storage_path('logs/taskTest2.log'), 'taskTest2:ok' . PHP_EOL);
     }
 }
