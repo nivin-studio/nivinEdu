@@ -10,6 +10,7 @@ use Dcat\Admin\Grid;
 use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Show;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
 
 class TaskController extends AdminController
 {
@@ -150,6 +151,16 @@ class TaskController extends AdminController
             $form->switch('run_in_maintenance', '维护也需执行');
             $form->display('created_at');
             $form->display('updated_at');
+
+            $form->saved(function (Form $form, $result) {
+                Cache::forget('edu.tasks.all');
+                Cache::forget('edu.tasks.active');
+            });
+
+            $form->deleted(function (Form $form, $result) {
+                Cache::forget('edu.tasks.all');
+                Cache::forget('edu.tasks.active');
+            });
         });
     }
 }

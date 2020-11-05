@@ -6,6 +6,7 @@ use App\Events\TaskExecuted;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
 
 class Task extends Model
 {
@@ -39,8 +40,10 @@ class Task extends Model
      */
     public function findAllActive()
     {
-        return $this->findAll()->filter(function ($task) {
-            return $task->state;
+        return Cache::rememberForever('edu.tasks.active', function () {
+            return $this->findAll()->filter(function ($task) {
+                return $task->state;
+            });
         });
     }
 
@@ -50,7 +53,9 @@ class Task extends Model
      */
     public function findAll()
     {
-        return self::all();
+        return Cache::rememberForever('edu.tasks.all', function () {
+            return self::all();
+        });
     }
 
     /**
