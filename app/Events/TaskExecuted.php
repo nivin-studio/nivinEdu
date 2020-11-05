@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\Task;
+use App\Notifications\TaskCompleted;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -36,6 +37,8 @@ class TaskExecuted implements ShouldBroadcast
             ]);
 
             unlink(storage_path($task->getMutexName()));
+
+            $task->notify(new TaskCompleted($output));
         }
     }
 

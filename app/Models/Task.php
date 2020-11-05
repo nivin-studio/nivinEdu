@@ -5,11 +5,14 @@ namespace App\Models;
 use App\Events\TaskExecuted;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 
 class Task extends Model
 {
+    use Notifiable;
+
     protected $table = 'tasks';
 
     protected $fillable = [
@@ -88,5 +91,15 @@ class Task extends Model
     public function getMutexName()
     {
         return 'logs' . DIRECTORY_SEPARATOR . 'schedule-' . sha1($this->command . $this->expression . $this->parameters);
+    }
+
+    /**
+     * 邮件频道的路由通知
+     *
+     * @return string
+     */
+    public function routeNotificationForMail()
+    {
+        return $this->notification_email_address;
     }
 }
