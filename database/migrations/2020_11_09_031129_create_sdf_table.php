@@ -46,6 +46,8 @@ class CreateSdfTable extends Migration
 
             $table->unsignedDecimal('total_cost', 8, 2)->default(0)->comment('合计');
 
+            $table->unsignedTinyInteger('state')->default(0)->comment('状态');
+
             $table->timestamps();
         });
     }
