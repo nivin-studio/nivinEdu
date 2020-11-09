@@ -44,14 +44,15 @@ class Hlu
     public function __construct()
     {
         $this->client = new Client();
+        $this->init();
     }
 
     /**
-     * 获取初始化cookie
+     * 初始化
      *
-     * @return GuzzleHttp\Cookie\CookieJar
+     * @return void
      */
-    public function getCookie()
+    public function init()
     {
         $this->cookie = new CookieJar;
 
@@ -62,8 +63,16 @@ class Hlu
             ],
         ];
 
-        $response = $this->client->request('GET', self::$url['query'], $options);
+        $this->client->request('GET', self::$url['query'], $options);
+    }
 
+    /**
+     * 获取初始化cookie
+     *
+     * @return GuzzleHttp\Cookie\CookieJar
+     */
+    public function getCookie()
+    {
         return $this->cookie;
     }
 
