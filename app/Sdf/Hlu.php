@@ -125,7 +125,7 @@ class Hlu
                 if ($i != 0) {
                     $node   = new Crawler($node);
                     $data[] = [
-                        'room_id'             => $node->filterXPath('//td[1]')->text(),
+                        'room_num'            => $node->filterXPath('//td[1]')->text(),
                         'people_num'          => $node->filterXPath('//td[2]')->text(),
                         'date'                => $node->filterXPath('//td[3]')->text(),
                         'cold_water_this_num' => $node->filterXPath('//td[4]')->text(),
