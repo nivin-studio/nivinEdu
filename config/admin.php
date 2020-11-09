@@ -11,7 +11,7 @@ return [
     | login page.
     |
      */
-    'name' => '拟物校园',
+    'name' => 'Dcat Admin',
 
     /*
     |--------------------------------------------------------------------------
@@ -22,7 +22,7 @@ return [
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
      */
-    'logo' => '<img src="/vendors/dcat-admin/images/logo.png" width="45">',
+    'logo' => '<img src="/vendors/dcat-admin/images/logo.png" width="35"> &nbsp;Dcat Admin',
 
     /*
     |--------------------------------------------------------------------------
@@ -44,7 +44,7 @@ return [
     | Set a default avatar for newly created users.
     |
      */
-    'default_avatar' => '@admin/images/default-avatar.png',
+    'default_avatar' => '@admin/images/default-avatar.jpg',
 
     /*
     |--------------------------------------------------------------------------
@@ -165,7 +165,7 @@ return [
     |--------------------------------------------------------------------------
      */
     'helpers' => [
-        'enable' => false,
+        'enable' => true,
     ],
 
     /*
@@ -205,7 +205,8 @@ return [
         ],
 
         // Whether enable menu bind to a permission.
-        'bind_permission' => false,
+        'bind_permission' => true,
+
     ],
 
     /*
@@ -220,7 +221,7 @@ return [
     'upload' => [
 
         // Disk in `config/filesystem.php`.
-        'disk' => 'admin',
+        'disk' => 'public',
 
         // Image and file upload path under the disk above.
         'directory' => [
@@ -299,10 +300,18 @@ return [
     | Admin map field provider
     |--------------------------------------------------------------------------
     |
-    | Supported: "tencent", "google", "yandex".
+    | Supported: "tencent", "google", "yandex", "baidu".
     |
      */
-    'map_provider' => 'google',
+    'map' => [
+        'provider' => 'baidu',
+
+        'keys' => [
+            'tencent' => env('TENCENT_MAP_API_KEY'),
+            'google'  => env('GOOGLE_API_KEY'),
+            'baidu'   => env('BAIDU_MAP_API_KEY'),
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -319,7 +328,8 @@ return [
 
         'sidebar_collapsed' => false,
 
-        'sidebar_dark' => false,
+        // light, primary, dark
+        'sidebar_style' => 'light',
 
         'dark_mode_switch' => false,
 
