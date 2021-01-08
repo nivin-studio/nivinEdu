@@ -1,3 +1,4 @@
+![nivinEdu](https://socialify.git.ci/nivin-studio/nivinEdu/image?description=1&font=Inter&forks=1&logo=https%3A%2F%2Fwww.nivin.cn%2Fimages%2Flogo.png&pattern=Signal&stargazers=1&theme=Light)
 # 关于nivinEdu
 高校教务爬虫，可查询学生个人信息，成绩，课表等。已支持正方教务，青果教务。
 
