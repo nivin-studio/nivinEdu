@@ -33,8 +33,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if (Schema::hasTable('tasks')) {
-            $this->app->register(TaskServiceProvider::class);
-        }
+        // if (Schema::hasTable('tasks')) {
+        //     $this->app->register(TaskServiceProvider::class);
+        // }
     }
 }

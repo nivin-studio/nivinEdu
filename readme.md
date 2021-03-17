@@ -20,6 +20,10 @@
 - :white_check_mark: 西南科技大学
 - :white_check_mark: 吕梁学院
 
+### URP教务
+
+- :white_check_mark: 华北理工大学
+
 ## 安装使用
 
 - 安装依赖
@@ -31,8 +35,17 @@ composer install
 - 创建配置，在.env中添加数据库配置
 
 ```bash
-composer run-script create-config
+composer run-script init-project
 ```
+
+- 添加必要目录权限
+
+```bash
+chmod -R 777 storage bootstrap/cache
+```
+
+- 修改配置文件.env
+
 
 - 运行Migrate，创建数据表
 
@@ -44,12 +57,6 @@ php artisan migrate
 
 ```bash
 php artisan db:seed
-```
-
-- 添加Laravel计划任务至Cron中(注：php和项目都需要绝对路径，可通过命令"which php"来查看的绝对路径)
-
-```bash
-* * * * * php /path-to-your-project/artisan schedule:run >> /dev/null 2>&1
 ```
 
 - 运行访问
