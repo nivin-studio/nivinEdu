@@ -26,8 +26,7 @@ git checkout 1.0
 
 - 安装依赖
 
-    Laravel 使用 Composer 来管理项目依赖。因此，在使用 Laravel 之前，请确保你的机器已经安装了 Composer。
-
+> Laravel 使用 Composer 来管理项目依赖。因此，在使用 Laravel 之前，请确保你的机器已经安装了 Composer。
 ```bash
 composer install
 ```
