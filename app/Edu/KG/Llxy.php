@@ -320,8 +320,12 @@ class Llxy extends EduProvider implements EduParserInterface
             $html        = iconv('gb2312', 'UTF-8', $html);
             $htmlCrawler = new Crawler((string) $html);
             $table       = $htmlCrawler->filterXPath('//table[@id="ID_Table"]')->children();
+            $tableCount  = count($table);
 
             foreach ($table as $tableIndex => $tableNode) {
+                if ($tableIndex >= $tableCount - 2) {
+                    break;
+                }
 
                 $trCrawler = new Crawler($tableNode);
 
@@ -343,14 +347,14 @@ class Llxy extends EduProvider implements EduParserInterface
                 }
 
                 $scores[] = [
-                    'annual'      => $tempTerm['annual'],                           // 学年
-                    'term'        => $tempTerm['term'],                             // 学期
-                    'course_no'   => $tempCourse['course_no'],                      // 课号
-                    'course_name' => $tempCourse['course_name'],                    // 课名
-                    'course_type' => $trCrawler->filterXPath('//td[4]')->text(''),  // 课型
-                    'score'       => $trCrawler->filterXPath('//td[12]')->text(''), // 成绩
-                    'credit'      => $trCrawler->filterXPath('//td[3]')->text(''),  // 学分
-                    'gpa'         => 0,                                             // 绩点
+                    'annual'      => isset($tempTerm['annual']) ? $tempTerm['annual'] : '',               // 学年
+                    'term'        => isset($tempTerm['term']) ? $tempTerm['term'] : '',                   // 学期
+                    'course_no'   => isset($tempCourse['course_no']) ? $tempCourse['course_no'] : '',     // 课号
+                    'course_name' => isset($tempCourse['course_name']) ? $tempCourse['course_name'] : '', // 课名
+                    'course_type' => $trCrawler->filterXPath('//td[4]')->text(''),                        // 课型
+                    'score'       => $trCrawler->filterXPath('//td[12]')->text(''),                       // 成绩
+                    'credit'      => $trCrawler->filterXPath('//td[3]')->text(''),                        // 学分
+                    'gpa'         => 0,                                                                   // 绩点
                 ];
             }
 

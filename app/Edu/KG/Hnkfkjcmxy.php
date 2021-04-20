@@ -9,7 +9,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use Symfony\Component\DomCrawler\Crawler;
 
-class Xnkjdxcsxy extends EduProvider implements EduParserInterface
+class Hnkfkjcmxy extends EduProvider implements EduParserInterface
 {
     /**
      * 相关网络地址
@@ -17,20 +17,20 @@ class Xnkjdxcsxy extends EduProvider implements EduParserInterface
      * @var array
      */
     private static $url = [
-        'base'        => 'http://jwgl.ccswust.edu.cn', //根域名
-        'home'        => '/home.aspx',                 //首页，获取Cookie
-        'code'        => '/sys/ValidateCode.aspx',     //验证码
-        'login'       => '/_data/login_home.aspx',     //登录
-        'main'        => '/MAINFRM.aspx',              //登录后的主页
-        'menu'        => '/SYS/menu.aspx',             //侧边菜单
-        'persos_get'  => '/xsxj/Stu_MyInfo.aspx',      //个人信息
-        'persos_post' => '/xsxj/Stu_MyInfo_RPT.aspx',  //获取个人信息
-        'scores_get'  => '/xscj/Stu_cjfb.aspx',        //成绩
-        'scores_post' => '/xscj/Stu_cjfb_rpt.aspx',    //获取成绩
-        'scores_img'  => '/xscj/',                     //成绩图片根路径
-        'tables_get'  => '/znpk/Pri_StuSel.aspx',      //课表
-        'tables_post' => '/znpk/Pri_StuSel_rpt.aspx',  //获取课表
-        'tables_img'  => '/znpk/',                     //课表图片根路径
+        'base'        => 'http://msjw.humc.edu.cn',   //根域名
+        'home'        => '/home.aspx',                //首页，获取Cookie
+        'code'        => '/sys/ValidateCode.aspx',    //验证码
+        'login'       => '/_data/login_home.aspx',    //登录
+        'main'        => '/MAINFRM.aspx',             //登录后的主页
+        'menu'        => '/frame/menu.aspx',          //侧边菜单
+        'persos_get'  => '/xsxj/Stu_MyInfo.aspx',     //个人信息
+        'persos_post' => '/xsxj/Stu_MyInfo_RPT.aspx', //获取个人信息
+        'scores_get'  => '/xscj/Stu_cjfb.aspx',       //成绩
+        'scores_post' => '/xscj/Stu_cjfb_rpt.aspx',   //获取成绩
+        'scores_img'  => '/xscj/',                    //成绩图片根路径
+        'tables_get'  => '/znpk/Pri_StuSel.aspx',     //课表
+        'tables_post' => '/znpk/Pri_StuSel_rpt.aspx', //获取课表
+        'tables_img'  => '/znpk/',                    //课表图片根路径
     ];
 
     public function __construct()
@@ -128,7 +128,7 @@ class Xnkjdxcsxy extends EduProvider implements EduParserInterface
             ],
             'form_params' => [
                 '__VIEWSTATE'              => $hidden['__VIEWSTATE'],
-                '__EVENTVALIDATION'        => $hidden['__EVENTVALIDATION'],
+                '__VIEWSTATEGENERATOR'     => $hidden['__VIEWSTATEGENERATOR'],
                 'pcInfo'                   => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36undefined5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36 SN:NULL',
                 'txt_mm_expression'        => $hidden['txt_mm_expression'],
                 'txt_mm_length'            => $hidden['txt_mm_length'],
@@ -212,7 +212,7 @@ class Xnkjdxcsxy extends EduProvider implements EduParserInterface
 
         $value = [
             '__VIEWSTATE'          => $crawler->filterXPath('//input[@name="__VIEWSTATE"]')->attr('value'),
-            '__EVENTVALIDATION'    => $crawler->filterXPath('//input[@name="__EVENTVALIDATION"]')->attr('value'),
+            '__VIEWSTATEGENERATOR' => $crawler->filterXPath('//input[@name="__VIEWSTATEGENERATOR"]')->attr('value'),
             'txt_mm_expression'    => $crawler->filterXPath('//input[@name="txt_mm_expression"]')->attr('value'),
             'txt_mm_length'        => $crawler->filterXPath('//input[@name="txt_mm_length"]')->attr('value'),
             'txt_mm_userzh'        => $crawler->filterXPath('//input[@name="txt_mm_userzh"]')->attr('value'),
@@ -263,12 +263,12 @@ class Xnkjdxcsxy extends EduProvider implements EduParserInterface
                 'birth_date'   => $htmlCrawler->filterXPath('//table/tr[5]/td[2]')->text(''),  //出生日期                                                                                        //出生日期
                 'gender'       => $htmlCrawler->filterXPath('//table/tr[4]/td[2]')->text(''),  //性别
                 'nation'       => $htmlCrawler->filterXPath('//table/tr[5]/td[4]')->text(''),  //民族
-                'education'    => $htmlCrawler->filterXPath('//table/tr[22]/td[6]')->text(''), //学历                                                                                               //学历
-                'college'      => $htmlCrawler->filterXPath('//table/tr[25]/td[2]')->text(''), //学院
-                'major'        => $htmlCrawler->filterXPath('//table/tr[25]/td[4]')->text(''), //专业
-                'class'        => $htmlCrawler->filterXPath('//table/tr[25]/td[6]')->text(''), //班级
-                'period'       => $htmlCrawler->filterXPath('//table/tr[20]/td[6]')->text(''), //学制
-                'grade'        => $htmlCrawler->filterXPath('//table/tr[21]/td[2]')->text(''), //年级
+                'education'    => $htmlCrawler->filterXPath('//table/tr[21]/td[6]')->text(''), //学历                                                                                               //学历
+                'college'      => $htmlCrawler->filterXPath('//table/tr[24]/td[2]')->text(''), //学院
+                'major'        => $htmlCrawler->filterXPath('//table/tr[24]/td[4]')->text(''), //专业
+                'class'        => $htmlCrawler->filterXPath('//table/tr[24]/td[6]')->text(''), //班级
+                'period'       => $htmlCrawler->filterXPath('//table/tr[19]/td[6]')->text(''), //学制
+                'grade'        => $htmlCrawler->filterXPath('//table/tr[20]/td[2]')->text(''), //年级
             ];
 
             return $persos;
@@ -312,10 +312,10 @@ class Xnkjdxcsxy extends EduProvider implements EduParserInterface
     public function parserScoresInfo($html)
     {
         try {
-            $tempTerm    = [];
-            $tempCourse  = [];
-            $scores      = [];
-            $html        = iconv('gb2312', 'UTF-8', $html);
+            $tempTerm   = [];
+            $tempCourse = [];
+            $scores     = [];
+            // $html        = iconv('gb2312', 'UTF-8', $html);
             $htmlCrawler = new Crawler((string) $html);
             $table       = $htmlCrawler->filterXPath('//table[@id="ID_Table"]')->children();
             $tableCount  = count($table);
@@ -352,7 +352,7 @@ class Xnkjdxcsxy extends EduProvider implements EduParserInterface
                     'course_type' => $trCrawler->filterXPath('//td[4]')->text(''),                        // 课型
                     'score'       => $trCrawler->filterXPath('//td[12]')->text(''),                       // 成绩
                     'credit'      => $trCrawler->filterXPath('//td[3]')->text(''),                        // 学分
-                    'gpa'         => 0,                                                                   // 绩点
+                    'gpa'         => 0,
                 ];
             }
 
@@ -487,7 +487,7 @@ class Xnkjdxcsxy extends EduProvider implements EduParserInterface
         if (is_array($xnxq)) {
             foreach ($xnxq as $xn) {
                 $randostr = $this->randomStr();
-                $hidsjyzm = strtoupper(md5('14045' . $xn . $randostr));
+                $hidsjyzm = strtoupper(md5('13501' . $xn . $randostr));
 
                 $value[] = [
                     'hidyzm'   => $hyzm,
@@ -498,7 +498,7 @@ class Xnkjdxcsxy extends EduProvider implements EduParserInterface
             }
         } else {
             $randostr = $this->randomStr();
-            $hidsjyzm = strtoupper(md5('14045' . $xnxq . $randostr));
+            $hidsjyzm = strtoupper(md5('13501' . $xnxq . $randostr));
 
             $value[] = [
                 'hidyzm'   => $hyzm,
@@ -536,7 +536,7 @@ class Xnkjdxcsxy extends EduProvider implements EduParserInterface
      */
     public static function generateEncryptValue($plaintext, $assist = '')
     {
-        return strtoupper(substr(md5($assist . strtoupper(substr(md5($plaintext), 0, 30)) . '14045'), 0, 30));
+        return strtoupper(substr(md5($assist . strtoupper(substr(md5($plaintext), 0, 30)) . '13501'), 0, 30));
     }
 
     /**

@@ -30,17 +30,13 @@ class UserController extends AdminController
     }
 
     /**
-     * Make a grid builder.
+     * 构建列表
      *
      * @return Grid
      */
     protected function grid()
     {
         return Grid::make(User::with(['school']), function (Grid $grid) {
-            $grid->disableRowSelector();
-            $grid->disableFilterButton();
-            $grid->disableCreateButton();
-
             $grid->column('id');
             $grid->column('school.name', '学校');
             $grid->column('student_no', '学号');
@@ -76,6 +72,10 @@ class UserController extends AdminController
 
             $grid->model()->orderBy('created_at', 'desc');
 
+            $grid->disableRowSelector();
+            $grid->disableFilterButton();
+            $grid->disableCreateButton();
+
             // 查询过滤
             $grid->filter(function (Filter $filter) {
                 $filter->panel();
@@ -101,7 +101,7 @@ class UserController extends AdminController
     }
 
     /**
-     * Make a show builder.
+     * 构建显示
      *
      * @param  mixed  $id
      * @return Show
@@ -135,7 +135,7 @@ class UserController extends AdminController
     }
 
     /**
-     * Make a form builder.
+     * 构建表单
      *
      * @return Form
      */

@@ -30,17 +30,13 @@ class TableController extends AdminController
     }
 
     /**
-     * Make a grid builder.
+     * 构建列表
      *
      * @return Grid
      */
     protected function grid()
     {
         return Grid::make(Table::with(['school']), function (Grid $grid) {
-            $grid->disableRowSelector();
-            $grid->disableFilterButton();
-            $grid->disableCreateButton();
-
             $grid->column('id');
             $grid->column('school.name', '学校');
             $grid->column('student_no', '学号');
@@ -60,6 +56,10 @@ class TableController extends AdminController
             $grid->column('updated_at', '更新时间');
 
             $grid->model()->orderBy('created_at', 'desc');
+
+            $grid->disableRowSelector();
+            $grid->disableFilterButton();
+            $grid->disableCreateButton();
 
             // 查询过滤
             $grid->filter(function (Filter $filter) {
@@ -86,7 +86,7 @@ class TableController extends AdminController
     }
 
     /**
-     * Make a show builder.
+     * 构建显示
      *
      * @param  mixed  $id
      * @return Show
@@ -115,7 +115,7 @@ class TableController extends AdminController
     }
 
     /**
-     * Make a form builder.
+     * 构建表单
      *
      * @return Form
      */

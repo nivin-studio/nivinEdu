@@ -29,16 +29,13 @@ class SchoolController extends AdminController
     }
 
     /**
-     * Make a grid builder.
+     * 构建列表
      *
      * @return Grid
      */
     protected function grid()
     {
         return Grid::make(School::with(['admin']), function (Grid $grid) {
-            $grid->disableRowSelector();
-            $grid->disableFilterButton();
-
             $grid->column('id');
             $grid->column('admin.username', '管理员');
             $grid->column('name', '校名');
@@ -68,6 +65,9 @@ class SchoolController extends AdminController
 
             $grid->model()->orderBy('created_at', 'desc');
 
+            $grid->disableRowSelector();
+            $grid->disableFilterButton();
+
             // 查询过滤器
             $grid->filter(function (Filter $filter) {
                 $filter->panel();
@@ -85,7 +85,7 @@ class SchoolController extends AdminController
     }
 
     /**
-     * Make a show builder.
+     * 构建显示
      *
      * @param  mixed  $id
      * @return Show
@@ -113,7 +113,7 @@ class SchoolController extends AdminController
     }
 
     /**
-     * Make a form builder.
+     * 构建表单
      *
      * @return Form
      */

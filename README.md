@@ -79,6 +79,7 @@ php artisan db:seed
 
 - :white_check_mark: 西南科技大学
 - :white_check_mark: 吕梁学院
+- :white_check_mark: 河南开封科技传媒学院
 
 ### URP教务
 
