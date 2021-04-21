@@ -1,6 +1,6 @@
-![nivinEdu](https://socialify.git.ci/nivin-studio/nivinEdu/image?description=1&font=Inter&forks=1&logo=https%3A%2F%2Fwww.nivin.cn%2Fimages%2Flogo.png&pattern=Signal&stargazers=1&theme=Light)
+![nivinEdu](https://socialify.git.ci/nivin-studio/nivinEdu/image?description=1&font=Inter&forks=1&logo=https%3A%2F%2Fwww.nivin.cn%2Fimages%2Flogo.png&pulls=1&stargazers=1&theme=Light)
 # 关于nivinEdu
-拟物校园是一款开源的高校教务移动化系统，可快速对接正方，青果，URP等教务，方便学生在移动端查询个人信息，成绩，课表等。
+拟物校园，一个开源的高校教务移动化解决方案。可快速对接正方，青果，URP等教务，方便学生在移动端查询个人信息，成绩，课表等。
 
 体验地址: [edu.nivin.cn](http://edu.nivin.cn/)
 
@@ -80,6 +80,7 @@ php artisan db:seed
 - :white_check_mark: 西南科技大学
 - :white_check_mark: 吕梁学院
 - :white_check_mark: 河南开封科技传媒学院
+- :white_check_mark: 郑州经贸学院
 
 ### URP教务
 
