@@ -55,17 +55,19 @@ class School extends Model
     /**
      * 学校类型常量
      */
-    const ZF  = 1;
-    const KG  = 2;
-    const URP = 3;
+    const ZF    = 1;
+    const KG    = 2;
+    const URP   = 3;
+    const OTHER = 9;
 
     /**
      * 学校类型注释映射
      */
     const TYPE_MAP = [
-        self::ZF  => '正方',
-        self::KG  => '青果',
-        self::URP => 'URP',
+        self::ZF    => '正方',
+        self::KG    => '青果',
+        self::URP   => 'URP',
+        self::OTHER => '其他',
     ];
 
     /**

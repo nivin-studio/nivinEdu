@@ -27,6 +27,10 @@ Route::group([
     $router->resource('auth/roles', 'RoleController');
     $router->resource('auth/permissions', 'PermissionController');
     // 具体业务 相关
+
+    $router->get('/logviewer', 'LogViewerController@index')->name('logviewer');
+    $router->get('/logviewer/download', 'LogViewerController@download')->name('logviewer.download');
+
     $router->resource('/user', 'UserController');
     $router->resource('/school', 'SchoolController');
     $router->resource('/score', 'ScoreController');

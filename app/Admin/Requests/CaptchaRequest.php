@@ -2,7 +2,6 @@
 
 namespace App\Admin\Requests;
 
-use Dcat\Admin\Admin;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -74,9 +73,13 @@ class CaptchaRequest extends FormRequest
      */
     public function failedValidation(Validator $validator)
     {
-        return response()->json([
-            'code'    => 1,
-            'message' => '邮箱不正确',
-        ]);
+        throw (
+            new HttpResponseException(
+                response()->json([
+                    'code'    => 1,
+                    'message' => '邮箱不正确',
+                ])
+            )
+        );
     }
 }

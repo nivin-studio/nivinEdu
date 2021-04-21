@@ -79,7 +79,7 @@
 
         @endif
 
-        @if ($tables)
+        {{-- @if ($tables)
 
             <div class="page__hd">
                 <h1 class="page__title">课表</h1>
@@ -99,7 +99,7 @@
                 </div>
             </div>
 
-        @endif
+        @endif --}}
 
     </div>
 </body>
