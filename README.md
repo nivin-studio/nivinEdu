@@ -1,4 +1,4 @@
-![nivinEdu](https://socialify.git.ci/nivin-studio/nivinEdu/image?description=1&font=Inter&forks=1&logo=https%3A%2F%2Fwww.nivin.cn%2Fimages%2Flogo.png&pulls=1&stargazers=1&theme=Light)
+![nivinEdu](https://socialify.git.ci/nivin-studio/nivinEdu/image?description=1&forks=1&logo=https%3A%2F%2Fnivin.cn%2Fimages%2Flogos.png&pattern=Brick%20Wall&stargazers=1)
 # 关于nivinEdu
 拟物校园，一个开源的高校教务移动化解决方案。可快速对接正方，青果，URP等教务，方便学生在移动端查询个人信息，成绩，课表等。
 
