@@ -112,6 +112,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
+        'application_id',
         'school_id',
         'student_no',
         'student_password',
@@ -136,6 +137,16 @@ class User extends Authenticatable
     protected $hidden = [
         'student_password', 'remember_token',
     ];
+
+    /**
+     * 关联应用
+     *
+     * @return BelongsTo
+     */
+    public function application()
+    {
+        return $this->belongsTo(Application::class, 'application_id');
+    }
 
     /**
      * 关联学校

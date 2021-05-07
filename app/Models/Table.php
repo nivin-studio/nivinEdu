@@ -65,7 +65,6 @@ class Table extends Model
     const STATE_MAP = [
         self::STATE_NORMAL => '正常',
         self::STATE_DELETE => '删除',
-
     ];
 
     /**
@@ -82,6 +81,7 @@ class Table extends Model
      * @var string[]
      */
     protected $fillable = [
+        'application_id',
         'school_id',
         'student_no',
         'period',
@@ -95,6 +95,16 @@ class Table extends Model
         'location',
         'state',
     ];
+
+    /**
+     * 关联应用
+     *
+     * @return BelongsTo
+     */
+    public function application()
+    {
+        return $this->belongsTo(Application::class, 'application_id');
+    }
 
     /**
      * 管理学校

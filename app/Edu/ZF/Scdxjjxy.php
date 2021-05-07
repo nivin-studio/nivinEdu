@@ -16,7 +16,7 @@ class Scdxjjxy extends EduProvider implements EduParserInterface
      *
      * @var array
      */
-    private static $url = [
+    protected static $url = [
         'base'        => 'http://110.188.129.251:8088',                //根域名
         'home'        => 'http://110.188.129.251:8088/xs_main.aspx',   //首页，获取Cookie
         'code'        => 'http://110.188.129.251:8088/CheckCode.aspx', //验证码
@@ -28,15 +28,6 @@ class Scdxjjxy extends EduProvider implements EduParserInterface
         'tables_get'  => 'http://110.188.129.251:8088/xskbcx.aspx',    //课表
         'tables_post' => 'http://110.188.129.251:8088/xskbcx.aspx',    //获取课表
     ];
-
-    public function __construct()
-    {
-        $this->client = new Client(
-            [
-                'base_uri' => self::$url['base'],
-            ]
-        );
-    }
 
     /**
      * 获取初始化cookie
@@ -106,14 +97,14 @@ class Scdxjjxy extends EduProvider implements EduParserInterface
     /**
      * 获取登录信息
      *
-     * @param  string  $xh 学号
-     * @param  string  $mm 密码
-     * @param  string  $vm 验证码
+     * @param  string  $studentNo 学号
+     * @param  string  $password  密码
+     * @param  string  $captcha   验证码
      * @return array
      */
-    public function getLoginInfo($xh, $mm, $vc)
+    public function getLoginInfo($studentNo, $password, $captcha)
     {
-        $hidden = $this->getLoginHiddenValue($xh);
+        $hidden = $this->getLoginHiddenValue($studentNo);
 
         $options = [
             'cookies'     => $this->cookie,
@@ -122,9 +113,9 @@ class Scdxjjxy extends EduProvider implements EduParserInterface
             ],
             'form_params' => [
                 '__VIEWSTATE'      => $hidden,
-                'txtUserName'      => $xh,
-                'TextBox2'         => $mm,
-                'txtSecretCode'    => $vc,
+                'txtUserName'      => $studentNo,
+                'TextBox2'         => $password,
+                'txtSecretCode'    => $captcha,
                 'RadioButtonList1' => '%D1%A7%C9%FA',
                 'Button1'          => '',
                 'lbLanguage'       => '',
@@ -167,10 +158,10 @@ class Scdxjjxy extends EduProvider implements EduParserInterface
     /**
      * 获取登录隐藏值
      *
-     * @param  string  $xh 学号
+     * @param  string  $studentNo 学号
      * @return array
      */
-    public function getLoginHiddenValue($xh)
+    public function getLoginHiddenValue($studentNo)
     {
         $options = [
             'cookies' => $this->cookie,
@@ -188,12 +179,13 @@ class Scdxjjxy extends EduProvider implements EduParserInterface
     /**
      * 获取学生个人信息
      *
-     * @param  string  $xh 学号
+     * @param  string  $studentNo 学号
+     * @param  string  $password  密码
      * @return array
      */
-    public function getPersosInfo($xh)
+    public function getPersosInfo($studentNo, $password)
     {
-        $url = self::$url['persos_get'] . '?xh=' . $xh;
+        $url = self::$url['persos_get'] . '?xh=' . $studentNo;
 
         $options = [
             'cookies' => $this->cookie,
@@ -244,13 +236,14 @@ class Scdxjjxy extends EduProvider implements EduParserInterface
     /**
      * 获取学生成绩
      *
-     * @param  string  $xh 学号
+     * @param  string  $studentNo 学号
+     * @param  string  $password  密码
      * @return array
      */
-    public function getScoresInfo($xh)
+    public function getScoresInfo($studentNo, $password)
     {
-        $url    = self::$url['scores_get'] . '?xh=' . $xh;
-        $hidden = $this->getScoresHiddenValue($xh);
+        $url    = self::$url['scores_get'] . '?xh=' . $studentNo;
+        $hidden = $this->getScoresHiddenValue($studentNo);
 
         $options = [
             'cookies'     => $this->cookie,
@@ -314,12 +307,12 @@ class Scdxjjxy extends EduProvider implements EduParserInterface
     /**
      * 获取成绩隐藏值
      *
-     * @param  string   $xh 学号
+     * @param  string   $studentNo 学号
      * @return string
      */
-    public function getScoresHiddenValue($xh)
+    public function getScoresHiddenValue($studentNo)
     {
-        $url = self::$url['scores_get'] . '?xh=' . $xh;
+        $url = self::$url['scores_get'] . '?xh=' . $studentNo;
 
         $options = [
             'cookies' => $this->cookie,
@@ -338,12 +331,13 @@ class Scdxjjxy extends EduProvider implements EduParserInterface
     /**
      * 获取学生课表
      *
-     * @param  string   $xh 学号
-     * @return string
+     * @param  string  $studentNo 学号
+     * @param  string  $password  密码
+     * @return array
      */
-    public function getTablesInfo($xh)
+    public function getTablesInfo($studentNo, $password)
     {
-        $url = self::$url['tables_get'] . '?xh=' . $xh;
+        $url = self::$url['tables_get'] . '?xh=' . $studentNo;
 
         $options = [
             'cookies' => $this->cookie,
@@ -362,8 +356,8 @@ class Scdxjjxy extends EduProvider implements EduParserInterface
     /**
      * 解析获取学生课表
      *
-     * @param  string   $html
-     * @return string
+     * @param  string  $html
+     * @return array
      */
     public function parserTablesInfo($html)
     {

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBindSchoolsTable extends Migration
+class CreateApplicationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateBindSchoolsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bind_schools', function (Blueprint $table) {
+        Schema::create('applications', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedInteger('admin_id')->default(0)->comment('管理员用户');
             $table->unsignedInteger('school_id')->default(0)->comment('学校');
-            $table->string('name', 50)->default('')->comment('学校名称');
-            $table->string('icon', 255)->default('')->comment('学校图标');
             $table->string('api_no', 255)->default('')->comment('API账号');
             $table->string('api_key', 255)->default('')->comment('API密钥');
             $table->unsignedTinyInteger('state')->default(1)->comment('状态');
@@ -39,6 +37,6 @@ class CreateBindSchoolsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bind_schools');
+        Schema::dropIfExists('applications');
     }
 }

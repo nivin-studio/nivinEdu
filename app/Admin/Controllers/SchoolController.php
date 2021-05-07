@@ -37,7 +37,7 @@ class SchoolController extends AdminController
     {
         return Grid::make(School::with(['admin']), function (Grid $grid) {
             $grid->column('id');
-            $grid->column('admin.username', '管理员');
+            $grid->column('admin.email', '管理员');
             $grid->column('name', '校名');
             $grid->column('icon', '校徽')
                 ->image('', 80, 80);
@@ -94,7 +94,7 @@ class SchoolController extends AdminController
     {
         return Show::make($id, School::with(['admin']), function (Show $show) {
             $show->field('id');
-            $show->field('admin.username', '管理员');
+            $show->field('admin.email', '管理员');
             $show->field('name', '校名');
             $show->field('icon', '校徽');
             $show->field('type', '教务类型')
@@ -121,7 +121,7 @@ class SchoolController extends AdminController
     {
         return Form::make(School::with(['admin']), function (Form $form) {
             $form->display('id');
-            $form->display('admin.username', '管理员');
+            $form->display('admin.email', '管理员');
             $form->hidden('admin_id');
             $form->text('name', '校名');
             $form->text('icon', '校徽');

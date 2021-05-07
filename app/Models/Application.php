@@ -2,46 +2,43 @@
 
 namespace App\Models;
 
+use App\Utils\Hashids;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
- * App\Models\BindSchool
+ * App\Models\Application
  *
  * @property int $id
  * @property int $admin_id 管理员用户
  * @property int $school_id 学校
- * @property string $name 学校名称
- * @property string $icon 学校图标
  * @property string $api_no API账号
  * @property string $api_key API密钥
  * @property int $state 状态
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|AdminUserSchool newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|AdminUserSchool newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|AdminUserSchool query()
- * @method static \Illuminate\Database\Eloquent\Builder|AdminUserSchool whereAdminId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AdminUserSchool whereApiKey($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AdminUserSchool whereApiNo($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AdminUserSchool whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AdminUserSchool whereIcon($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AdminUserSchool whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AdminUserSchool whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AdminUserSchool whereSchoolId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AdminUserSchool whereState($value)
- * @method static \Illuminate\Database\Eloquent\Builder|AdminUserSchool whereUpdatedAt($value)
+ * @property-read \App\Models\School $school
+ * @method static \Illuminate\Database\Eloquent\Builder|Application newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Application newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Application query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereAdminId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereApiKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereApiNo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereSchoolId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereState($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Application whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class BindSchool extends Authenticatable implements JWTSubject
+class Application extends Authenticatable implements JWTSubject
 {
-
     /**
      * 表名
      *
      * @var string
      */
-    protected $table = 'bind_schools';
+    protected $table = 'applications';
 
     /**
      * 状态常量
@@ -74,12 +71,20 @@ class BindSchool extends Authenticatable implements JWTSubject
     protected $fillable = [
         'admin_id',
         'school_id',
-        'name',
-        'icon',
         'api_no',
         'api_key',
         'state',
     ];
+
+    /**
+     * 获取格式化ID
+     *
+     * @return string
+     */
+    public function hashid()
+    {
+        return Hashids::encode($this->id);
+    }
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
@@ -98,7 +103,7 @@ class BindSchool extends Authenticatable implements JWTSubject
      */
     public function getJWTCustomClaims()
     {
-        return ['role' => 'bind_school'];
+        return ['role' => 'application'];
     }
 
     /**
@@ -109,5 +114,15 @@ class BindSchool extends Authenticatable implements JWTSubject
     public function getAuthPassword()
     {
         return $this->api_key;
+    }
+
+    /**
+     * 关联学校
+     *
+     * @return BelongsTo
+     */
+    public function school()
+    {
+        return $this->belongsTo(School::class, 'school_id');
     }
 }

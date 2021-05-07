@@ -342,11 +342,13 @@ class LogViewerService
             PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
         );
 
-        foreach ($logs as $index => $log) {
-            if (preg_match('/^\d{4}/', $log)) {
-                break;
-            } else {
-                unset($logs[$index]);
+        if ($logs) {
+            foreach ($logs as $index => $log) {
+                if (preg_match('/^\d{4}/', $log)) {
+                    break;
+                } else {
+                    unset($logs[$index]);
+                }
             }
         }
 

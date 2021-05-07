@@ -9,8 +9,10 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5|^8.0",
+        "dcat/easy-excel": "^1.0",
         "dcat/laravel-admin": "2.*",
         "fideloper/proxy": "^4.4",
+        "hashids/hashids": "^4.1",
         "laravel/framework": "^6.20",
         "laravel/tinker": "^2.5",
         "overtrue/laravel-pinyin": "~4.0",
@@ -72,13 +74,15 @@
             "@php artisan jwt:secret"
         ],
         "update-project": [
-            "@php artisan migrate",
+            "@php artisan down",
+            "@php artisan migrate --force",
             "@php artisan config:clear",
             "@php artisan route:clear",
             "@php artisan clear-compiled",
             "@php artisan config:cache",
             "@php artisan route:cache",
-            "@php artisan optimize"
+            "@php artisan optimize",
+            "@php artisan up"
         ],
         "ide-helper": [
             "@php artisan ide-helper:generate",

@@ -85,6 +85,7 @@ php artisan db:seed
 ### URP教务
 
 - :white_check_mark: 华北理工大学
+- :white_check_mark: 湛江幼儿师范专科学校
 
 ## API文档
 + [API文档](https://edu-nivin.doc.coding.io)

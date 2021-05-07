@@ -81,6 +81,7 @@ class Score extends Model
      * @var string[]
      */
     protected $fillable = [
+        'application_id',
         'school_id',
         'student_no',
         'annual',
@@ -92,6 +93,16 @@ class Score extends Model
         'credit',
         'gpa',
     ];
+
+    /**
+     * 关联应用
+     *
+     * @return BelongsTo
+     */
+    public function application()
+    {
+        return $this->belongsTo(Application::class, 'application_id');
+    }
 
     /**
      * 关联学校

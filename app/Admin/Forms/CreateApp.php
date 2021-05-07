@@ -2,14 +2,14 @@
 
 namespace App\Admin\Forms;
 
-use App\Models\BindSchool as ModelsBindSchool;
+use App\Models\Application;
 use App\Models\School;
 use Dcat\Admin\Admin;
 use Dcat\Admin\Contracts\LazyRenderable;
 use Dcat\Admin\Traits\LazyWidget;
 use Dcat\Admin\Widgets\Form;
 
-class BindSchool extends Form implements LazyRenderable
+class CreateApp extends Form implements LazyRenderable
 {
     use LazyWidget;
     /**
@@ -29,19 +29,17 @@ class BindSchool extends Form implements LazyRenderable
         }
 
         $cuurTime = time();
-        $isCreate = ModelsBindSchool::create([
+        $isCreate = Application::create([
             'admin_id'  => Admin::user()->id,
             'school_id' => $schoolInfo->id,
-            'name'      => $schoolInfo->name,
-            'icon'      => $schoolInfo->icon,
             'api_no'    => $cuurTime,
             'api_key'   => md5($cuurTime . mt_rand(100, 999)),
         ]);
         if (!$isCreate) {
-            return $this->response()->error('绑定失败');
+            return $this->response()->error('创建失败');
         }
 
-        return $this->response()->success('绑定成功')->refresh();
+        return $this->response()->success('创建成功')->refresh();
     }
 
     /**
@@ -66,7 +64,7 @@ class BindSchool extends Form implements LazyRenderable
      */
     protected function getSubmitButtonLabel()
     {
-        return '绑定';
+        return '创建';
     }
 
     /**
@@ -76,33 +74,33 @@ class BindSchool extends Form implements LazyRenderable
      */
     public function render()
     {
-        $isBindSchool = ModelsBindSchool::where(['admin_id' => Admin::user()->id])->first();
+        $application = Application::where(['admin_id' => Admin::user()->id])->first();
 
-        if ($isBindSchool) {
+        if ($application) {
             return '<div class="card">
                         <div class="box-header with-border">
-                            <h3 class="box-title" style="line-height:30px">绑定学校</h3>
+                            <h3 class="box-title" style="line-height:30px">' . $application->school->name . '</h3>
                             <div class="pull-right"></div>
                         </div>
                         <div class="box-body">
                         <div class="row">
                             <div class="col-md-3" style="display:flex;align-items: center;justify-content: center;">
-                            <img src="' . $isBindSchool->icon . '" style="max-width:100%;max-height:100%;" class="img img-thumbnail">
+                            <img src="' . $application->school->icon . '" style="max-width:100%;max-height:100%;" class="img img-thumbnail">
                             </div>
                             <div class="col-md-9" style="padding-left: 0px;">
                                 <div class="row form-group">
-                                    <div class="col-md-3 control-label">校名：</div>
-                                    <div class="col-md-9 control-label" style="text-align: left;padding-left: 0px;">' . $isBindSchool->name . '</div>
-                                </div>
-
-                                <div class="row form-group">
                                     <div class="col-md-3 control-label">apiNo：</div>
-                                    <div class="col-md-9 control-label" style="text-align: left;padding-left: 0px;">' . $isBindSchool->api_no . '</div>
+                                    <div class="col-md-9 control-label" style="text-align: left;padding-left: 0px; text-transform: none">' . $application->api_no . '</div>
                                 </div>
 
                                 <div class="row form-group">
                                     <div class="col-md-3 control-label">apiKey：</div>
-                                    <div class="col-md-9 control-label" style="text-align: left;padding-left: 0px;">' . $isBindSchool->api_key . '</div>
+                                    <div class="col-md-9 control-label" style="text-align: left;padding-left: 0px; text-transform: none">' . $application->api_key . '</div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-md-3 control-label">H5地址：</div>
+                                    <div class="col-md-9 control-label" style="text-align: left;padding-left: 0px; text-transform: none;">' . route('mobile.school', ['appid' => $application->hashid()]) . '</div>
                                 </div>
                             </div>
                         </div>
@@ -111,7 +109,7 @@ class BindSchool extends Form implements LazyRenderable
         } else {
             return '<div class="card">
                         <div class="box-header with-border">
-                            <h3 class="box-title" style="line-height:30px">绑定学校</h3>
+                            <h3 class="box-title" style="line-height:30px">创建应用</h3>
                             <div class="pull-right"></div>
                         </div>
                         <div class="box-body">

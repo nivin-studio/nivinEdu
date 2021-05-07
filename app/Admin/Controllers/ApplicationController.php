@@ -2,27 +2,25 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\BindSchool;
+use App\Models\Application;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Show;
 
-class AdminUserSchoolController extends AdminController
+class ApplicationController extends AdminController
 {
     /**
-     * 构建列表
+     * Make a grid builder.
      *
      * @return Grid
      */
     protected function grid()
     {
-        return Grid::make(new BindSchool(), function (Grid $grid) {
+        return Grid::make(new Application(), function (Grid $grid) {
             $grid->column('id')->sortable();
             $grid->column('admin_id');
             $grid->column('school_id');
-            $grid->column('name');
-            $grid->column('icon');
             $grid->column('api_no');
             $grid->column('api_key');
             $grid->column('state');
@@ -37,19 +35,17 @@ class AdminUserSchoolController extends AdminController
     }
 
     /**
-     * 构建显示
+     * Make a show builder.
      *
      * @param  mixed  $id
      * @return Show
      */
     protected function detail($id)
     {
-        return Show::make($id, new BindSchool(), function (Show $show) {
+        return Show::make($id, new Application(), function (Show $show) {
             $show->field('id');
             $show->field('admin_id');
             $show->field('school_id');
-            $show->field('name');
-            $show->field('icon');
             $show->field('api_no');
             $show->field('api_key');
             $show->field('state');
@@ -59,18 +55,16 @@ class AdminUserSchoolController extends AdminController
     }
 
     /**
-     * 构建表单
+     * Make a form builder.
      *
      * @return Form
      */
     protected function form()
     {
-        return Form::make(new BindSchool(), function (Form $form) {
+        return Form::make(new Application(), function (Form $form) {
             $form->display('id');
             $form->text('admin_id');
             $form->text('school_id');
-            $form->text('name');
-            $form->text('icon');
             $form->text('api_no');
             $form->text('api_key');
             $form->text('state');

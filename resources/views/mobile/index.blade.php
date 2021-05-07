@@ -19,15 +19,15 @@
                 @if ($schools)
                     @foreach ($schools as $school)
 
-                    <a class="weui-cell weui-cell_access nivin-a" href="{{ Route('mobile.school') }}?xx={{ $school->name }}">
-                        <div class="weui-cell__hd">
-                            <img src="{{ $school->icon }}" alt="">
+                        <div class="weui-cell weui-cell_access nivin-a">
+                            <div class="weui-cell__hd">
+                                <img src="{{ $school->icon }}" alt="">
+                            </div>
+                            <div class="weui-cell__bd">
+                                <p>{{ $school->name }}</p>
+                            </div>
+                            <div class="weui-cell__ft"></div>
                         </div>
-                        <div class="weui-cell__bd">
-                            <p>{{ $school->name }}</p>
-                        </div>
-                        <div class="weui-cell__ft"></div>
-                    </a>
 
                     @endforeach
                 @endif

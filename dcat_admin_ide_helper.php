@@ -32,25 +32,25 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection role_id
      * @property Grid\Column|Collection user_id
      * @property Grid\Column|Collection value
+     * @property Grid\Column|Collection email
+     * @property Grid\Column|Collection password
+     * @property Grid\Column|Collection avatar
+     * @property Grid\Column|Collection remember_token
      * @property Grid\Column|Collection admin_id
      * @property Grid\Column|Collection school_id
      * @property Grid\Column|Collection api_no
      * @property Grid\Column|Collection api_key
      * @property Grid\Column|Collection state
-     * @property Grid\Column|Collection username
-     * @property Grid\Column|Collection password
-     * @property Grid\Column|Collection avatar
-     * @property Grid\Column|Collection remember_token
      * @property Grid\Column|Collection connection
      * @property Grid\Column|Collection queue
      * @property Grid\Column|Collection payload
      * @property Grid\Column|Collection exception
      * @property Grid\Column|Collection failed_at
-     * @property Grid\Column|Collection email
      * @property Grid\Column|Collection token
      * @property Grid\Column|Collection edu_url
      * @property Grid\Column|Collection edu_xh
      * @property Grid\Column|Collection edu_mm
+     * @property Grid\Column|Collection application_id
      * @property Grid\Column|Collection student_no
      * @property Grid\Column|Collection annual
      * @property Grid\Column|Collection term
@@ -60,6 +60,10 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection score
      * @property Grid\Column|Collection credit
      * @property Grid\Column|Collection gpa
+     * @property Grid\Column|Collection request_url
+     * @property Grid\Column|Collection request_type
+     * @property Grid\Column|Collection request_body
+     * @property Grid\Column|Collection response_body
      * @property Grid\Column|Collection period
      * @property Grid\Column|Collection week
      * @property Grid\Column|Collection section
@@ -100,25 +104,25 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection role_id(string $label = null)
      * @method Grid\Column|Collection user_id(string $label = null)
      * @method Grid\Column|Collection value(string $label = null)
+     * @method Grid\Column|Collection email(string $label = null)
+     * @method Grid\Column|Collection password(string $label = null)
+     * @method Grid\Column|Collection avatar(string $label = null)
+     * @method Grid\Column|Collection remember_token(string $label = null)
      * @method Grid\Column|Collection admin_id(string $label = null)
      * @method Grid\Column|Collection school_id(string $label = null)
      * @method Grid\Column|Collection api_no(string $label = null)
      * @method Grid\Column|Collection api_key(string $label = null)
      * @method Grid\Column|Collection state(string $label = null)
-     * @method Grid\Column|Collection username(string $label = null)
-     * @method Grid\Column|Collection password(string $label = null)
-     * @method Grid\Column|Collection avatar(string $label = null)
-     * @method Grid\Column|Collection remember_token(string $label = null)
      * @method Grid\Column|Collection connection(string $label = null)
      * @method Grid\Column|Collection queue(string $label = null)
      * @method Grid\Column|Collection payload(string $label = null)
      * @method Grid\Column|Collection exception(string $label = null)
      * @method Grid\Column|Collection failed_at(string $label = null)
-     * @method Grid\Column|Collection email(string $label = null)
      * @method Grid\Column|Collection token(string $label = null)
      * @method Grid\Column|Collection edu_url(string $label = null)
      * @method Grid\Column|Collection edu_xh(string $label = null)
      * @method Grid\Column|Collection edu_mm(string $label = null)
+     * @method Grid\Column|Collection application_id(string $label = null)
      * @method Grid\Column|Collection student_no(string $label = null)
      * @method Grid\Column|Collection annual(string $label = null)
      * @method Grid\Column|Collection term(string $label = null)
@@ -128,6 +132,10 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection score(string $label = null)
      * @method Grid\Column|Collection credit(string $label = null)
      * @method Grid\Column|Collection gpa(string $label = null)
+     * @method Grid\Column|Collection request_url(string $label = null)
+     * @method Grid\Column|Collection request_type(string $label = null)
+     * @method Grid\Column|Collection request_body(string $label = null)
+     * @method Grid\Column|Collection response_body(string $label = null)
      * @method Grid\Column|Collection period(string $label = null)
      * @method Grid\Column|Collection week(string $label = null)
      * @method Grid\Column|Collection section(string $label = null)
@@ -173,25 +181,25 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection role_id
      * @property Show\Field|Collection user_id
      * @property Show\Field|Collection value
+     * @property Show\Field|Collection email
+     * @property Show\Field|Collection password
+     * @property Show\Field|Collection avatar
+     * @property Show\Field|Collection remember_token
      * @property Show\Field|Collection admin_id
      * @property Show\Field|Collection school_id
      * @property Show\Field|Collection api_no
      * @property Show\Field|Collection api_key
      * @property Show\Field|Collection state
-     * @property Show\Field|Collection username
-     * @property Show\Field|Collection password
-     * @property Show\Field|Collection avatar
-     * @property Show\Field|Collection remember_token
      * @property Show\Field|Collection connection
      * @property Show\Field|Collection queue
      * @property Show\Field|Collection payload
      * @property Show\Field|Collection exception
      * @property Show\Field|Collection failed_at
-     * @property Show\Field|Collection email
      * @property Show\Field|Collection token
      * @property Show\Field|Collection edu_url
      * @property Show\Field|Collection edu_xh
      * @property Show\Field|Collection edu_mm
+     * @property Show\Field|Collection application_id
      * @property Show\Field|Collection student_no
      * @property Show\Field|Collection annual
      * @property Show\Field|Collection term
@@ -201,6 +209,10 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection score
      * @property Show\Field|Collection credit
      * @property Show\Field|Collection gpa
+     * @property Show\Field|Collection request_url
+     * @property Show\Field|Collection request_type
+     * @property Show\Field|Collection request_body
+     * @property Show\Field|Collection response_body
      * @property Show\Field|Collection period
      * @property Show\Field|Collection week
      * @property Show\Field|Collection section
@@ -241,25 +253,25 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection role_id(string $label = null)
      * @method Show\Field|Collection user_id(string $label = null)
      * @method Show\Field|Collection value(string $label = null)
+     * @method Show\Field|Collection email(string $label = null)
+     * @method Show\Field|Collection password(string $label = null)
+     * @method Show\Field|Collection avatar(string $label = null)
+     * @method Show\Field|Collection remember_token(string $label = null)
      * @method Show\Field|Collection admin_id(string $label = null)
      * @method Show\Field|Collection school_id(string $label = null)
      * @method Show\Field|Collection api_no(string $label = null)
      * @method Show\Field|Collection api_key(string $label = null)
      * @method Show\Field|Collection state(string $label = null)
-     * @method Show\Field|Collection username(string $label = null)
-     * @method Show\Field|Collection password(string $label = null)
-     * @method Show\Field|Collection avatar(string $label = null)
-     * @method Show\Field|Collection remember_token(string $label = null)
      * @method Show\Field|Collection connection(string $label = null)
      * @method Show\Field|Collection queue(string $label = null)
      * @method Show\Field|Collection payload(string $label = null)
      * @method Show\Field|Collection exception(string $label = null)
      * @method Show\Field|Collection failed_at(string $label = null)
-     * @method Show\Field|Collection email(string $label = null)
      * @method Show\Field|Collection token(string $label = null)
      * @method Show\Field|Collection edu_url(string $label = null)
      * @method Show\Field|Collection edu_xh(string $label = null)
      * @method Show\Field|Collection edu_mm(string $label = null)
+     * @method Show\Field|Collection application_id(string $label = null)
      * @method Show\Field|Collection student_no(string $label = null)
      * @method Show\Field|Collection annual(string $label = null)
      * @method Show\Field|Collection term(string $label = null)
@@ -269,6 +281,10 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection score(string $label = null)
      * @method Show\Field|Collection credit(string $label = null)
      * @method Show\Field|Collection gpa(string $label = null)
+     * @method Show\Field|Collection request_url(string $label = null)
+     * @method Show\Field|Collection request_type(string $label = null)
+     * @method Show\Field|Collection request_body(string $label = null)
+     * @method Show\Field|Collection response_body(string $label = null)
      * @method Show\Field|Collection period(string $label = null)
      * @method Show\Field|Collection week(string $label = null)
      * @method Show\Field|Collection section(string $label = null)

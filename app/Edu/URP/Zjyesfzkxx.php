@@ -9,7 +9,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use Symfony\Component\DomCrawler\Crawler;
 
-class Hblgdx extends EduProvider implements EduParserInterface
+class Zjyesfzkxx extends EduProvider implements EduParserInterface
 {
     /**
      * 相关网络地址
@@ -17,16 +17,16 @@ class Hblgdx extends EduProvider implements EduParserInterface
      * @var array
      */
     protected static $url = [
-        'base'        => 'http://xjw1.ncst.edu.cn', //根域名
-        'home'        => '/logout.do',              //首页，获取Cookie
-        'code'        => '/validateCodeAction.do',  //验证码
-        'login'       => '/loginAction.do',         //登录
-        'persos_get'  => '/xjInfoAction.do',        //个人信息
-        'persos_post' => '/xjInfoAction.do',        //获取个人信息
-        'scores_get'  => '/gradeLnAllAction.do',    //成绩
-        'scores_post' => '/gradeLnAllAction.do',    //获取成绩
-        'tables_get'  => '/xkAction.do',            //课表
-        'tables_post' => '/xkAction.do',            //获取课表
+        'base'        => 'http://219.129.32.7:9001', //根域名
+        'home'        => '/logout.do',               //首页，获取Cookie
+        'code'        => '/validateCodeAction.do',   //验证码
+        'login'       => '/loginAction.do',          //登录
+        'persos_get'  => '/xjInfoAction.do',         //个人信息
+        'persos_post' => '/xjInfoAction.do',         //获取个人信息
+        'scores_get'  => '/gradeLnAllAction.do',     //成绩
+        'scores_post' => '/gradeLnAllAction.do',     //获取成绩
+        'tables_get'  => '/xkAction.do',             //课表
+        'tables_post' => '/xkAction.do',             //获取课表
     ];
 
     /**
@@ -198,18 +198,18 @@ class Hblgdx extends EduProvider implements EduParserInterface
             $htmlCrawler = new Crawler((string) $html);
 
             $persos = [
-                'student_no'   => $htmlCrawler->filterXPath('//table[@class="fieldsettop"]//table[1]/tr[2]//table/tr[1]/td[2]')->text(''), //学号
-                'student_name' => $htmlCrawler->filterXPath('//table[@class="fieldsettop"]//table[1]/tr[2]//table/tr[1]/td[4]')->text(''), //姓名
-                'identity_no'  => $htmlCrawler->filterXPath('//table[@class="fieldsettop"]//table[1]/tr[2]//table/tr[3]/td[4]')->text(''), //身份证
-                'birth_date'   => '',                                                                                                      //出生日期
-                'gender'       => $htmlCrawler->filterXPath('//table[@class="fieldsettop"]//table[1]/tr[2]//table/tr[4]/td[2]')->text(''), //性别
-                'nation'       => $htmlCrawler->filterXPath('//table[@class="fieldsettop"]//table[1]/tr[2]//table/tr[6]/td[2]')->text(''), //民族
-                'education'    => '',                                                                                                      //学历
-                'college'      => $htmlCrawler->filterXPath('//table[@class="fieldsettop"]//table[2]/tr[2]//table/tr[1]/td[4]')->text(''), //学院
-                'major'        => $htmlCrawler->filterXPath('//table[@class="fieldsettop"]//table[2]/tr[2]//table/tr[2]/td[2]')->text(''), //专业
-                'class'        => $htmlCrawler->filterXPath('//table[@class="fieldsettop"]//table[2]/tr[2]//table/tr[3]/td[4]')->text(''), //班级
-                'period'       => $htmlCrawler->filterXPath('//table[@class="fieldsettop"]//table[2]/tr[2]//table/tr[9]/td[2]')->text(''), //学制
-                'grade'        => $htmlCrawler->filterXPath('//table[@class="fieldsettop"]//table[2]/tr[2]//table/tr[8]/td[4]')->text(''), //年级
+                'student_no'   => $htmlCrawler->filterXPath('//table[@class="fieldsettop"]//table[1]/tr[2]//table/tr[1]/td[2]')->text(''),  //学号
+                'student_name' => $htmlCrawler->filterXPath('//table[@class="fieldsettop"]//table[1]/tr[2]//table/tr[1]/td[4]')->text(''),  //姓名
+                'identity_no'  => $htmlCrawler->filterXPath('//table[@class="fieldsettop"]//table[1]/tr[2]//table/tr[3]/td[4]')->text(''),  //身份证
+                'birth_date'   => $htmlCrawler->filterXPath('//table[@class="fieldsettop"]//table[1]/tr[2]//table/tr[7]/td[4]')->text(''),  //出生日期
+                'gender'       => $htmlCrawler->filterXPath('//table[@class="fieldsettop"]//table[1]/tr[2]//table/tr[4]/td[2]')->text(''),  //性别
+                'nation'       => $htmlCrawler->filterXPath('//table[@class="fieldsettop"]//table[1]/tr[2]//table/tr[6]/td[4]')->text(''),  //民族
+                'education'    => $htmlCrawler->filterXPath('//table[@class="fieldsettop"]//table[1]/tr[2]//table/tr[19]/td[4]')->text(''), //学历
+                'college'      => $htmlCrawler->filterXPath('//table[@class="fieldsettop"]//table[1]/tr[2]//table/tr[13]/td[4]')->text(''), //学院
+                'major'        => $htmlCrawler->filterXPath('//table[@class="fieldsettop"]//table[1]/tr[2]//table/tr[14]/td[2]')->text(''), //专业
+                'class'        => $htmlCrawler->filterXPath('//table[@class="fieldsettop"]//table[1]/tr[2]//table/tr[15]/td[4]')->text(''), //班级
+                'period'       => '',                                                                                                       //学制
+                'grade'        => $htmlCrawler->filterXPath('//table[@class="fieldsettop"]//table[1]/tr[2]//table/tr[15]/td[2]')->text(''), //年级
             ];
 
             return $persos;
@@ -265,11 +265,11 @@ class Hblgdx extends EduProvider implements EduParserInterface
 
                 $str = $tableNode->filterXPath('//td[@valign="middle"]')->text('');
 
-                $isMatched = preg_match('/(\d{4}-\d{4})学年(秋|春)/', $str, $matches);
+                $isMatched = preg_match('/(\d{4}-\d{4})学年第(一|二)学期/', $str, $matches);
                 if ($isMatched) {
                     $term[$tableIndex] = [
                         'annual' => $matches[1],
-                        'term'   => $matches[2] == '秋' ? 1 : 2,
+                        'term'   => $matches[2] == '一' ? 1 : 2,
                     ];
                 }
             });

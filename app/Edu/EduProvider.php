@@ -2,6 +2,16 @@
 
 namespace App\Edu;
 
+use App\Models\Application;
+use App\Models\SpiderLog;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Promise;
+use GuzzleHttp\Promise\PromiseInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+
 abstract class EduProvider
 {
     /**
@@ -10,6 +20,13 @@ abstract class EduProvider
      * @var string
      */
     protected static $userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36';
+
+    /**
+     * 全局交互cookie
+     *
+     * @var GuzzleHttp\Cookie\CookieJar
+     */
+    protected static $url;
 
     /**
      * 网络请求客户端
@@ -24,6 +41,58 @@ abstract class EduProvider
      * @var GuzzleHttp\Cookie\CookieJar
      */
     protected $cookie;
+
+    /**
+     * 构造函数
+     *
+     * @param  Application $application
+     * @return void
+     */
+    public function __construct(Application $application)
+    {
+        $stack = HandlerStack::create();
+        $stack->push(self::recorder($application));
+
+        $this->client = new Client(
+            [
+                'base_uri' => static::$url['base'],
+                'handler'  => $stack,
+            ]
+        );
+    }
+
+    /**
+     * 请求记录
+     *
+     * @param  Application $application
+     * @return callable
+     */
+    public static function recorder(Application $application): callable
+    {
+        return static function (callable $handler) use ($application): callable {
+            return static function (RequestInterface $request, array $options = []) use ($handler, $application) {
+                return $handler($request, $options)->then(
+                    static function ($response) use ($request, $application): ResponseInterface {
+                        $data['application_id'] = $application->id;
+                        $data['school_id']      = $application->school->id;
+                        $data['request_url']    = $request->getUri();
+                        $data['request_type']   = $request->getMethod();
+                        $data['request_body']   = base64_encode($request->getBody());
+                        $data['response_body']  = base64_encode($response->getBody());
+
+                        SpiderLog::create($data);
+
+                        return $response;
+                    },
+                    static function ($reason) use ($request): PromiseInterface {
+                        $response = $reason instanceof RequestException ? $reason->getResponse() : null;
+
+                        return Promise\Create::rejectionFor($reason);
+                    }
+                );
+            };
+        };
+    }
 
     /**
      * 获取初始化cookie
@@ -49,34 +118,37 @@ abstract class EduProvider
     /**
      * 获取登录信息
      *
-     * @param  string  $xh 学号
-     * @param  string  $mm 密码
-     * @param  string  $vm 验证码
+     * @param  string  $studentNo 学号
+     * @param  string  $password  密码
+     * @param  string  $captcha   验证码
      * @return array
      */
-    abstract public function getLoginInfo($xh, $mm, $vc);
+    abstract public function getLoginInfo($studentNo, $password, $captcha);
 
     /**
      * 获取学生个人信息
      *
-     * @param  string  $xh 学号
+     * @param  string  $studentNo 学号
+     * @param  string  $password  密码
      * @return array
      */
-    abstract public function getPersosInfo($xh);
+    abstract public function getPersosInfo($studentNo, $password);
 
     /**
      * 获取学生成绩
      *
-     * @param  string  $xh 学号
+     * @param  string  $studentNo 学号
+     * @param  string  $password  密码
      * @return array
      */
-    abstract public function getScoresInfo($xh);
+    abstract public function getScoresInfo($studentNo, $password);
 
     /**
      * 获取学生课表
      *
-     * @param  string   $xh 学号
+     * @param  string   $studentNo 学号
+     * @param  string   $password  密码
      * @return string
      */
-    abstract public function getTablesInfo($xh);
+    abstract public function getTablesInfo($studentNo, $password);
 }
