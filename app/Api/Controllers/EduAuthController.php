@@ -25,7 +25,7 @@ class EduAuthController extends Controller
         ];
 
         // 使用 Auth 登录用户，如果登录成功，则返回 201 的 code 和 token，如果登录失败则返回
-        if ($token = Auth::guard('bind_school')->attempt($params)) {
+        if ($token = Auth::guard('application')->attempt($params)) {
             return Api::success(['token' => 'bearer ' . $token]);
         } else {
             return Api::error(ApiCode::make(ApiCode::CODE_3002));
@@ -39,7 +39,7 @@ class EduAuthController extends Controller
      */
     public function logout()
     {
-        Auth::guard('bind_school')->logout();
+        Auth::guard('application')->logout();
 
         return Api::ok(ApiCode::make(ApiCode::CODE_OK, '退出成功'));
     }

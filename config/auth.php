@@ -47,9 +47,9 @@ return [
             'hash'     => false,
         ],
 
-        'bind_school' => [
+        'application' => [
             'driver'   => 'jwt',
-            'provider' => 'bind_school',
+            'provider' => 'application',
             'hash'     => false,
         ],
     ],
@@ -77,9 +77,9 @@ return [
             'model'  => App\Models\User::class,
         ],
 
-        'bind_school' => [
+        'application' => [
             'driver' => 'api-eloquent',
-            'model'  => App\Models\BindSchool::class,
+            'model'  => App\Models\Application::class,
         ],
 
         // 'users' => [

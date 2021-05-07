@@ -2,7 +2,7 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\BindSchool;
+use App\Models\Application;
 use App\Models\User;
 use Dcat\Admin\Admin;
 use Dcat\Admin\Form;
@@ -86,8 +86,8 @@ class UserController extends AdminController
             $grid->listen(Fetching::class, function ($grid) {
                 // 如果管理员用户是普通用户，只看获取自己创建的学校的学生用户
                 if (Admin::user()->isRole('general')) {
-                    $bindSchool = BindSchool::where('admin_id', Admin::user()->id)->pluck('school_id');
-                    $grid->model()->whereIn('school_id', $bindSchool);
+                    $application = Application::whereAdminId(Admin::user()->id)->first();
+                    $grid->model()->where('application_id', $application ? $application->id : 0);
                 }
             });
             // 工具操作

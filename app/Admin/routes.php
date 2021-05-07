@@ -35,6 +35,7 @@ Route::group([
     $router->resource('/school', 'SchoolController');
     $router->resource('/score', 'ScoreController');
     $router->resource('/table', 'TableController');
+    $router->resource('/spiderLog', 'SpiderLogController');
 });
 
 Route::group([

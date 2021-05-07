@@ -111,14 +111,14 @@ class Zzjmxy extends EduProvider implements EduParserInterface
     /**
      * 获取登录信息
      *
-     * @param  string  $xh 学号
-     * @param  string  $mm 密码
-     * @param  string  $vm 验证码
+     * @param  string  $studentNo 学号
+     * @param  string  $password  密码
+     * @param  string  $captcha   验证码
      * @return array
      */
-    public function getLoginInfo($xh, $mm, $vc)
+    public function getLoginInfo($studentNo, $password, $captcha)
     {
-        $hidden = $this->getLoginHiddenValue($xh);
+        $hidden = $this->getLoginHiddenValue($studentNo);
 
         $options = [
             'cookies'     => $this->cookie,
@@ -134,10 +134,10 @@ class Zzjmxy extends EduProvider implements EduParserInterface
                 'txt_mm_length'            => $hidden['txt_mm_length'],
                 'txt_mm_userzh'            => $hidden['txt_mm_userzh'],
                 'typeName'                 => urlencode(iconv('UTF-8', 'gb2312', '学生')),
-                'dsdsdsdsdxcxdfgfg'        => self::generateEncryptValue($mm, $xh),
-                'fgfggfdgtyuuyyuuckjg'     => self::generateEncryptValue(strtoupper($vc)),
+                'dsdsdsdsdxcxdfgfg'        => self::generateEncryptValue($password, $studentNo),
+                'fgfggfdgtyuuyyuuckjg'     => self::generateEncryptValue(strtoupper($captcha)),
                 'Sel_Type'                 => 'STU',
-                'txt_asmcdefsddsd'         => $xh,
+                'txt_asmcdefsddsd'         => $studentNo,
                 'txt_pewerwedsdfsdff'      => '',
                 'txt_psasas'               => urlencode(iconv('UTF-8', 'gb2312', '请输入密码')),
                 'txt_sdertfgsadscxcadsads' => '',
@@ -181,10 +181,10 @@ class Zzjmxy extends EduProvider implements EduParserInterface
     /**
      * 获取登录隐藏值
      *
-     * @param  string  $xh 学号
+     * @param  string  $studentNo 学号
      * @return array
      */
-    public function getLoginHiddenValue($xh)
+    public function getLoginHiddenValue($studentNo)
     {
         $options = [
             'cookies' => $this->cookie,
@@ -226,10 +226,11 @@ class Zzjmxy extends EduProvider implements EduParserInterface
     /**
      * 获取学生个人信息
      *
-     * @param  string  $xh 学号
+     * @param  string  $studentNo 学号
+     * @param  string  $password  密码
      * @return array
      */
-    public function getPersosInfo($xh)
+    public function getPersosInfo($studentNo, $password)
     {
         $options = [
             'cookies' => $this->cookie,
@@ -280,10 +281,11 @@ class Zzjmxy extends EduProvider implements EduParserInterface
     /**
      * 获取学生成绩
      *
-     * @param  string  $xh 学号
+     * @param  string  $studentNo 学号
+     * @param  string  $password  密码
      * @return array
      */
-    public function getScoresInfo($xh)
+    public function getScoresInfo($studentNo, $password)
     {
         $options = [
             'cookies'     => $this->cookie,
@@ -365,13 +367,14 @@ class Zzjmxy extends EduProvider implements EduParserInterface
     /**
      * 获取学生课表
      *
-     * @param  string   $xh 学号
-     * @return string
+     * @param  string  $studentNo 学号
+     * @param  string  $password  密码
+     * @return array
      */
-    public function getTablesInfo($xh)
+    public function getTablesInfo($studentNo, $password)
     {
         $data   = [];
-        $values = $this->getTablesHiddenValue($xh);
+        $values = $this->getTablesHiddenValue($studentNo);
 
         foreach ($values as $value) {
             $options = [
@@ -449,10 +452,10 @@ class Zzjmxy extends EduProvider implements EduParserInterface
     /**
      * 获取课表查询隐藏值
      *
-     * @param  string  $xh 学号
+     * @param  string  $studentNo 学号
      * @return array
      */
-    public function getTablesHiddenValue($xh)
+    public function getTablesHiddenValue($studentNo)
     {
         $options = [
             'cookies' => $this->cookie,

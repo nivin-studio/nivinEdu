@@ -2,6 +2,15 @@
 
 namespace App\Edu;
 
+use App\Models\Application;
+use App\Models\School;
+use App\Models\Score;
+use App\Models\Table;
+use App\Models\User;
+use Exception;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 class Edu extends EduProvider
 {
     /**
@@ -20,7 +29,15 @@ class Edu extends EduProvider
         'zzjmxy'     => \App\Edu\KG\Zzjmxy::class,
         // URP教务
         'hblgdx'     => \App\Edu\URP\Hblgdx::class,
+        'zjyesfzkxx' => \App\Edu\URP\Zjyesfzkxx::class,
     ];
+
+    /**
+     * 应用
+     *
+     * @var object
+     */
+    private $application;
 
     /**
      * 教务对象
@@ -34,9 +51,10 @@ class Edu extends EduProvider
      *
      * @param string $school
      */
-    public function __construct($school)
+    public function __construct(Application $application)
     {
-        $this->eduObject = new self::$driver[pinyin_abbr($school)];
+        $this->application = $application;
+        $this->eduObject   = new self::$driver[pinyin_abbr($application->school->name)]($application);
     }
 
     /**
@@ -72,46 +90,112 @@ class Edu extends EduProvider
     /**
      * 获取登录信息
      *
-     * @param  string  $xh 学号
-     * @param  string  $mm 密码
-     * @param  string  $vm 验证码
+     * @param  string  $studentNo 学号
+     * @param  string  $password  密码
+     * @param  string  $captcha   验证码
      * @return array
      */
-    public function getLoginInfo($xh, $mm, $vc)
+    public function getLoginInfo($studentNo, $password, $captcha)
     {
-        return $this->eduObject->getLoginInfo($xh, $mm, $vc);
+        return $this->eduObject->getLoginInfo($studentNo, $password, $captcha);
     }
 
     /**
      * 获取学生个人信息
      *
-     * @param  string  $xh 学号
+     * @param  string  $studentNo 学号
+     * @param  string  $password  密码
      * @return array
      */
-    public function getPersosInfo($xh)
+    public function getPersosInfo($studentNo, $password)
     {
-        return $this->eduObject->getPersosInfo($xh);
+        try {
+            $persos                     = $this->eduObject->getPersosInfo($studentNo, $password);
+            $persos['gender']           = $persos['gender'] == '男' ? 1 : 2;
+            $persos['student_password'] = $password;
+
+            User::firstOrCreate(
+                [
+                    'application_id' => $this->application->id,
+                    'school_id'      => $this->application->school->id,
+                    'student_no'     => $persos['student_no'],
+                ], $persos
+            );
+
+            return $persos;
+        } catch (Exception $e) {
+            Log::info($e->getMessage());
+            return [];
+        }
     }
 
     /**
      * 获取学生成绩
      *
-     * @param  string  $xh 学号
+     * @param  string  $studentNo 学号
+     * @param  string  $password  密码
      * @return array
      */
-    public function getScoresInfo($xh)
+    public function getScoresInfo($studentNo, $password)
     {
-        return $this->eduObject->getScoresInfo($xh);
+        try {
+            $scores      = $this->eduObject->getScoresInfo($studentNo, $password);
+            $application = $this->application;
+
+            DB::transaction(function () use ($studentNo, $application, $scores) {
+                foreach ($scores as $score) {
+                    Score::firstOrCreate(
+                        [
+                            'application_id' => $application->id,
+                            'school_id'      => $application->school->id,
+                            'student_no'     => $studentNo,
+                            'course_no'      => $score['course_no'],
+                        ], $score
+                    );
+                }
+            });
+
+            return $scores;
+        } catch (Exception $e) {
+            Log::info($e->getMessage());
+            return [];
+        }
     }
 
     /**
      * 获取学生课表
      *
-     * @param  string   $xh 学号
-     * @return string
+     * @param  string  $studentNo 学号
+     * @param  string  $password  密码
+     * @return array
      */
-    public function getTablesInfo($xh)
+    public function getTablesInfo($studentNo, $password)
     {
-        return $this->eduObject->getTablesInfo($xh);
+        try {
+            $tables      = $this->eduObject->getTablesInfo($studentNo, $password);
+            $application = $this->application;
+
+            if ($application->school->type != School::KG) {
+                DB::transaction(function () use ($studentNo, $application, $tables) {
+                    foreach ($tables as $table) {
+                        Table::firstOrCreate(
+                            [
+                                'application_id' => $application->id,
+                                'school_id'      => $application->school->id,
+                                'student_no'     => $studentNo,
+                                'week'           => $table['week'],
+                                'section'        => $table['section'],
+                                'course_name'    => $table['course_name'],
+                            ], $table
+                        );
+                    }
+                });
+            }
+
+            return $tables;
+        } catch (Exception $e) {
+            Log::info($e->getMessage());
+            return [];
+        }
     }
 }

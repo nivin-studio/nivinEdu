@@ -15,6 +15,27 @@ use Illuminate\Support\Facades\URL;
  * Class Administrator.
  *
  * @property Role[] $roles
+ * @property int $id
+ * @property string $email
+ * @property string $password
+ * @property string $name
+ * @property string|null $avatar
+ * @property string|null $remember_token
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read int|null $roles_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Administrator newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Administrator newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Administrator query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Administrator whereAvatar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Administrator whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Administrator whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Administrator whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Administrator whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Administrator wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Administrator whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Administrator whereUpdatedAt($value)
+ * @mixin \Eloquent
  */
 class Administrator extends Model implements AuthenticatableContract
 {
