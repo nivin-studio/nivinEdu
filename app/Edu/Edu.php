@@ -27,6 +27,7 @@ class Edu extends EduProvider
         'xnkjdxcsxy' => \App\Edu\KG\Xnkjdxcsxy::class,
         'hnkfkjcmxy' => \App\Edu\KG\Hnkfkjcmxy::class,
         'zzjmxy'     => \App\Edu\KG\Zzjmxy::class,
+        'ahwdxxgcxy' => \App\Edu\KG\Ahwdxxgcxy::class,
         // URP教务
         'hblgdx'     => \App\Edu\URP\Hblgdx::class,
         'zjyesfzkxx' => \App\Edu\URP\Zjyesfzkxx::class,
