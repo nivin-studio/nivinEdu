@@ -30,6 +30,8 @@ class Edu extends EduProvider
         // URP教务
         'hblgdx'     => \App\Edu\URP\Hblgdx::class,
         'zjyesfzkxx' => \App\Edu\URP\Zjyesfzkxx::class,
+        // 树维
+        'ahsfdx'     => \App\Edu\SW\Ahsfdx::class,
     ];
 
     /**
@@ -55,6 +57,16 @@ class Edu extends EduProvider
     {
         $this->application = $application;
         $this->eduObject   = new self::$driver[pinyin_abbr($application->school->name)]($application);
+    }
+
+    /**
+     * 是否需要验证码
+     *
+     * @return bool
+     */
+    public function isNeedCaptcha()
+    {
+        return $this->eduObject->isNeedCaptcha();
     }
 
     /**
@@ -101,7 +113,7 @@ class Edu extends EduProvider
     }
 
     /**
-     * 获取学生个人信息
+     * 获取学生信息
      *
      * @param  string  $studentNo 学号
      * @param  string  $password  密码
@@ -112,6 +124,7 @@ class Edu extends EduProvider
         try {
             $persos                     = $this->eduObject->getPersosInfo($studentNo, $password);
             $persos['gender']           = $persos['gender'] == '男' ? 1 : 2;
+            $persos['student_no']       = $studentNo;
             $persos['student_password'] = $password;
 
             User::firstOrCreate(

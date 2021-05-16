@@ -17,17 +17,24 @@ class Czxy extends EduProvider implements EduParserInterface
      * @var array
      */
     protected static $url = [
-        'base'        => 'http://211.86.193.14',                //根域名
-        'home'        => 'http://211.86.193.14/xs_main.aspx',   //首页，获取Cookie
-        'code'        => 'http://211.86.193.14/CheckCode.aspx', //验证码
-        'login'       => 'http://211.86.193.14/default2.aspx',  //登录
-        'persos_get'  => 'http://211.86.193.14/xsgrxx.aspx',    //个人信息
-        'persos_post' => 'http://211.86.193.14/xsgrxx.aspx',    //获取个人信息
-        'scores_get'  => 'http://211.86.193.14/xscjcx.aspx',    //成绩
-        'scores_post' => 'http://211.86.193.14/xscjcx.aspx',    //获取成绩
-        'tables_get'  => 'http://211.86.193.14/tjkbcx.aspx',    //课表
-        'tables_post' => 'http://211.86.193.14/tjkbcx.aspx',    //获取课表
+        'base'    => 'http://211.86.193.14',                     //根域名
+        'cookie'  => 'http://211.86.193.14',                     //获取Cookie
+        'captcha' => 'http://211.86.193.14/CheckCode.aspx',      //获取验证码
+        'login'   => 'http://211.86.193.14/default2.aspx',       //获取登录信息
+        'persos'  => 'http://211.86.193.14/xsgrxx.aspx?xh=#xh#', //获取学生信息
+        'scores'  => 'http://211.86.193.14/xscjcx.aspx?xh=#xh#', //获取学生成绩
+        'tables'  => 'http://211.86.193.14/tjkbcx.aspx?xh=#xh#', //获取学生课表
     ];
+
+    /**
+     * 是否需要验证码
+     *
+     * @return bool
+     */
+    public function isNeedCaptcha()
+    {
+        return true;
+    }
 
     /**
      * 获取初始化cookie
@@ -45,7 +52,7 @@ class Czxy extends EduProvider implements EduParserInterface
             ],
         ];
 
-        $response = $this->client->request('GET', self::$url['base'], $options);
+        $response = $this->client->request('GET', self::$url['cookie'], $options);
 
         return $this->cookie;
     }
@@ -74,7 +81,7 @@ class Czxy extends EduProvider implements EduParserInterface
             ],
         ];
 
-        $response = $this->client->request('GET', self::$url['code'], $options);
+        $response = $this->client->request('GET', self::$url['captcha'], $options);
         $result   = $response->getBody();
 
         return $this->parserCaptchaImages($result);
@@ -141,22 +148,22 @@ class Czxy extends EduProvider implements EduParserInterface
         $html = (string) iconv('gb2312', 'UTF-8', $html);
 
         if (preg_match('/欢迎您/', $html)) {
-            return ['code' => 0, 'msg' => '登录成功！'];
+            return ['code' => 0, 'message' => '登录成功！'];
         } else if (preg_match('/验证码不正确/', $html)) {
-            return ['code' => -1, 'msg' => '验证码不正确！'];
+            return ['code' => -1, 'message' => '验证码不正确！'];
         } else if (preg_match('/密码错误/', $html)) {
-            return ['code' => -1, 'msg' => '密码错误！'];
+            return ['code' => -1, 'message' => '密码错误！'];
         } else if (preg_match('/用户名不存在/', $html)) {
-            return ['code' => -1, 'msg' => '用户名不存在！'];
+            return ['code' => -1, 'message' => '用户名不存在！'];
         } else if (preg_match('/您的密码安全性较低/', $html)) {
-            return ['code' => -1, 'msg' => '密码安全性低,登录官方教务修改！'];
+            return ['code' => -1, 'message' => '密码安全性低,登录官方教务修改！'];
         } else {
-            return ['code' => -1, 'msg' => '登录错误,请稍后再试！'];
+            return ['code' => -1, 'message' => '登录错误,请稍后再试！'];
         }
     }
 
     /**
-     * 获取登录隐藏值
+     * 获取登录隐藏信息
      *
      * @param  string  $studentNo 学号
      * @return array
@@ -177,7 +184,7 @@ class Czxy extends EduProvider implements EduParserInterface
     }
 
     /**
-     * 获取学生个人信息
+     * 获取学生信息
      *
      * @param  string  $studentNo 学号
      * @param  string  $password  密码
@@ -185,7 +192,7 @@ class Czxy extends EduProvider implements EduParserInterface
      */
     public function getPersosInfo($studentNo, $password)
     {
-        $url = self::$url['persos_get'] . '?xh=' . $studentNo;
+        $url = str_replace('#xh#', $studentNo, self::$url['persos']);
 
         $options = [
             'cookies' => $this->cookie,
@@ -202,7 +209,7 @@ class Czxy extends EduProvider implements EduParserInterface
     }
 
     /**
-     * 解析学生个人信息
+     * 解析学生信息
      *
      * @param  string  $html
      * @return array
@@ -242,7 +249,7 @@ class Czxy extends EduProvider implements EduParserInterface
      */
     public function getScoresInfo($studentNo, $password)
     {
-        $url    = self::$url['scores_get'] . '?xh=' . $studentNo;
+        $url    = str_replace('#xh#', $studentNo, self::$url['scores']);
         $hidden = $this->getScoresHiddenValue($studentNo);
 
         $options = [
@@ -303,14 +310,14 @@ class Czxy extends EduProvider implements EduParserInterface
     }
 
     /**
-     * 获取成绩隐藏值
+     * 获取成绩隐藏信息
      *
      * @param  string   $studentNo 学号
      * @return string
      */
     public function getScoresHiddenValue($studentNo)
     {
-        $url = self::$url['scores_get'] . '?xh=' . $studentNo;
+        $url = str_replace('#xh#', $studentNo, self::$url['scores']);
 
         $options = [
             'cookies' => $this->cookie,
@@ -335,7 +342,7 @@ class Czxy extends EduProvider implements EduParserInterface
      */
     public function getTablesInfo($studentNo, $password)
     {
-        $url = self::$url['tables_get'] . '?xh=' . $studentNo;
+        $url = str_replace('#xh#', $studentNo, self::$url['tables']);
 
         $options = [
             'cookies' => $this->cookie,
@@ -352,7 +359,7 @@ class Czxy extends EduProvider implements EduParserInterface
     }
 
     /**
-     * 解析获取学生课表
+     * 解析学生课表
      *
      * @param  string  $html
      * @return array
@@ -384,7 +391,7 @@ class Czxy extends EduProvider implements EduParserInterface
                     }
                     // 解析节次 和 时间
                     if (preg_match('/^第(\d{1,2})节/', $tdText, $sectionMatches)) {
-                        $tempSection['section'] = $sectionMatches[1];
+                        $tempSection['section'] = intval($sectionMatches[1]);
                         $tempWeek               = 0;
                         continue;
                     }
@@ -393,15 +400,15 @@ class Czxy extends EduProvider implements EduParserInterface
                         $rowspan = $tdCrawler->attr('rowspan') ?: 1;
                         for ($i = 0; $i < intval($rowspan); $i++) {
                             $tables[] = [
-                                'period'      => $tempPeriod,                          // 时段
-                                'week'        => $tempWeek,                            // 星期
-                                'section'     => intval($tempSection['section']) + $i, // 节次
-                                'time'        => '',                                   // 时间
-                                'course_name' => $courseMatches[1],                    // 课名
-                                'course_type' => $courseMatches[2],                    // 课型
-                                'week_period' => $courseMatches[3],                    // 周段
-                                'teacher'     => $courseMatches[4],                    // 老师
-                                'location'    => $courseMatches[5],                    // 地点
+                                'period'      => $tempPeriod,                  // 时段
+                                'week'        => $tempWeek,                    // 星期
+                                'section'     => $tempSection['section'] + $i, // 节次
+                                'time'        => '',                           // 时间
+                                'course_name' => $courseMatches[1],            // 课名
+                                'course_type' => $courseMatches[2],            // 课型
+                                'week_period' => $courseMatches[3],            // 周段
+                                'teacher'     => $courseMatches[4],            // 老师
+                                'location'    => $courseMatches[5],            // 地点
                             ];
                         }
                     }
@@ -415,7 +422,7 @@ class Czxy extends EduProvider implements EduParserInterface
     }
 
     /**
-     * 解析获取隐藏的__VIEWSTATE
+     * 解析隐藏信息
      *
      * @param  string   $html
      * @return string

@@ -16,30 +16,29 @@ class Zzjmxy extends EduProvider implements EduParserInterface
      *
      * @var array
      */
-    private static $url = [
+    protected static $url = [
         'base'        => 'http://jwxt.zueb.edu.cn',         //根域名
-        'home'        => '/jwweb/home.aspx',                //首页，获取Cookie
-        'code'        => '/jwweb/sys/ValidateCode.aspx',    //验证码
-        'login'       => '/jwweb/_data/login_home.aspx',    //登录
-        'main'        => '/jwweb/MAINFRM.aspx',             //登录后的主页
-        'menu'        => '/jwweb/frame/menu.aspx',          //侧边菜单
-        'persos_get'  => '/jwweb/xsxj/Stu_MyInfo.aspx',     //个人信息
-        'persos_post' => '/jwweb/xsxj/Stu_MyInfo_RPT.aspx', //获取个人信息
-        'scores_get'  => '/jwweb/xscj/Stu_cjfb.aspx',       //成绩
-        'scores_post' => '/jwweb/xscj/Stu_cjfb_rpt.aspx',   //获取成绩
-        'scores_img'  => '/jwweb/xscj/',                    //成绩图片根路径
-        'tables_get'  => '/jwweb/znpk/Pri_StuSel.aspx',     //课表
-        'tables_post' => '/jwweb/znpk/Pri_StuSel_rpt.aspx', //获取课表
-        'tables_img'  => '/jwweb/znpk/',                    //课表图片根路径
+        'cookie'      => '/jwweb/home.aspx',                //获取Cookie
+        'captcha'     => '/jwweb/sys/ValidateCode.aspx',    //获取验证码
+        'login'       => '/jwweb/_data/login_home.aspx',    //获取登录信息
+        'menu'        => '/jwweb/frame/menu.aspx',          //获取课表隐藏信息
+        'persos_get'  => '/jwweb/xsxj/Stu_MyInfo.aspx',     //学生信息
+        'persos_post' => '/jwweb/xsxj/Stu_MyInfo_RPT.aspx', //获取学生信息
+        'scores_get'  => '/jwweb/xscj/Stu_cjfb.aspx',       //学生成绩
+        'scores_post' => '/jwweb/xscj/Stu_cjfb_rpt.aspx',   //获取学生成绩
+        'tables_get'  => '/jwweb/znpk/Pri_StuSel.aspx',     //学生课表
+        'tables_post' => '/jwweb/znpk/Pri_StuSel_rpt.aspx', //获取学生课表
+        'tables_img'  => '/jwweb/znpk/',                    //获取课表图片
     ];
 
-    public function __construct()
+    /**
+     * 是否需要验证码
+     *
+     * @return bool
+     */
+    public function isNeedCaptcha()
     {
-        $this->client = new Client(
-            [
-                'base_uri' => self::$url['base'],
-            ]
-        );
+        return true;
     }
 
     /**
@@ -58,7 +57,7 @@ class Zzjmxy extends EduProvider implements EduParserInterface
             ],
         ];
 
-        $response = $this->client->request('GET', self::$url['home'], $options);
+        $response = $this->client->request('GET', self::$url['cookie'], $options);
 
         return $this->cookie;
     }
@@ -88,7 +87,7 @@ class Zzjmxy extends EduProvider implements EduParserInterface
             ],
         ];
 
-        $response = $this->client->request('GET', self::$url['code'], $options);
+        $response = $this->client->request('GET', self::$url['captcha'], $options);
         $result   = $response->getBody();
 
         return $this->parserCaptchaImages($result);
@@ -162,24 +161,24 @@ class Zzjmxy extends EduProvider implements EduParserInterface
         $html = (string) iconv('gb2312', 'UTF-8', $html);
 
         if (preg_match('/您在别处的登录已下线/', $html)) {
-            return ['code' => 0, 'msg' => '登录成功！'];
+            return ['code' => 0, 'message' => '登录成功！'];
         } else if (preg_match('/MAINFRM/', $html)) {
-            return ['code' => 0, 'msg' => '登录成功！'];
+            return ['code' => 0, 'message' => '登录成功！'];
         } else if (preg_match('/验证码不正确/', $html)) {
-            return ['code' => -1, 'msg' => '验证码不正确！'];
+            return ['code' => -1, 'message' => '验证码不正确！'];
         } else if (preg_match('/密码错误/', $html)) {
-            return ['code' => -1, 'msg' => '密码错误！'];
+            return ['code' => -1, 'message' => '密码错误！'];
         } else if (preg_match('/用户名不存在/', $html)) {
-            return ['code' => -1, 'msg' => '用户名不存在！'];
+            return ['code' => -1, 'message' => '用户名不存在！'];
         } else if (preg_match('/您的密码安全性较低/', $html)) {
-            return ['code' => -1, 'msg' => '密码安全性低,登录官方教务修改！'];
+            return ['code' => -1, 'message' => '密码安全性低,登录官方教务修改！'];
         } else {
-            return ['code' => -1, 'msg' => '登录错误,请稍后再试！'];
+            return ['code' => -1, 'message' => '登录错误,请稍后再试！'];
         }
     }
 
     /**
-     * 获取登录隐藏值
+     * 获取登录隐藏信息
      *
      * @param  string  $studentNo 学号
      * @return array
@@ -201,7 +200,7 @@ class Zzjmxy extends EduProvider implements EduParserInterface
     }
 
     /**
-     * 解析登录隐藏值
+     * 解析登录隐藏信息
      *
      * @param  string   $html
      * @return string
@@ -224,7 +223,7 @@ class Zzjmxy extends EduProvider implements EduParserInterface
     }
 
     /**
-     * 获取学生个人信息
+     * 获取学生信息
      *
      * @param  string  $studentNo 学号
      * @param  string  $password  密码
@@ -247,7 +246,7 @@ class Zzjmxy extends EduProvider implements EduParserInterface
     }
 
     /**
-     * 解析学生个人信息
+     * 解析学生信息
      *
      * @param  string  $html
      * @return array
@@ -406,7 +405,7 @@ class Zzjmxy extends EduProvider implements EduParserInterface
     }
 
     /**
-     * 解析获取学生课表
+     * 解析学生课表
      *
      * @param  string   $html
      * @return string
@@ -450,7 +449,7 @@ class Zzjmxy extends EduProvider implements EduParserInterface
     }
 
     /**
-     * 获取课表查询隐藏值
+     * 获取课表隐藏信息
      *
      * @param  string  $studentNo 学号
      * @return array
@@ -471,7 +470,7 @@ class Zzjmxy extends EduProvider implements EduParserInterface
     }
 
     /**
-     * 解析课表查询隐藏值
+     * 解析课表隐藏信息
      *
      * @param  string  $html
      * @return array
@@ -515,7 +514,7 @@ class Zzjmxy extends EduProvider implements EduParserInterface
     }
 
     /**
-     * 解析获取隐藏的__VIEWSTATE
+     * 解析隐藏信息
      *
      * @param  string   $html
      * @return string

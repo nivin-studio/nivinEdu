@@ -2,9 +2,9 @@
 
 namespace App\Api\Response\Facades {
 
-/**
- * @see \App\Api\Response\ApiResponse
- */
+    /**
+     * @see \App\Api\Response\ApiResponse
+     */
     class Api
     {
         /**
@@ -68,4 +68,31 @@ namespace App\Api\Response\Facades {
         }
     }
 
+}
+
+namespace Illuminate\Support\Facades {
+    /**
+     *
+     * @see \Illuminate\Auth\AuthManager
+     * @see \Illuminate\Contracts\Auth\Factory
+     * @see \Illuminate\Contracts\Auth\Guard
+     * @see \Illuminate\Contracts\Auth\StatefulGuard
+     */
+    class Auth
+    {
+        /**
+         * Attempt to get the guard from the local cache.
+         *
+         * @static
+         * @param  string|null              $name
+         * @return \Tymon\JWTAuth\JWTAuth
+         */
+        public static function guard($name = null)
+        {
+            /**
+             * @var \Illuminate\Auth\AuthManager $instance
+             */
+            return $instance->guard($name);
+        }
+    }
 }

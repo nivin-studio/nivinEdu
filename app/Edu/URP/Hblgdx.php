@@ -17,17 +17,24 @@ class Hblgdx extends EduProvider implements EduParserInterface
      * @var array
      */
     protected static $url = [
-        'base'        => 'http://xjw1.ncst.edu.cn', //根域名
-        'home'        => '/logout.do',              //首页，获取Cookie
-        'code'        => '/validateCodeAction.do',  //验证码
-        'login'       => '/loginAction.do',         //登录
-        'persos_get'  => '/xjInfoAction.do',        //个人信息
-        'persos_post' => '/xjInfoAction.do',        //获取个人信息
-        'scores_get'  => '/gradeLnAllAction.do',    //成绩
-        'scores_post' => '/gradeLnAllAction.do',    //获取成绩
-        'tables_get'  => '/xkAction.do',            //课表
-        'tables_post' => '/xkAction.do',            //获取课表
+        'base'       => 'http://xjw1.ncst.edu.cn', //根域名
+        'cookie'     => '/logout.do',              //获取Cookie
+        'captcha'    => '/validateCodeAction.do',  //获取验证码
+        'login'      => '/loginAction.do',         //获取登录信息
+        'persos_get' => '/xjInfoAction.do',        //获取学生信息
+        'scores_get' => '/gradeLnAllAction.do',    //获取学生成绩
+        'tables_get' => '/xkAction.do',            //获取学生课表
     ];
+
+    /**
+     * 是否需要验证码
+     *
+     * @return bool
+     */
+    public function isNeedCaptcha()
+    {
+        return true;
+    }
 
     /**
      * 获取初始化cookie
@@ -45,7 +52,7 @@ class Hblgdx extends EduProvider implements EduParserInterface
             ],
         ];
 
-        $response = $this->client->request('GET', self::$url['home'], $options);
+        $response = $this->client->request('GET', self::$url['cookie'], $options);
 
         return $this->cookie;
     }
@@ -71,14 +78,14 @@ class Hblgdx extends EduProvider implements EduParserInterface
             'cookies' => $this->cookie,
             'headers' => [
                 'User-Agent' => self::$userAgent,
-                'Referer'    => self::$url['home'],
+                'Referer'    => self::$url['cookie'],
             ],
             'query'   => [
                 'random' => lcg_value(),
             ],
         ];
 
-        $response = $this->client->request('GET', self::$url['code'], $options);
+        $response = $this->client->request('GET', self::$url['captcha'], $options);
         $result   = $response->getBody();
 
         return $this->parserCaptchaImages($result);
@@ -112,7 +119,7 @@ class Hblgdx extends EduProvider implements EduParserInterface
             'cookies'     => $this->cookie,
             'headers'     => [
                 'User-Agent' => self::$userAgent,
-                'Referer'    => self::$url['home'],
+                'Referer'    => self::$url['cookie'],
             ],
             'form_params' => [
                 'zjh1'   => '',
@@ -144,24 +151,24 @@ class Hblgdx extends EduProvider implements EduParserInterface
     public function parserLoginInfo($html)
     {
         if (preg_match('/mainFrame/', $html)) {
-            return ['code' => 0, 'msg' => '登录成功！'];
+            return ['code' => 0, 'message' => '登录成功！'];
         } else if (preg_match('/数据库忙请稍候再试/', $html)) {
-            return ['code' => -1, 'msg' => '数据库忙,请稍候再试!'];
+            return ['code' => -1, 'message' => '数据库忙,请稍候再试!'];
         } else if (preg_match('/验证码不正确/', $html)) {
-            return ['code' => -1, 'msg' => '验证码不正确！'];
+            return ['code' => -1, 'message' => '验证码不正确！'];
         } else if (preg_match('/密码错误/', $html)) {
-            return ['code' => -1, 'msg' => '密码错误！'];
+            return ['code' => -1, 'message' => '密码错误！'];
         } else if (preg_match('/用户名不存在/', $html)) {
-            return ['code' => -1, 'msg' => '用户名不存在！'];
+            return ['code' => -1, 'message' => '用户名不存在！'];
         } else if (preg_match('/您的密码安全性较低/', $html)) {
-            return ['code' => -1, 'msg' => '密码安全性低,登录官方教务修改！'];
+            return ['code' => -1, 'message' => '密码安全性低,登录官方教务修改！'];
         } else {
-            return ['code' => -1, 'msg' => '登录错误,请稍后再试！'];
+            return ['code' => -1, 'message' => '登录错误,请稍后再试！'];
         }
     }
 
     /**
-     * 获取学生个人信息
+     * 获取学生信息
      *
      * @param  string  $studentNo 学号
      * @param  string  $password  密码
@@ -173,21 +180,21 @@ class Hblgdx extends EduProvider implements EduParserInterface
             'cookies' => $this->cookie,
             'headers' => [
                 'User-Agent' => self::$userAgent,
-                'Referer'    => self::$url['persos_get'],
+                'Referer'    => self::$url['persos'],
             ],
             'query'   => [
                 'oper' => 'xjxx',
             ],
         ];
 
-        $response = $this->client->request('GET', self::$url['persos_get'], $options);
+        $response = $this->client->request('GET', self::$url['persos'], $options);
         $result   = $response->getBody();
 
         return $this->parserPersosInfo($result);
     }
 
     /**
-     * 解析学生个人信息
+     * 解析学生信息
      *
      * @param  string  $html
      * @return array
@@ -231,7 +238,7 @@ class Hblgdx extends EduProvider implements EduParserInterface
             'cookies' => $this->cookie,
             'headers' => [
                 'User-Agent' => self::$userAgent,
-                'Referer'    => self::$url['scores_get'],
+                'Referer'    => self::$url['scores'],
             ],
             'query'   => [
                 'type'   => 'ln',
@@ -240,7 +247,7 @@ class Hblgdx extends EduProvider implements EduParserInterface
             ],
         ];
 
-        $response = $this->client->request('GET', self::$url['scores_get'], $options);
+        $response = $this->client->request('GET', self::$url['scores'], $options);
         $result   = $response->getBody();
 
         return $this->parserScoresInfo($result);
@@ -317,21 +324,21 @@ class Hblgdx extends EduProvider implements EduParserInterface
             'cookies' => $this->cookie,
             'headers' => [
                 'User-Agent' => self::$userAgent,
-                'Referer'    => self::$url['tables_get'],
+                'Referer'    => self::$url['tables'],
             ],
             'query'   => [
                 'actionType' => 6,
             ],
         ];
 
-        $response = $this->client->request('GET', self::$url['tables_get'], $options);
+        $response = $this->client->request('GET', self::$url['tables'], $options);
         $result   = $response->getBody();
 
         return $this->parserTablesInfo($result);
     }
 
     /**
-     * 解析获取学生课表
+     * 解析学生课表
      *
      * @param  string  $html
      * @return array

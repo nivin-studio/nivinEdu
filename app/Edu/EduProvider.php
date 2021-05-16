@@ -109,6 +109,13 @@ abstract class EduProvider
     abstract public function setCookie($cookie);
 
     /**
+     * 是否需要验证码
+     *
+     * @return bool
+     */
+    abstract public function isNeedCaptcha();
+
+    /**
      * 获取验证码
      *
      * @return string 验证码Base64字符串
@@ -126,7 +133,7 @@ abstract class EduProvider
     abstract public function getLoginInfo($studentNo, $password, $captcha);
 
     /**
-     * 获取学生个人信息
+     * 获取学生信息
      *
      * @param  string  $studentNo 学号
      * @param  string  $password  密码

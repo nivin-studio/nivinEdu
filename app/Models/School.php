@@ -58,6 +58,7 @@ class School extends Model
     const ZF    = 1;
     const KG    = 2;
     const URP   = 3;
+    const SW    = 4;
     const OTHER = 9;
 
     /**
@@ -67,6 +68,7 @@ class School extends Model
         self::ZF    => '正方',
         self::KG    => '青果',
         self::URP   => 'URP',
+        self::SW    => '树维',
         self::OTHER => '其他',
     ];
 
