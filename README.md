@@ -4,6 +4,9 @@
 
 体验地址: [edu.nivin.cn](http://edu.nivin.cn/)
 
+## 禁止商用
+商务合作邮箱：ving@nivin.cn
+
 ## 环境要求
 - PHP >= 7.3.0
 - BCMath PHP 拓展
