@@ -84,6 +84,7 @@ php artisan db:seed
 - :white_check_mark: 吕梁学院
 - :white_check_mark: 河南开封科技传媒学院
 - :white_check_mark: 郑州经贸学院
+- :white_check_mark: 安徽文达信息工程学院
 
 ### URP教务
 
