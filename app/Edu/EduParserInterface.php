@@ -21,7 +21,7 @@ interface EduParserInterface
     public function parserLoginInfo($html);
 
     /**
-     * 解析学生个人信息
+     * 解析学生信息
      *
      * @param  string  $html
      * @return array
@@ -37,7 +37,7 @@ interface EduParserInterface
     public function parserScoresInfo($html);
 
     /**
-     * 解析获取学生课表
+     * 解析学生课表
      *
      * @param  string   $html
      * @return string

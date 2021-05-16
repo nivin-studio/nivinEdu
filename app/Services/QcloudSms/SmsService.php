@@ -54,13 +54,13 @@ class SmsService
             $response = $this->getClient()->SendSms($request);
 
             if ($response->SendStatusSet[0]->Code != 'Ok') {
-                return ['code' => false, 'msg' => $response->SendStatusSet[0]->Message];
+                return ['code' => false, 'message' => $response->SendStatusSet[0]->Message];
             }
 
-            return ['code' => true, 'msg' => '发送成功'];
+            return ['code' => true, 'message' => '发送成功'];
         } catch (Exception $e) {
             Log::channel('sms')->info($e);
-            return ['code' => false, 'msg' => '发送失败'];
+            return ['code' => false, 'message' => '发送失败'];
         }
     }
 

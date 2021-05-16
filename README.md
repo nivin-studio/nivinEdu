@@ -87,6 +87,10 @@ php artisan db:seed
 - :white_check_mark: 华北理工大学
 - :white_check_mark: 湛江幼儿师范专科学校
 
+### 树维教务
+
+- :white_check_mark: 安徽师范大学
+
 ## API文档
 + [API文档](https://edu-nivin.doc.coding.io)
 

@@ -11,7 +11,27 @@
 
 <body>
     <div class="page">
-        <form action="{{ Route('mobile.login') }}" class="weui-form" method="POST">
+
+        @if (session('message'))
+            <div id="warnToast" style="opacity: 1; display: none;">
+                <div class="weui-mask_transparent"></div>
+                <div class="weui-toast">
+                    <i class="weui-icon-warn weui-icon_toast"></i>
+                    <p class="weui-toast__content"> {{ session('message') }}</p>
+                </div>
+            </div>
+        @endif
+
+        <div id="loadingToast" style="opacity: 1; display: none;">
+            <div class="weui-mask_transparent"></div>
+            <div class="weui-toast">
+                <span class="weui-loading weui-icon_toast">
+                </span>
+                <p class="weui-toast__content">登录中</p>
+            </div>
+        </div>
+
+        <form id="loginForm" action="{{ Route('mobile.login') }}" class="weui-form" method="POST">
             {{ csrf_field() }}
             <div class="weui-form__text-area">
                 <h2 class="weui-form__title">登 录</h2>
@@ -32,13 +52,15 @@
                                 <input class="weui-input" name="studentPwd" placeholder="填写密码" />
                             </div>
                         </div>
-                        <div class="weui-cell">
-                            <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
-                            <div class="weui-cell__bd nivin-inset">
-                                <input class="weui-input" name="captcha" placeholder="填写验证码" />
+                        @if ($captcha)
+                            <div class="weui-cell">
+                                <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
+                                <div class="weui-cell__bd nivin-inset">
+                                    <input class="weui-input" name="captcha" placeholder="填写验证码" />
+                                </div>
+                                <img class="vcode" src="{{ $captcha }}">
                             </div>
-                            <img class="vcode" src="{{ $captcha }}">
-                        </div>
+                        @endif
                         <input name="appid" type="hidden" value="{{ $application->hashid() }}" />
                     </div>
                 </div>
@@ -53,6 +75,25 @@
             </div>
         </form>
     </div>
+
+    <script src="{{ URL::asset('vendor/mobile/js/jquery.js') }}"></script>
+    <script>
+        $(function() {
+            var $warnToast = $('#warnToast');
+
+            if ($warnToast.css('display') == 'none') {
+                $warnToast.fadeIn(100);
+                setTimeout(function() {
+                    $warnToast.fadeOut(100);
+                }, 2000);
+            }
+
+            $("#loginForm").submit(function() {
+                $('#loadingToast').fadeIn(100);
+            });
+        });
+
+    </script>
 </body>
 
 </html>

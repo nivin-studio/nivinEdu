@@ -43,7 +43,7 @@ class IndexController extends Controller
         // 获取cookie
         $cookie = $edu->getCookie();
         // 获取验证码
-        $captcha = $edu->getCaptcha();
+        $captcha = $edu->isNeedCaptcha() ? $edu->getCaptcha() : false;
         // 序列化cookie对象
         $cookieObj = serialize($cookie);
         // 存储了cookie对象
@@ -60,14 +60,14 @@ class IndexController extends Controller
      */
     public function login(Request $request)
     {
-        $studentNo  = $request->input('studentNo');              // 学号
-        $studentPwd = $request->input('studentPwd');             // 密码
-        $captcha    = $request->input('captcha');                // 验证码
-        $appid      = Hashids::decode($request->input('appid')); // 学校
+        $studentNo  = $request->input('studentNo');  // 学号
+        $studentPwd = $request->input('studentPwd'); // 密码
+        $captcha    = $request->input('captcha');    // 验证码
+        $appid      = $request->input('appid');      // 学校
 
-        $application = Application::whereId($appid)->first();
+        $application = Application::whereId(Hashids::decode($appid))->first();
         if (!$application) {
-            return redirect()->route('mobile.index');
+            return redirect()->route('mobile.school', ['appid' => $appid]);
         }
 
         $edu = new Edu($application);
@@ -82,7 +82,7 @@ class IndexController extends Controller
 
         if ($res['code'] != 0) {
             Session::remove('cookieObj');
-            return redirect()->route('mobile.index');
+            return redirect()->route('mobile.school', ['appid' => $appid])->with('message', $res['message']);
         }
 
         // 获取学生信息

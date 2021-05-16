@@ -67,7 +67,7 @@ class EduController extends Controller
 
         if ($result['code'] != 0) {
             Redis::del('edu:cookie:' . $application->api_no);
-            return Api::error(ApiCode::make(ApiCode::CODE_1000, '登录失败：' . $result['msg']));
+            return Api::error(ApiCode::make(ApiCode::CODE_1000, '登录失败：' . $result['message']));
         } else {
             return Api::ok(ApiCode::make(ApiCode::CODE_OK, '登录成功'));
         }
